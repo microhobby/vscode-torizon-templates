@@ -384,6 +384,29 @@
                 "mainFileBreakpointLine": 57,
                 "successDebugMessage": "Hello Torizon!"
             }
+        },
+        {
+                 "img": "flutter.png",
+                  "folder": "dartFlutter",
+                  "description": "Dart Flutter template",
+                  "runtime": "flutter",
+                  "language": "dart",
+                  "debugPort": "42271",
+                  "debugSSHPort": "42271",
+                  "multiContainer": false,
+                  "support": "Partner",
+                  "status": "ok",
+                  "customMessage": "",
+                  "tests": {
+                      "debuggers": {
+                          "local": ["Local AMD64"],
+                          "amd64": ["Torizon AMD64"],
+                          "arm": ["Torizon arm32"],
+                          "arm64": ["Torizon arm64"]
+                      },
+                      "debuggerConsole": "dart",
+                      "mainFile": "lib/main.dart"
+                  }
         }
     ]
 }
