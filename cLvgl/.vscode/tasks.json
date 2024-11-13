@@ -39,6 +39,40 @@
             }
         },
         {
+            "label": "clean-framebuffer",
+            "detail": "",
+            "hide": true,
+            "command": "sshpass",
+            "type": "process",
+            "args": [
+                "-p",
+                "${config:torizon_psswd}",
+                "ssh",
+                "-p",
+                "${config:torizon_ssh_port}",
+                "-o",
+                "UserKnownHostsFile=/dev/null",
+                "-o",
+                "StrictHostKeyChecking=no",
+                "torizon@${config:torizon_ip}",
+                "cat /dev/zero > /dev/fb0 ; true"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "stop",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
             "label": "build-configure-local",
             "hide": true,
             "command": "cmake",
