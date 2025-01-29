@@ -835,6 +835,16 @@ class TaskRunner:
         if _task is None:
             raise ReferenceError(f"Task with label [{label}] not found")
 
+        _depends = []
+        if _task.dependsOn is not None:
+            _depends = _task.dependsOn
+
+        # first we need to run the dependencies
+        for dep in _depends:
+            self.run_task(dep)
+
+        print(f"> Executing task: {label} <", color=Color.GREEN)
+
         # prepare the command
         _cmd = _task.command
 
@@ -857,16 +867,6 @@ class TaskRunner:
         if _task.options is not None:
             _env = _task.options.env
             _cwd = _task.options.cwd
-
-        _depends = []
-        if _task.dependsOn is not None:
-            _depends = _task.dependsOn
-
-        # first we need to run the dependencies
-        for dep in _depends:
-            self.run_task(dep)
-
-        print(f"> Executing task: {label} <", color=Color.GREEN)
 
         _is_background = ""
         if _task.isBackground:
@@ -894,18 +894,19 @@ class TaskRunner:
         if self.__gitlab_ci:
             _cmd = self.__replace_docker_host(_cmd)
 
-        # inject env
+        # Set env var for the task, adding the envs present on the task
+        task_env = os.environ.copy()
         if _env is not None:
             for env, value in _env.items():
                 if self.__override_env:
                     if env not in os.environ:
                         __env = self.__parse_envs(env, _task)
                         if __env:
-                            os.environ[env] = __env
+                            task_env[env] = __env
                 else:
                     __env = self.__parse_envs(env, _task)
                     if __env:
-                        os.environ[env] = __env
+                        task_env[env] = __env
 
         # we need to change the cwd if it's set
         if _cwd is not None:
@@ -931,7 +932,7 @@ class TaskRunner:
             [_cmd, *_args] if not _shell else _cmd_join,
             stdout=None,
             stderr=None,
-            env=os.environ,
+            env=task_env,
             shell=_shell,
             executable="/bin/bash" if _shell else None
         )
