@@ -198,6 +198,8 @@ if ($_torizonOSMajor -ne $_templatesJsonTorizonMajor) {
             }
         }
 
+        # Remove .vscode/tasks.ps1
+        Remove-Item  $projectFolder/.vscode/tasks.ps1 -Force
 
         # get the xonsh updater
         Copy-Item `
