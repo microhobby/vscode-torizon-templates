@@ -22,6 +22,8 @@ initial-setup:
     name: torizonextras/xonsh-wrapper:dev
 
   variables:
+    TASKS_DISABLE_INTERACTIVE_INPUT: "True"
+    TASKS_OVERRIDE_ENV: "False"
     TORIZON_ARCH: ""
 
   script: |
@@ -49,30 +51,6 @@ initial-setup:
     reports:
       dotenv: setup.env
 
-build-docker-image:
-  needs:
-    - initial-setup
-  stage: build
-  image:
-    name: torizonextras/xonsh-wrapper:dev
-
-  variables:
-    TASKS_ITERATIVE: "False"
-    TASKS_OVERRIDE_ENV: "False"
-
-  script: |
-    echo '
-
-      xonsh ./.vscode/tasks.xsh run docker-login
-      xonsh ./.vscode/tasks.xsh run run-torizon-binfmt
-      xonsh ./.vscode/tasks.xsh run create-production-image
-
-    ' | xonsh-wrapper.xsh
-
-  artifacts:
-    paths:
-      - docker-compose.prod.yml
-
 push-package-to-platform:
   needs:
     - initial-setup
@@ -82,14 +60,13 @@ push-package-to-platform:
     name: torizonextras/xonsh-wrapper:dev
 
   variables:
-    TASKS_ITERATIVE: "False"
+    TASKS_DISABLE_INTERACTIVE_INPUT: "True"
     TASKS_OVERRIDE_ENV: "False"
 
   script: |
     echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
     echo '
 
-      xonsh ./.vscode/tasks.xsh run run-torizon-binfmt
       xonsh ./.vscode/tasks.xsh run tcb-platform-publish
 
     ' | xonsh-wrapper.xsh
@@ -112,7 +89,7 @@ update-fleet:
     name: torizonextras/xonsh-wrapper:dev
 
   variables:
-    TASKS_ITERATIVE: "False"
+    TASKS_DISABLE_INTERACTIVE_INPUT: "True"
     TASKS_OVERRIDE_ENV: "False"
 
   script: |
