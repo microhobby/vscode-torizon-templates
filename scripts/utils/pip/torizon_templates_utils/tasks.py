@@ -428,7 +428,7 @@ class TaskRunner:
         self.__settings = settings
         self.__debug = debug
         self.__gitlab_ci = False
-        self.__override_env = True
+        self.__override_env = False
         self.__cli_inputs: Dict[str, str] = {}
         self.__can_receive_interactive_input = False
 
@@ -444,7 +444,7 @@ class TaskRunner:
             self.__gitlab_ci = True
 
         if "TASKS_OVERRIDE_ENV" in os.environ:
-            self.__override_env = False
+            self.__override_env = True
 
         if "TASKS_DEBUG" in os.environ:
             self.__debug = True
@@ -887,14 +887,14 @@ class TaskRunner:
         if _env is not None:
             for env, value in _env.items():
                 if self.__override_env:
-                    __env = self.__parse_envs(env, _task)
-                    if __env:
-                        os.environ[env] = __env
-                else:
                     if env not in os.environ:
                         __env = self.__parse_envs(env, _task)
                         if __env:
                             os.environ[env] = __env
+                else:
+                    __env = self.__parse_envs(env, _task)
+                    if __env:
+                        os.environ[env] = __env
 
         # we need to change the cwd if it's set
         if _cwd is not None:
