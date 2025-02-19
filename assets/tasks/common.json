@@ -275,12 +275,12 @@
             },
             "args": [
                 "echo",
-                "${command:docker_password}",
+                "$DOCKER_PSSWD",
                 "|",
                 "docker",
                 "login",
                 "--username",
-                "${command:docker_login}",
+                "$DOCKER_LOGIN",
                 "--password-stdin"
             ],
             "dependsOrder": "sequence",
