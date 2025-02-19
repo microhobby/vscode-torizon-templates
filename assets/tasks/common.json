@@ -502,7 +502,7 @@
             "command": "xonsh",
             "type": "process",
             "args": [
-                "${workspaceFolder}/.conf/torizon-packages.xhs",
+                "${workspaceFolder}/.conf/torizon-packages.xsh",
                 "amd64"
             ],
             "dependsOrder": "sequence",
