@@ -391,6 +391,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/torizon-io.xsh") \
     @(f"{project_folder}/.conf/torizon-io.xsh")
 
+# DOCKER LOGIN:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/docker-login.xsh") \
+    @(f"{project_folder}/.conf/docker-login.xsh")
+
 # CREATE DOCKER COMPOSE PRODUCTION:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/create-docker-compose-production.xsh") \

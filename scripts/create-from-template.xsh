@@ -168,6 +168,7 @@ if "mergeCommon" not in _template_metadata or _template_metadata['mergeCommon'] 
 cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/share-wsl-ports.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/docker-login.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/create-docker-compose-production.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/torizon-packages.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/.vscode/tasks.xsh @(new_project_path)/.vscode/
