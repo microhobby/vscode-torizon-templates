@@ -1,7 +1,7 @@
 {
     "version": "2.0.0",
     "tasks": [
-            {
+        {
             "label": "ssh-tunnel",
             "type": "shell",
             "command": "sshpass",
@@ -10,16 +10,15 @@
                 "ssh",
                 "-L", "42271:127.0.0.1:42271",
                 "torizon@${config:torizon_ip}"
-              ],
+            ],
             "isBackground": true,
-            "problemMatcher": [],
             "options": {
               "shell": {
                 "executable": "/bin/bash",
                 "args": ["-c"]
               }
             }
-          },
+        },
         {
             "label": "build-container-image-sdk-arm64",
             "detail": "",
@@ -34,7 +33,7 @@
                 "${workspaceFolder}/Dockerfile.sdk",
                 "${workspaceFolder}",
                 "-t",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "--build-arg",
                 "IMAGE_ARCH=arm64",
                 "--build-arg",
@@ -58,7 +57,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "clean"
             ],
@@ -82,7 +81,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "pub",
                 "get"
@@ -108,7 +107,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "pub",
                 "outdated"
@@ -134,7 +133,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "pub",
                 "upgrade"
@@ -160,7 +159,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "build",
                 "elinux",
@@ -188,7 +187,7 @@
                 "--rm",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-flutter",
+                "cross-toolchain-arm64-__container__",
                 "flutter-elinux",
                 "build",
                 "elinux",
@@ -205,7 +204,7 @@
                 "flutter-pub-get"
             ]
         },
-                {
+        {
             "label": "deploy-torizon-arm64",
             "detail": "",
             "hide": true,
@@ -232,5 +231,6 @@
                 "color": "terminal.ansiYellow"
             }
         }
-    ]
+    ],
+    "inputs": []
 }
