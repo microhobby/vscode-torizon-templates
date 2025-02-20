@@ -54,7 +54,7 @@ services:
     ]
 
   weston:
-    image: torizon/weston${GPU}:3
+    image: torizon/weston${GPU}:4
     environment:
       - ACCEPT_FSL_EULA=1
     # Required to get udev events from host udevd via netlink
@@ -84,4 +84,3 @@ services:
       - "c 199:* rmw"
       # ... for /dev/dri devices
       - "c 226:* rmw"
-
