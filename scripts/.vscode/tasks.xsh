@@ -166,6 +166,11 @@ except Exception as e:
             f"❌ Error: {repr(e)}",
             Error.EUSER
         )
+    elif isinstance(e, RuntimeError):
+        Error_Out(
+            f"❌ Error: {repr(e)}",
+            Error.ETASKEXEC
+        )
     else:
         Error_Out(
             f"❌ Error: {repr(e)}",
