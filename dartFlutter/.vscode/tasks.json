@@ -1,25 +1,24 @@
 {
     "version": "2.0.0",
     "tasks": [
-            {
+        {
             "label": "ssh-tunnel",
             "type": "shell",
             "command": "sshpass",
             "args": [
                 "-p", "${config:torizon_psswd}",
                 "ssh",
-                "-L", "42271:127.0.0.1:42271", 
-                "torizon@${config:torizon_ip}",
-              ],
-            "isBackground": true,              
-            "problemMatcher": [],
+                "-L", "42271:127.0.0.1:42271",
+                "torizon@${config:torizon_ip}"
+            ],
+            "isBackground": true,
             "options": {
               "shell": {
                 "executable": "/bin/bash",
                 "args": ["-c"]
               }
-            },
-          },
+            }
+        },
         {
             "label": "build-container-image-sdk-arm64",
             "detail": "",
@@ -205,7 +204,7 @@
                 "flutter-pub-get"
             ]
         },
-                {
+        {
             "label": "deploy-torizon-arm64",
             "detail": "",
             "hide": true,
@@ -231,6 +230,7 @@
                 "id": "flame",
                 "color": "terminal.ansiYellow"
             }
-        },
-    ]
+        }
+    ],
+    "inputs": []
 }

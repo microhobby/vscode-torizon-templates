@@ -21,8 +21,7 @@
             "request": "attach",
             "args": ["--verbose"],
             "deviceId": "flutter-tester",
-            "observatoryUri": "http://127.0.0.1:42271/",
-          },
+            "observatoryUri": "http://127.0.0.1:42271/"
+        }
     ]
 }
-
