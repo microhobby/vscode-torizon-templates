@@ -1961,7 +1961,7 @@
                     "TCB_CLIENTSECRET": "${command:tcb.clientSecret}",
                     "TCB_PACKAGE": "__change__",
                     "TCB_FLEET": "${command:tcb.fleetName}",
-                    "TORIZON_ARCH": "${command:torizon_arch}"
+                    "TORIZON_CI_SETTINGS_FILE": ".vscode/settings.json"
                 }
             },
             "args": [

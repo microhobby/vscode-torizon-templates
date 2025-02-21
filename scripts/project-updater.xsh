@@ -418,6 +418,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-deps-running.xsh") \
     @(f"{project_folder}/.conf/validate-deps-running.xsh")
 
+# APPLY CI SETTINGS FILE:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/apply-ci-settings-file.xsh") \
+    @(f"{project_folder}/.conf/apply-ci-settings-file.xsh")
+
 # TORIZONPACKAGES:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/torizon-packages.xsh") \

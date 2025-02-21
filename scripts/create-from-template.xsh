@@ -178,6 +178,7 @@ cp -r @(template_folder)/../scripts/bash/tcb-env-setup.sh @(new_project_path)/.c
 cp -r @(template_folder)/../scripts/torizon-io.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/check-ci-env.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
 
 
 template_name = os.path.basename(template_folder)

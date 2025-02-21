@@ -24,26 +24,13 @@ initial-setup:
   variables:
     TASKS_DISABLE_INTERACTIVE_INPUT: "True"
     TASKS_OVERRIDE_ENV: "False"
-    TORIZON_ARCH: ""
+    TORIZON_CI_SETTINGS_FILE: ".vscode/settings.json"
 
   script: |
     echo '
 
-      import os
-      import json
-
-      with open(".vscode/settings.json") as f:
-          settings = json.load(f)
-          os.environ["TORIZON_ARCH"] = settings["torizon_arch"]
-          if os.environ["TORIZON_ARCH"] == "aarch64":
-              os.environ["TORIZON_ARCH"] = "arm64"
-          if os.environ["TORIZON_ARCH"] == "armhf":
-              os.environ["TORIZON_ARCH"] = "arm"
-
-      with open(os.environ["GITHUB_ENV"], "a") as f:
-          f.write(f"TORIZON_ARCH={os.environ['TORIZON_ARCH']}\n")
-
       xonsh ./.vscode/tasks.xsh run validate-pipeline-settings
+      xonsh ./.conf/apply-ci-settings-file.xsh
 
     ' | xonsh-wrapper.xsh
 
