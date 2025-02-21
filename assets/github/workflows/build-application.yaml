@@ -18,7 +18,7 @@ jobs:
           cat abs-path
 
       - name: Initial Setup
-        shell: xonsh {0}
+        shell: bash
         env:
           TASKS_DISABLE_INTERACTIVE_INPUT: "True"
           TASKS_OVERRIDE_ENV: "False"
@@ -40,7 +40,7 @@ jobs:
           echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
 
       - name: Create and Publish Image
-        shell: xonsh {0}
+        shell: bash
         env:
           TASKS_DISABLE_INTERACTIVE_INPUT: "True"
           TASKS_OVERRIDE_ENV: "False"
@@ -52,7 +52,7 @@ jobs:
           xonsh ./.vscode/tasks.xsh run tcb-platform-publish
 
       - name: Deploy Application
-        shell: xonsh {0}
+        shell: bash
         env:
           TASKS_DISABLE_INTERACTIVE_INPUT: "True"
           TASKS_OVERRIDE_ENV: "False"
