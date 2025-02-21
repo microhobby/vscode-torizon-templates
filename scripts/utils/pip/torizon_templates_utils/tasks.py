@@ -563,20 +563,25 @@ class TaskRunner:
                             os.environ["config:tcb_packageName"]
                         ],
                         capture_output=True,
-                        text=True
+                        text=True,
+                        env=os.environ
                     )
 
                     if _p_ret.returncode != 0:
-                        raise RuntimeError(f"Error running torizon-io.xsh: {_p_ret.stderr}")
+                        # Sometimes the error is presented on stdout and not stderr
+                        raise RuntimeError(f"Error running torizon-io.xsh: {_p_ret}")
 
-                    _next = int(_p_ret.stdout.strip()) +1
+                    # Remove ANSI escape sequences. Regex from this thread:
+                    # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
+                    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+                    _latest_ver = ansi_escape.sub('', _p_ret.stdout.strip())
+
+                    _next = int(_latest_ver) +1
 
                     if self.__debug:
                         print(f"Next package version: {_next}")
 
-                    ret.append(
-                        value.replace("${{command:tcb.getNextPackageVersion}}", f"{_next}")
-                    )
+                    value = value.replace(f"${{command:tcb.getNextPackageVersion}}", f"{_next}")
 
                 elif "tcb.outputTEZIFolder" in value:
                     # load the tcbuild.yaml
