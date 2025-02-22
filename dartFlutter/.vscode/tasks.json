@@ -221,8 +221,7 @@
                 "build-container-torizon-debug-arm64",
                 "push-container-torizon-debug-arm64",
                 "pull-container-torizon-debug-arm64",
-                "run-container-torizon-debug-arm64",
-                "ssh-tunnel"
+                "run-container-torizon-debug-arm64"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
