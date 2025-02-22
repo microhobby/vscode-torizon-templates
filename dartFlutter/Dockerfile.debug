@@ -1,9 +1,9 @@
 # ARGUMENTS --------------------------------------------------------------------
 ##
 # Base Container version
-# Using Flutter v3.10.5
+# Using Flutter v3.27.x
 ##
-ARG SDK_BASE_VERSION=early
+ARG SDK_BASE_VERSION=SDK
 ##
 # Base container version
 ##
