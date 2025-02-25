@@ -100,7 +100,7 @@ RUN mkdir /var/run/sshd && \
 RUN rm -r /etc/ssh/ssh*key && \
     dpkg-reconfigure openssh-server
 
-COPY --chown=torizon:torizon run.sh ${APP_ROOT}/ 
+COPY --chown=torizon:torizon run.sh ${APP_ROOT}/
 
 COPY --from=build ${APP_ROOT}/build/elinux/arm64/debug/bundle/ ${APP_ROOT}/bundle
 RUN cp ${APP_ROOT}/bundle/sample ${APP_ROOT}/
