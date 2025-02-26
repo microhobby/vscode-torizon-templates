@@ -4,7 +4,11 @@
         "target": "pubspec.yaml"
     },
     {
-        "source": ".vscode/launch.json",
-        "target": ".vscode/launch.json"
+        "source": "build-debug.sh",
+        "target": "build-debug.sh"
+    },
+    {
+        "source": "run-release.sh",
+        "target": "run-release.sh"
     }
 ]
