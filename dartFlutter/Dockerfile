@@ -23,8 +23,8 @@ ARG APP_ROOT=
 # Build/Deploy Step
 ##
 
-# BUILD/DEPLOY -----------------------------------------------------------------------
-FROM crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION} as build
+# BUILD ------------------------------------------------------------------------
+FROM crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION} AS build
 
 ARG IMAGE_ARCH
 ARG GPU
@@ -32,22 +32,28 @@ ARG APP_ROOT
 
 COPY . ${APP_ROOT}
 WORKDIR ${APP_ROOT}
+
 RUN flutter-elinux clean; flutter-elinux pub get; flutter-elinux build elinux --release
 
-FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION} as final
+# BUILD ------------------------------------------------------------------------
+
+
+# DEPLOY -----------------------------------------------------------------------
+
+FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION} AS final
+
 ARG APP_ROOT
+ARG SSHUSERNAME
 
 WORKDIR ${APP_ROOT}
 
-COPY --chown=torizon:torizon run.sh ${APP_ROOT}/ 
-ENV LD_LIBRARY_PATH=/opt/flutter-elinux
+COPY --chown=$SSHUSERNAME:$SSHUSERNAME run-release.sh ${APP_ROOT}/
+RUN chmod +x ${APP_ROOT}/run-release.sh
 
 COPY --from=build ${APP_ROOT}/build/elinux/arm64/release/bundle/ ${APP_ROOT}/bundle
 
 ENV FLUTTER_DRM_DEVICE="/dev/dri/card0:/dev/dri/card1"
 ENV APP_PATH=${APP_ROOT}/bundle
-RUN chmod +x ${APP_ROOT}/run.sh
-CMD ["run.sh"]
-# BUILD/DEPLOY -----------------------------------------------------------------------
 
-
+CMD ["run-release.sh"]
+# DEPLOY -----------------------------------------------------------------------
