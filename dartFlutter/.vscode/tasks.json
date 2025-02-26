@@ -150,34 +150,6 @@
             ]
         },
         {
-            "label": "flutter-build-release",
-            "detail": "Builds the flutter app in debug configuration",
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "args": [
-                "docker",
-                "run",
-                "--rm",
-                "-v",
-                "${workspaceFolder}:${config:torizon_app_root}",
-                "cross-toolchain-arm64-__container__",
-                "flutter-elinux",
-                "build",
-                "elinux",
-                "--release"
-            ],
-            "icon": {
-                "id": "flame",
-                "color": "terminal.ansiYellow"
-            },
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "build-container-image-sdk-arm64",
-                "flutter-clean-arm64",
-                "flutter-pub-get"
-            ]
-        },
-        {
             "label": "deploy-torizon-arm64",
             "detail": "",
             "hide": true,
