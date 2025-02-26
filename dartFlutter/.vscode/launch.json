@@ -5,7 +5,7 @@
             "name": "Torizon arm64",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${config:torizon_app_root}/sample",
+            "program": "${config:torizon_app_root}/bundle/sample",
             "args": [
                 "--bundle=${config:torizon_app_root}/bundle",
                 "-f"
