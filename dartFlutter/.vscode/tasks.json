@@ -20,33 +20,6 @@
             }
         },
         {
-            "label": "build-container-image-sdk-arm64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "args": [
-                "docker",
-                "build",
-                "--pull",
-                "-f",
-                "${workspaceFolder}/Dockerfile.sdk",
-                "${workspaceFolder}",
-                "-t",
-                "cross-toolchain-arm64-__container__",
-                "--build-arg",
-                "IMAGE_ARCH=arm64",
-                "--build-arg",
-                "GPU=${config:torizon_gpu}",
-                "--build-arg",
-                "APP_ROOT=${config:torizon_app_root}"
-            ],
-            "icon": {
-                "id": "flame",
-                "color": "terminal.ansiYellow"
-            }
-        },
-        {
             "label": "flutter-clean-arm64",
             "detail": "Clean the build folder for arm64 using the\ncontainer SDK toolchain.",
             "command": "DOCKER_HOST=",
