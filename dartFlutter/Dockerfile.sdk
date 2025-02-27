@@ -30,13 +30,10 @@ ARG APP_ROOT=
 ##
 # Build Step
 ##
-FROM crossware.app:5050/public-repos/flutter:SDK
+FROM crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION}
 
 ARG IMAGE_ARCH
 ARG GPU
 ARG APP_ROOT
 
-RUN mkdir -p ${APP_ROOT}
-
 WORKDIR ${APP_ROOT}
-

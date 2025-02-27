@@ -5,7 +5,7 @@
             "name": "Torizon arm64",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${config:torizon_app_root}/sample",
+            "program": "${config:torizon_app_root}/bundle/sample",
             "args": [
                 "--bundle=${config:torizon_app_root}/bundle",
                 "-f"
@@ -51,14 +51,6 @@
                 }
             ],
             "preLaunchTask": "deploy-torizon-arm64"
-        },
-        {
-            "name": "Torizon ARMv8 release",
-            "type": "dart",
-            "request": "launch",
-            "internalConsoleOptions": "openOnSessionStart",
-            "preLaunchTask": "run-container-torizon-release-arm64"
         }
-
     ]
 }
