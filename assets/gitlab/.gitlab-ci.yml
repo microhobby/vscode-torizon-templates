@@ -29,6 +29,7 @@ initial-setup:
   script: |
     echo '
 
+      xonsh .conf/validate-json.xsh
       xonsh ./.vscode/tasks.xsh run validate-pipeline-settings
       xonsh ./.conf/apply-ci-settings-file.xsh
 

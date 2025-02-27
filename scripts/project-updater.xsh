@@ -428,6 +428,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/torizon-packages.xsh") \
     @(f"{project_folder}/.conf/torizon-packages.xsh")
 
+# VALIDATE JSON FILES:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
+    @(f"{project_folder}/.conf/validate-json.xsh")
+
 # DOCUMENTATION:
 if not os.path.exists(f"{project_folder}/.doc"):
     mkdir -p @(f"{project_folder}/.doc")
