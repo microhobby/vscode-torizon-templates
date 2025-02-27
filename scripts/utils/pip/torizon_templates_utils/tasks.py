@@ -571,12 +571,18 @@ class TaskRunner:
                         # Sometimes the error is presented on stdout and not stderr
                         raise RuntimeError(f"Error running torizon-io.xsh: {_p_ret}")
 
+                    # TODO: Maybe not use this and instead disable colors on the terminal
                     # Remove ANSI escape sequences. Regex from this thread:
                     # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
                     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
                     _latest_ver = ansi_escape.sub('', _p_ret.stdout.strip())
 
-                    _next = int(_latest_ver) +1
+                    _latest_ver_number = _latest_ver.rsplit('-', 1)[-1]
+                    _latest_ver_last_number = _latest_ver_number.rsplit('.', 1)[-1]
+                    try:
+                        _next = int(_latest_ver_last_number) +1
+                    except:
+                        raise ValueError(f"Package version should be in one of the following formats: <int>, <string-int>, <major.minor.patch>, or <string-major.minor.patch>. Depending on format, int or patch value will be incremented")
 
                     if self.__debug:
                         print(f"Next package version: {_next}")
