@@ -19,6 +19,6 @@
          "libxkbcommon-dev"    
     ],
      "installDepsScripts": [
-        "dartFlutter/.conf/installDepsScripts/installFlutter.sh"
+        ".conf/installDepsScripts/installFlutter.sh"
     ]
 }
