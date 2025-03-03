@@ -56,3 +56,10 @@ else
     echo "Running flutter-elinux doctor..."
     flutter-elinux doctor
 fi
+
+# Cleanup task - remove flutter-elinux folder if it exists in current directory
+if [ -d "./flutter-elinux" ]; then
+    echo "Cleaning up: Removing flutter-elinux folder from current directory..."
+    rm -rf ./flutter-elinux
+    echo "Cleanup complete."
+fi

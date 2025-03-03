@@ -18,5 +18,6 @@
   "tcb.packageName": "__change__",
   "tcb.version": "3.11.0",
   "torizon.gpuPrefixRC": true,
-  "terminal.integrated.defaultProfile.linux": "bash"
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "dart.flutterSdkPath": "/opt/flutter-elinux/flutter"
 }
