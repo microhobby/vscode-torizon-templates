@@ -20,7 +20,6 @@ if ! command -v flutter-elinux &> /dev/null; then
     fi
     
     echo "Installation complete."
-    flutter-elinux --version
 else
     echo "flutter-elinux is already present"
     flutter-elinux --version
