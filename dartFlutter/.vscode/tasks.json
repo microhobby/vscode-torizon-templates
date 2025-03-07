@@ -62,7 +62,7 @@
             }
         },
         {
-            "label": "flutter-build-debug",
+            "label": "flutter-build-debug-arm64",
             "detail": "Builds the flutter app in debug configuration",
             "command": "DOCKER_HOST=",
             "type": "shell",
@@ -110,7 +110,7 @@
                 "validate-arch-arm64",
                 "copy-docker-compose",
                 "pre-cleanup",
-                "flutter-build-debug",
+                "flutter-build-debug-arm64",
                 "build-container-torizon-debug-arm64",
                 "push-container-torizon-debug-arm64",
                 "pull-container-torizon-debug-arm64",
