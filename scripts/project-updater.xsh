@@ -556,8 +556,6 @@ _deps = json.loads(_deps_file.read())
 _deps_file.close()
 
 if "installDepsScripts" in _deps and len(_deps["installDepsScripts"]) > 0:
-    if not os.path.exists(f"{project_folder}/.conf/installDepsScripts"):
-        mkdir -p @(f"{project_folder}/.conf/installDepsScripts")
 
     if not os.path.exists("./installDepsScripts"):
         mkdir -p @("./installDepsScripts")
@@ -760,12 +758,15 @@ print("✅ common files OK", color=Color.GREEN)
 print("Checking deps scripts ...", color=Color.YELLOW)
 
 if "installDepsScripts" in _deps:
+    if not os.path.exists(f"{project_folder}/.conf/installDepsScripts"):
+        mkdir -p @(f"{project_folder}/.conf/installDepsScripts")
+
     for script in _deps["installDepsScripts"]:
-        _script_dest = script.replace(".conf/", "")
+        _script_src = script.replace(".conf/", "")
 
         _open_merge_window(
-            f"{project_folder}/.conf/tmp/{_script_dest}",
-            f"{project_folder}/{_script_dest}"
+            f"{project_folder}/.conf/tmp/{_script_src}",
+            f"{project_folder}/{_script}"
         )
 
         print(f"✅ {_script_dest}", color=Color.GREEN)
