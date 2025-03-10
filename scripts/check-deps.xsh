@@ -29,7 +29,7 @@ $DOCKER_HOST = ""
 
 if "GITLAB_CI" in os.environ:
     print("ℹ️ :: GITLAB_CI :: ℹ️")
-    $DOCKER_HOST = "tcp://localhost:2375"
+    $DOCKER_HOST = "tcp://docker:2375"
 
 # docker and docker-compose are special cases
 # TODO: check also for podman or other runtime

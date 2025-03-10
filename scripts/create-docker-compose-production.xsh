@@ -33,7 +33,7 @@ $DOCKER_HOST = ""
 
 if "GITLAB_CI" in os.environ:
     print("ℹ️ :: GITLAB_CI :: ℹ️")
-    $DOCKER_HOST = "tcp://localhost:2375"
+    $DOCKER_HOST = "tcp://docker:2375"
 
 _iterative = False
 if "TASK_ITERATIVE" in os.environ:
