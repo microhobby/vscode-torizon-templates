@@ -1,8 +1,29 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
+    // Standard target options allows the person running `zig build` to choose
+    // what target to build for. Here we do not override the defaults, which
+    // means any target is allowed, and the default is native. Other options
+    // for restricting supported target set are available.
     const target = b.standardTargetOptions(.{});
+
+    // Standard optimization options allow the person running `zig build` to select
+    // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
+    // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
+
+    // This creates a "module", which represents a collection of source files alongside
+    // some compilation options, such as optimization mode and linked system libraries.
+    // Every executable or library we compile will be based on one or more modules.
+    const lib_mod = b.createModule(.{
+        // `root_source_file` is the Zig "entry point" of the module. If a module
+        // only contains e.g. external object files, you can make this `null`.
+        // In this case the main source file is merely a path, however, in more
+        // complicated build scripts, this could be a generated file.
+        .root_source_file = b.path("src/libtoradex.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
 
     const binary = b.addExecutable(.{
         .name = "__change__",
@@ -12,17 +33,18 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    binary.root_module.addImport("toradex", lib_mod);
 
     // build C and/or C++
 
     // Need use libc to C code build? uncomment below
 
-    // binary.addIncludePath(Path.relative("myinclude"));
-    // binary.addCSourceFile(.{ .file = Path.relative("src/main.c"), .flags = &.{ "-Wall", "-Wextra" } });
-    // binary.addCSourceFiles(&.{ "foo.cc", "bar.cc" }, &.{ "-Wall", "-std=c++17" });
+    // binary.addIncludePath(b.path("myinclude"));
+    // binary.addCSourceFile(.{ .file = b.path("src/main.c"), .flags = &.{ "-Wall", "-Wextra" } });
+    // binary.addCSourceFiles(.{ .files = &.{ "foo.c", "bar.c" }, .flags = &.{ "-Wall", "-Wextra" } });
 
     // warning to mixing C and C++ code. Use same flags, but c++flags(exclusive) not working (e.g.: "-std=c++11")
-    // binary.addCSourceFiles(&.{ "foo.cc", "bar.c" }, &.{ "-Wall", "-Werror" });
+    // binary.addCSourceFiles(.{ .files = &.{ "foo.cc", "bar.cc" }, .flags = &.{ "-Wall", "-Werror" } });
 
     // linking
     // binary.linklibC(); // get libc and c-stdlib
