@@ -600,7 +600,7 @@ class TaskRunner:
                         except KeyError:
                             raise RuntimeError("Error replacing variable tcb.outputTEZIFolder, make sure the tcbuild.yaml has the output.easy-installer.local property")
 
-                        value = value.replace("${{command:tcb.outputTEZIFolder}}", _tezi_folder)
+                        value = value.replace(f"${{command:tcb.outputTEZIFolder}}", _tezi_folder)
 
                 # for all the items we need to replace ${command:tcb. with ${config:tcb.
                 _pattern = r"(?<=\$\{command:tcb\.).*?(?=\s*})"
