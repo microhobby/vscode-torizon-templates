@@ -61,7 +61,8 @@ Usage:
 
 project_folder = get_arg_not_empty(1)
 project_name = get_arg_not_empty(2)
-accept_all = get_arg_not_empty(3) == "True"
+# Check if it's True or 1
+accept_all = get_arg_not_empty(3) in ("True", "1")
 vscode = get_optional_arg(4, True)
 second_run = get_optional_arg(5, False)
 
@@ -207,6 +208,7 @@ if not _check_if_file_content_is_equal(
     xonsh \
         @(f"{project_folder}/.conf/project-updater.xsh") \
         @(project_folder) \
+        @(project_name) \
         @(accept_all) \
         @(vscode) \
         True
