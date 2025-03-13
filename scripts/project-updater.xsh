@@ -438,8 +438,8 @@ if not os.path.exists(f"{project_folder}/.doc"):
     mkdir -p @(f"{project_folder}/.doc")
 
 cp -rf \
-    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc") \
-    @(f"{project_folder}/.doc")
+    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
+    @(f"{project_folder}/.doc/")
 
 
 print("✅ always accept new OK", color=Color.GREEN)
