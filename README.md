@@ -29,7 +29,7 @@ Partner templates are contributions that come from [Toradex partner network](htt
 | ![](https://raw.githubusercontent.com/toradex/vscode-torizon-templates-documentation/refs/heads/main/thumbnails/slint-cpp.png?raw=true) | C++ Slint Application | Slint 1.0 | C++ | <img src="assets/img/arm32.png" width=70 /></br><img src="assets/img/arm64.png" width=70 /></br> <img src="assets/img/x8664.png" width=70 /> | [cppSlint](./cppSlint) |
 | ![](https://raw.githubusercontent.com/toradex/vscode-torizon-templates-documentation/refs/heads/main/thumbnails/slint-rust.png?raw=true) | Rust Slint Application | Slint 1.0 | Rust | <img src="assets/img/arm32.png" width=70 /></br><img src="assets/img/arm64.png" width=70 /></br><img src="assets/img/x8664.png" width=70 /> | [rustSlint](./rustSlint) |
 | ![](https://github.com/toradex/vscode-torizon-templates-documentation/blob/main/thumbnails/lvgl.png?raw=true) | C LVGL Application | cmake | C | <img src="assets/img/arm32.png" width=70 /></br><img src="assets/img/arm64.png" width=70 /></br><img src="assets/img/x8664.png" width=70 /> | [cLvgl](./cLvgl) |
-| <img src="assets/img/flutter.png" width=100 /></br> | Dart Flutter Application | cmake | C | <img src="assets/img/arm64.png" width=70 /></br> | [dartFlutter](./dartFlutter) |
+| <img src="assets/img/flutter.png" width=100 /></br> | Dart Flutter Application | Flutter | Dart | <img src="assets/img/arm64.png" width=70 /></br> | [dartFlutter](./dartFlutter) |
 
 # Contributing
 
