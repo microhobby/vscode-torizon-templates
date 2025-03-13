@@ -121,7 +121,7 @@
             "command": "flutter-elinux",
             "type": "shell",
             "args": [
-                "clean",
+                "clean"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
