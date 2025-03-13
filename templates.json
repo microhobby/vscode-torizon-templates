@@ -406,7 +406,9 @@
                     "arm64": ["Torizon arm64"]
                 },
                 "debuggerConsole": "dart",
-                 "mainFile": "lib/main.dart"
+                "mainFile": "main.cpp",
+                "mainFileBreakpointLine": 4,
+                "successDebugMessage": "Hello Torizon!"
             }
         }
     ]

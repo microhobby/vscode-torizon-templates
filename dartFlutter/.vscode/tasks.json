@@ -92,6 +92,53 @@
             }
         },
         {
+            "label": "flutter-resolve-dependencies-local",
+            "detail": "Run flutter pub get to resolve project dependecies",
+            "command": "flutter-elinux",
+            "type": "shell",
+            "args": [
+                "pub",
+                "get"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+            ],
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "flutter-clean-local",
+            "detail": "Run flutter pub get to resolve project dependecies",
+            "command": "flutter-elinux",
+            "type": "shell",
+            "args": [
+                "clean",
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+            ],
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
             "label": "deploy-torizon-arm64",
             "detail": "",
             "hide": true,

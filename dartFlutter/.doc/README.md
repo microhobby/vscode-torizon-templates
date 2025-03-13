@@ -8,8 +8,12 @@ This Flutter template uses the Dart compiler to compile the code,with tasks name
 
 The compiled code is then copied into the running debug container using **scp**, in the task named **deploy-torizon-\${architecture}**. This task contains the entire sequence of tasks executed by the pipeline and, therefore, is unique to each template.
 
-Finally, remote debugging is performed by attaching to the GDB on the running container on the device using a [VSCode feature called Pipe Transport](https://code.visualstudio.com/docs/cpp/pipe-transport). Local Debugging will be added in Soon.
+Finally, remote debugging is performed by attaching to the GDB on the running container on the device using a [VSCode feature called Pipe Transport](https://code.visualstudio.com/docs/cpp/pipe-transport).
 
 The source code of the template is a simple UI with Flutter and Dart.
 
-> **Note:** Debugging for .dart files is currently broken and A fix will be added soon.
+Please check out [Flutter Documnetation](https://docs.flutter.dev/get-started/fundamentals) to learn more about Flutter.
+
+This Template is maintained by [Crossware.io](https://www.crossware.io/).
+
+> **Note:** Debugging for .dart files is currently broken for remote files and A fix will be added soon.

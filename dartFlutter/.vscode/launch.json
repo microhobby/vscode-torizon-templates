@@ -5,6 +5,7 @@
             "name": "Torizon local amd64",
             "type": "dart",
             "request": "launch",
+            "preLaunchTask": "flutter-resolve-dependencies-local"
         },
         {
             "name": "Torizon arm64",
