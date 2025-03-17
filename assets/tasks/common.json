@@ -43,7 +43,7 @@
                 "${workspaceFolder}/.conf/project-updater.xsh",
                 "${workspaceFolder}",
                 "${workspaceFolderBasename}",
-                "0"
+                "False"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -73,7 +73,7 @@
                 "${workspaceFolder}/.conf/project-updater.xsh",
                 "${workspaceFolder}",
                 "${workspaceFolderBasename}",
-                "1"
+                "True"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -98,6 +98,8 @@
             "type": "process",
             "options": {
                 "env": {
+                    "DOCKER_REGISTRY": "${command:docker_registry}",
+                    "DOCKER_LOGIN": "${command:docker_login}",
                     "DOCKER_PSSWD": "${command:docker_password}",
                     "TORIZON_ARCH": "${input:archList}",
                     "APP_ROOT": "${config:torizon_app_root}",
@@ -110,9 +112,7 @@
             "args": [
                 "${workspaceFolder}/.conf/create-docker-compose-production.xsh",
                 "${workspaceFolder}",
-                "${command:docker_login}",
                 "${command:docker_tag}",
-                "${command:docker_registry}",
                 "__container__",
                 "${config:torizon_gpu}"
             ],
@@ -259,34 +259,28 @@
         {
             "label": "docker-login",
             "detail": "Perform a docker login on the host",
-            "command": "DOCKER_HOST=",
+            "command": "xonsh",
             "type": "shell",
             "options": {
                 "env": {
+                    "DOCKER_PSSWD": "${command:docker_password}",
                     "DOCKER_LOGIN": "${command:docker_login}",
-                    "DOCKER_PSSWD": "${command:docker_password}"
+                    "DOCKER_REGISTRY": "${command:docker_registry}"
                 }
+            },
+            "args": [
+                "${workspaceFolder}/.conf/docker-login.xsh"
+            ],
+            "dependsOrder": "sequence",
+            "icon": {
+                "id": "account",
+                "color": "terminal.ansiCyan"
             },
             "presentation": {
                 "echo": false,
                 "reveal": "always",
                 "focus": false,
                 "panel": "shared"
-            },
-            "args": [
-                "echo",
-                "${command:docker_password}",
-                "|",
-                "docker",
-                "login",
-                "--username",
-                "${command:docker_login}",
-                "--password-stdin"
-            ],
-            "dependsOrder": "sequence",
-            "icon": {
-                "id": "account",
-                "color": "terminal.ansiCyan"
             }
         },
         {
@@ -502,7 +496,7 @@
             "command": "xonsh",
             "type": "process",
             "args": [
-                "${workspaceFolder}/.conf/torizon-packages.xhs",
+                "${workspaceFolder}/.conf/torizon-packages.xsh",
                 "amd64"
             ],
             "dependsOrder": "sequence",
@@ -1967,7 +1961,7 @@
                     "TCB_CLIENTSECRET": "${command:tcb.clientSecret}",
                     "TCB_PACKAGE": "__change__",
                     "TCB_FLEET": "${command:tcb.fleetName}",
-                    "TORIZON_ARCH": "${command:torizon_arch}"
+                    "TORIZON_CI_SETTINGS_FILE": ".vscode/settings.json"
                 }
             },
             "args": [
@@ -2026,6 +2020,26 @@
                 "focus": true,
                 "panel": "shared",
                 "group": "build-execution"
+            }
+        },
+        {
+            "label": "validate-json-files",
+            "detail": "Validate the JSON files formatting on the workspace",
+            "command": "xonsh",
+            "type": "shell",
+            "args": [
+                "${workspaceFolder}/scripts/validate-json.xsh"
+            ],
+            "dependsOrder": "sequence",
+            "icon": {
+                "id": "notebook",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": true,
+                "panel": "dedicated"
             }
         }
     ]

@@ -1,7 +1,7 @@
-image: docker:latest
+image: docker
 
 services:
-    - docker:dind
+  - docker:dind
 
 variables:
   # This should be set by docker image already, just to be sure...
@@ -10,115 +10,76 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_DRIVER: overlay2
   DOCKER_BUILDKIT: 1
+  TASKS_DISABLE_INTERACTIVE_INPUT: "True"
+  TASKS_OVERRIDE_ENV: "False"
+  TORIZON_CI_SETTINGS_FILE: ".vscode/settings.json"
+  DOCKER_PSSWD: "$DOCKER_PSSWD"
+  DOCKER_LOGIN: "$DOCKER_LOGIN"
+  PLATFORM_CLIENT_ID: "$PLATFORM_CLIENT_ID"
+  PLATFORM_CLIENT_SECRET: "$PLATFORM_CLIENT_SECRET"
+  PLATFORM_CREDENTIALS: "$PLATFORM_CREDENTIALS"  # added to support decoding step
 
 stages:
   - setup
-  - build
-  - platform
+  - publish
+  - deploy
 
-initial-setup:
+
+# Step 1: Initial Setup
+initial_setup:
   stage: setup
   image:
-    name: torizonextras/xonsh-wrapper:dev
-
-  variables:
-    TORIZON_ARCH: ""
-
-  script: |
-    echo '
-
-      import os
-      import json
-
-      with open(".vscode/settings.json") as f:
-          settings = json.load(f)
-          os.environ["TORIZON_ARCH"] = settings["torizon_arch"]
-          if os.environ["TORIZON_ARCH"] == "aarch64":
-              os.environ["TORIZON_ARCH"] = "arm64"
-          if os.environ["TORIZON_ARCH"] == "armhf":
-              os.environ["TORIZON_ARCH"] = "arm"
-
-      with open(os.environ["GITHUB_ENV"], "a") as f:
-          f.write(f"TORIZON_ARCH={os.environ['TORIZON_ARCH']}\n")
-
-      xonsh ./.vscode/tasks.xsh run validate-pipeline-settings
-
-    ' | xonsh-wrapper.xsh
-
-  artifacts:
-    reports:
-      dotenv: setup.env
-
-build-docker-image:
-  needs:
-    - initial-setup
-  stage: build
-  image:
-    name: torizonextras/xonsh-wrapper:dev
-
-  variables:
-    TASKS_ITERATIVE: "False"
-    TASKS_OVERRIDE_ENV: "False"
-
-  script: |
-    echo '
-
-      xonsh ./.vscode/tasks.xsh run docker-login
-      xonsh ./.vscode/tasks.xsh run run-torizon-binfmt
-      xonsh ./.vscode/tasks.xsh run create-production-image
-
-    ' | xonsh-wrapper.xsh
+    name: torizonextras/torizon-dev:dev
+    docker:
+      user: root
+    entrypoint: [""]
+  script:
+    - echo $CI_PROJECT_DIR > abs-path
+    - cat abs-path
+    - xonsh ./.conf/validate-json.xsh
+    - xonsh ./.vscode/tasks.xsh run validate-pipeline-settings
+    - xonsh ./.conf/apply-ci-settings-file.xsh
+    - cat $GITLAB_ENV > build.env
 
   artifacts:
     paths:
-      - docker-compose.prod.yml
+    - abs-path
+    reports:
+      dotenv: build.env
 
-push-package-to-platform:
-  needs:
-    - initial-setup
-    - build-docker-image
-  stage: platform
+
+# Step 2: Create and Publish Image
+publish_image:
+  stage: publish
   image:
-    name: torizonextras/xonsh-wrapper:dev
+    name: torizonextras/torizon-dev:dev
+    docker:
+      user: root
+    entrypoint: [""]
+  script:
+    - echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
+    - xonsh ./.vscode/tasks.xsh run tcb-platform-publish
 
-  variables:
-    TASKS_ITERATIVE: "False"
-    TASKS_OVERRIDE_ENV: "False"
-
-  script: |
-    echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
-    echo '
-
-      xonsh ./.vscode/tasks.xsh run run-torizon-binfmt
-      xonsh ./.vscode/tasks.xsh run tcb-platform-publish
-
-    ' | xonsh-wrapper.xsh
-
+  dependencies:
+    - initial_setup
   artifacts:
     paths:
       - docker-compose.prod.yml
       - docker-compose.prod.lock.yml
     when: on_success
 
-# trigger a deployment to the fleet only when pushing to main branch
-update-fleet:
-  needs:
-    - initial-setup
-    - push-package-to-platform
-  stage: platform
+# Step 3: Deploy Application (Only on main branch)
+deploy_application:
+  stage: deploy
+  image:
+    name: torizonextras/torizon-dev:dev
+    docker:
+      user: root
+    entrypoint: [""]
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
-  image:
-    name: torizonextras/xonsh-wrapper:dev
+  script:
+    - xonsh ./.vscode/tasks.xsh run platform-update-fleet
 
-  variables:
-    TASKS_ITERATIVE: "False"
-    TASKS_OVERRIDE_ENV: "False"
-
-  script: |
-    echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
-    echo '
-
-      xonsh ./.vscode/tasks.xsh run platform-update-fleet
-
-    ' | xonsh-wrapper.xsh
+  dependencies:
+    - publish_image

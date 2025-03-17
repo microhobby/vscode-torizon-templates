@@ -9,6 +9,8 @@
 
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
+# Get the full log of error
+$XONSH_SHOW_TRACEBACK = True
 # always return if a cmd fails
 $RAISE_SUBPROC_ERROR = True
 
@@ -168,6 +170,7 @@ if "mergeCommon" not in _template_metadata or _template_metadata['mergeCommon'] 
 cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/share-wsl-ports.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/docker-login.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/create-docker-compose-production.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/torizon-packages.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/.vscode/tasks.xsh @(new_project_path)/.vscode/
@@ -175,6 +178,8 @@ cp -r @(template_folder)/../scripts/bash/tcb-env-setup.sh @(new_project_path)/.c
 cp -r @(template_folder)/../scripts/torizon-io.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/check-ci-env.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
 
 
 template_name = os.path.basename(template_folder)

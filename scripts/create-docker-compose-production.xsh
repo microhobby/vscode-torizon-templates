@@ -10,6 +10,8 @@
 
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
+# Get the full log of error
+$XONSH_SHOW_TRACEBACK = True
 # always return if a cmd fails
 $RAISE_SUBPROC_ERROR = True
 
@@ -31,7 +33,7 @@ $DOCKER_HOST = ""
 
 if "GITLAB_CI" in os.environ:
     print("ℹ️ :: GITLAB_CI :: ℹ️")
-    $DOCKER_HOST = "tcp://localhost:2375"
+    $DOCKER_HOST = "tcp://docker:2375"
 
 _iterative = False
 if "TASK_ITERATIVE" in os.environ:
@@ -45,29 +47,15 @@ _compo_file_path = get_arg_iterative(
     default=None,
     iterative=_iterative
 )
-_docker_login = get_arg_iterative(
-    index=2,
-    prompt="Image repository: ",
-    default_type=str,
-    default=None,
-    iterative=_iterative
-)
 _tag = get_arg_iterative(
-    index=3,
+    index=2,
     prompt="Image tag: ",
     default_type=str,
     default=None,
     iterative=_iterative
 )
-_registry = get_arg_iterative(
-    index=4,
-    prompt="Docker registry: ",
-    default_type=str,
-    default="registry-1.docker.io",
-    iterative=_iterative
-)
 _image_name = get_arg_iterative(
-    index=5,
+    index=3,
     prompt="Image name: ",
     default_type=str,
     default=None,
@@ -75,7 +63,7 @@ _image_name = get_arg_iterative(
 )
 
 # optional
-_gpu = get_optional_arg(6, "")
+_gpu = get_optional_arg(4, "")
 
 # check env vars
 if "DOCKER_PSSWD" not in os.environ:
@@ -85,6 +73,23 @@ if "DOCKER_PSSWD" not in os.environ:
     )
 else:
     _docker_psswd = os.environ["DOCKER_PSSWD"]
+
+if "DOCKER_LOGIN" not in os.environ:
+    Error_Out(
+        "❌ DOCKER_LOGIN not set",
+        Error.ENOCONF
+    )
+else:
+    _docker_login = os.environ["DOCKER_LOGIN"]
+
+if "DOCKER_REGISTRY" not in os.environ:
+    Error_Out(
+        "❌ DOCKER_REGISTRY not set",
+        Error.ENOCONF
+    )
+else:
+    _docker_registry = os.environ["DOCKER_REGISTRY"]
+
 
 if "TORIZON_ARCH" not in os.environ:
     Error_Out(
@@ -143,14 +148,13 @@ _local_registry = _settings["host_ip"]
 os.environ["LOCAL_REGISTRY"] = f"{_local_registry}:5002"
 os.environ["TAG"] = _tag
 
-if _registry == "registry-1.docker.io":
+if _docker_registry == "registry-1.docker.io" or _docker_registry == "":
     os.environ["DOCKER_LOGIN"] = _docker_login
 else:
-    os.environ["DOCKER_LOGIN"] = f"{_registry}/{_docker_login}"
+    os.environ["DOCKER_LOGIN"] = f"{_docker_registry}/{_docker_login}"
 
 # make sure to have binfmt
-print("Executing binfmt ...")
-docker run --rm --privileged -it torizon/binfmt:latest
+xonsh ./.vscode/tasks.xsh run run-torizon-binfmt
 
 # start to build the image
 cd @(_compo_file_path)
@@ -171,7 +175,8 @@ print("✅ Image rebuild and tagged", color=Color.GREEN)
 # push it
 print(f"Pushing {os.environ['DOCKER_LOGIN']}/{_image_name}:{_tag} ...")
 
-echo @(_docker_psswd) | docker login --username @(_docker_login) --password-stdin
+xonsh ./.vscode/tasks.xsh run docker-login
+
 docker push @(f"{os.environ['DOCKER_LOGIN']}/{_image_name}:{_tag}")
 
 print("✅ Image pushed", color=Color.GREEN)

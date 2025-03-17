@@ -4,6 +4,8 @@
 $RAISE_SUBPROC_ERROR = True
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
+# Get the full log of error
+$XONSH_SHOW_TRACEBACK = True
 
 import os
 import sys

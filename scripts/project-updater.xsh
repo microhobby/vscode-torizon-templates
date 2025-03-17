@@ -9,6 +9,8 @@
 
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
+# Get the full log of error
+$XONSH_SHOW_TRACEBACK = True
 # always return if a cmd fails
 $RAISE_SUBPROC_ERROR = True
 
@@ -59,7 +61,8 @@ Usage:
 
 project_folder = get_arg_not_empty(1)
 project_name = get_arg_not_empty(2)
-accept_all = get_arg_not_empty(3) == "True"
+# Check if it's True or 1
+accept_all = get_arg_not_empty(3) in ("True", "1")
 vscode = get_optional_arg(4, True)
 second_run = get_optional_arg(5, False)
 
@@ -205,6 +208,7 @@ if not _check_if_file_content_is_equal(
     xonsh \
         @(f"{project_folder}/.conf/project-updater.xsh") \
         @(project_folder) \
+        @(project_name) \
         @(accept_all) \
         @(vscode) \
         True
@@ -391,6 +395,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/torizon-io.xsh") \
     @(f"{project_folder}/.conf/torizon-io.xsh")
 
+# DOCKER LOGIN:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/docker-login.xsh") \
+    @(f"{project_folder}/.conf/docker-login.xsh")
+
 # CREATE DOCKER COMPOSE PRODUCTION:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/create-docker-compose-production.xsh") \
@@ -411,18 +420,28 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-deps-running.xsh") \
     @(f"{project_folder}/.conf/validate-deps-running.xsh")
 
+# APPLY CI SETTINGS FILE:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/apply-ci-settings-file.xsh") \
+    @(f"{project_folder}/.conf/apply-ci-settings-file.xsh")
+
 # TORIZONPACKAGES:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/torizon-packages.xsh") \
     @(f"{project_folder}/.conf/torizon-packages.xsh")
+
+# VALIDATE JSON FILES:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
+    @(f"{project_folder}/.conf/validate-json.xsh")
 
 # DOCUMENTATION:
 if not os.path.exists(f"{project_folder}/.doc"):
     mkdir -p @(f"{project_folder}/.doc")
 
 cp -rf \
-    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc") \
-    @(f"{project_folder}/.doc")
+    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
+    @(f"{project_folder}/.doc/")
 
 
 print("✅ always accept new OK", color=Color.GREEN)
@@ -539,8 +558,6 @@ _deps = json.loads(_deps_file.read())
 _deps_file.close()
 
 if "installDepsScripts" in _deps and len(_deps["installDepsScripts"]) > 0:
-    if not os.path.exists(f"{project_folder}/.conf/installDepsScripts"):
-        mkdir -p @(f"{project_folder}/.conf/installDepsScripts")
 
     if not os.path.exists("./installDepsScripts"):
         mkdir -p @("./installDepsScripts")
@@ -743,12 +760,15 @@ print("✅ common files OK", color=Color.GREEN)
 print("Checking deps scripts ...", color=Color.YELLOW)
 
 if "installDepsScripts" in _deps:
+    if not os.path.exists(f"{project_folder}/.conf/installDepsScripts"):
+        mkdir -p @(f"{project_folder}/.conf/installDepsScripts")
+
     for script in _deps["installDepsScripts"]:
-        _script_dest = script.replace(".conf/", "")
+        _script_src = script.replace(".conf/", "")
 
         _open_merge_window(
-            f"{project_folder}/.conf/tmp/{_script_dest}",
-            f"{project_folder}/{_script_dest}"
+            f"{project_folder}/.conf/tmp/{_script_src}",
+            f"{project_folder}/{_script}"
         )
 
         print(f"✅ {_script_dest}", color=Color.GREEN)

@@ -64,7 +64,7 @@
                 "${workspaceFolder}/.conf/project-updater.xsh",
                 "${workspaceFolder}",
                 "${workspaceFolderBasename}",
-                "0"
+                "False"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -94,7 +94,7 @@
                 "${workspaceFolder}/.conf/project-updater.xsh",
                 "${workspaceFolder}",
                 "${workspaceFolderBasename}",
-                "1"
+                "True"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -634,6 +634,66 @@
                 "focus": true,
                 "panel": "dedicated",
                 "group": "cloud-related"
+            }
+        },
+        {
+            "label": "validate-pipeline-settings",
+            "detail": "",
+            "hide": true,
+            "command": "xonsh",
+            "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "DOCKER_REGISTRY": "${command:docker_registry}",
+                    "DOCKER_LOGIN": "${command:docker_login}",
+                    "DOCKER_PSSWD": "${command:docker_password}",
+                    "DOCKER_TAG": "${command:docker_tag}",
+                    "TCB_CLIENTID": "${command:tcb.clientId}",
+                    "TCB_CLIENTSECRET": "${command:tcb.clientSecret}",
+                    "TCB_PACKAGE": "__change__",
+                    "TCB_FLEET": "${command:tcb.fleetName}",
+                    "TORIZON_CI_SETTINGS_FILE": ".vscode/settings.json"
+                }
+            },
+            "args": [
+                ".conf/check-ci-env.xsh"
+            ],
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+            ],
+            "icon": {
+                "id": "notebook",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "validate-json-files",
+            "detail": "Validate the JSON files formatting on the workspace",
+            "command": "xonsh",
+            "type": "shell",
+            "args": [
+                "${workspaceFolder}/scripts/validate-json.xsh"
+            ],
+            "dependsOrder": "sequence",
+            "icon": {
+                "id": "notebook",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": true,
+                "panel": "dedicated"
             }
         },
         {

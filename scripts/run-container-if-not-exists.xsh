@@ -10,6 +10,8 @@
 
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
+# Get the full log of error
+$XONSH_SHOW_TRACEBACK = True
 # this script should handle the subprocess errors
 $RAISE_SUBPROC_ERROR = False
 
@@ -53,7 +55,7 @@ container_name = args.container_name.replace("\"", "")
 
 if "GITLAB_CI" in os.environ:
     print("ℹ️ :: GITLAB_CI :: ℹ️")
-    $DOCKER_HOST = "tcp://localhost:2375"
+    $DOCKER_HOST = "tcp://docker:2375"
 
 # debug
 print(f"Container Runtime: {container_runtime}")

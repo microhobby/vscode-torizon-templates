@@ -165,6 +165,22 @@
             "problemMatcher": [
                 "$gcc"
             ]
+        },
+        {
+            "label": "validate-json-files",
+            "detail": "Validate the JSON files formatting on the workspace",
+            "command": "xonsh",
+            "type": "shell",
+            "args": [
+                "${workspaceFolder}/scripts/validate-json.xsh"
+            ],
+            "dependsOrder": "sequence",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": true,
+                "panel": "dedicated"
+            }
         }
     ],
     "inputs": [

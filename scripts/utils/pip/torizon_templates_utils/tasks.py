@@ -428,7 +428,7 @@ class TaskRunner:
         self.__settings = settings
         self.__debug = debug
         self.__gitlab_ci = False
-        self.__override_env = True
+        self.__override_env = False
         self.__cli_inputs: Dict[str, str] = {}
         self.__can_receive_interactive_input = False
 
@@ -444,7 +444,7 @@ class TaskRunner:
             self.__gitlab_ci = True
 
         if "TASKS_OVERRIDE_ENV" in os.environ:
-            self.__override_env = False
+            self.__override_env = True
 
         if "TASKS_DEBUG" in os.environ:
             self.__debug = True
@@ -563,20 +563,31 @@ class TaskRunner:
                             os.environ["config:tcb_packageName"]
                         ],
                         capture_output=True,
-                        text=True
+                        text=True,
+                        env=os.environ
                     )
 
                     if _p_ret.returncode != 0:
-                        raise RuntimeError(f"Error running torizon-io.xsh: {_p_ret.stderr}")
+                        # Sometimes the error is presented on stdout and not stderr
+                        raise RuntimeError(f"Error running torizon-io.xsh: {_p_ret}")
 
-                    _next = int(_p_ret.stdout.strip()) +1
+                    # TODO: Maybe not use this and instead disable colors on the terminal
+                    # Remove ANSI escape sequences. Regex from this thread:
+                    # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
+                    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+                    _latest_ver = ansi_escape.sub('', _p_ret.stdout.strip())
+
+                    _latest_ver_number = _latest_ver.rsplit('-', 1)[-1]
+                    _latest_ver_last_number = _latest_ver_number.rsplit('.', 1)[-1]
+                    try:
+                        _next = int(_latest_ver_last_number) +1
+                    except:
+                        raise ValueError(f"Package version should be in one of the following formats: <int>, <string-int>, <major.minor.patch>, or <string-major.minor.patch>. Depending on format, int or patch value will be incremented")
 
                     if self.__debug:
                         print(f"Next package version: {_next}")
 
-                    ret.append(
-                        value.replace("${{command:tcb.getNextPackageVersion}}", f"{_next}")
-                    )
+                    value = value.replace(f"${{command:tcb.getNextPackageVersion}}", f"{_next}")
 
                 elif "tcb.outputTEZIFolder" in value:
                     # load the tcbuild.yaml
@@ -589,7 +600,7 @@ class TaskRunner:
                         except KeyError:
                             raise RuntimeError("Error replacing variable tcb.outputTEZIFolder, make sure the tcbuild.yaml has the output.easy-installer.local property")
 
-                        value = value.replace("${{command:tcb.outputTEZIFolder}}", _tezi_folder)
+                        value = value.replace(f"${{command:tcb.outputTEZIFolder}}", _tezi_folder)
 
                 # for all the items we need to replace ${command:tcb. with ${config:tcb.
                 _pattern = r"(?<=\$\{command:tcb\.).*?(?=\s*})"
@@ -887,14 +898,14 @@ class TaskRunner:
         if _env is not None:
             for env, value in _env.items():
                 if self.__override_env:
-                    __env = self.__parse_envs(env, _task)
-                    if __env:
-                        os.environ[env] = __env
-                else:
                     if env not in os.environ:
                         __env = self.__parse_envs(env, _task)
                         if __env:
                             os.environ[env] = __env
+                else:
+                    __env = self.__parse_envs(env, _task)
+                    if __env:
+                        os.environ[env] = __env
 
         # we need to change the cwd if it's set
         if _cwd is not None:
