@@ -82,6 +82,9 @@ COPY ./zygote.xsh /home/torizon/.apollox/scripts/zygote.xsh
 RUN chmod +x /home/torizon/.apollox/scripts/zygote.xsh && \
     ln -s /home/torizon/.apollox/scripts/zygote.xsh /usr/local/bin/zygote
 
+# Create a symlink to use bash instead of shell
+RUN ln -sf /bin/bash /bin/sh
+
 USER torizon
 
 # the workspace will be the mount point for local path
