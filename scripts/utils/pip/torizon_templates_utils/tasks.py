@@ -14,7 +14,7 @@ T = TypeVar('T')
 
 def replace_tasks_input():
     for file in Path('.').rglob('*.json'):
-        print(file)
+        print(file, flush=True)
         mime_type, _ = mimetypes.guess_type(file)
 
         if mime_type is None or mime_type.startswith("application/octet-stream"):
@@ -473,10 +473,10 @@ class TaskRunner:
         for task in self.__tasks:
             if no_index:
                 if show_hidden or not task.hide:
-                    print(task.label)
+                    print(task.label, flush=True)
             else:
                 if show_hidden or not task.hide:
-                    print(f"{i}. \t{task.label}")
+                    print(f"{i}. \t{task.label}", flush=True)
 
             i += 1
 
@@ -503,7 +503,7 @@ class TaskRunner:
 
         if task is not None:
             task_txt = json.dumps(task.to_dict(), indent=4)
-            print(task_txt)
+            print(task_txt, flush=True)
         else:
             raise ReferenceError(f"Task with index [{label}] not found")
 
@@ -585,7 +585,7 @@ class TaskRunner:
                         raise ValueError(f"Package version should be in one of the following formats: <int>, <string-int>, <major.minor.patch>, or <string-major.minor.patch>. Depending on format, int or patch value will be incremented")
 
                     if self.__debug:
-                        print(f"Next package version: {_next}")
+                        print(f"Next package version: {_next}", flush=True)
 
                     value = value.replace(f"${{command:tcb.getNextPackageVersion}}", f"{_next}")
 
@@ -797,8 +797,8 @@ class TaskRunner:
                 exp_value_str = " ".join(expvalue)
 
                 if self.__debug:
-                    print(f"Env: {env}={_env_value}", color=Color.YELLOW)
-                    print(f"Parsed Env: {env}={exp_value_str}", color=Color.YELLOW)
+                    print(f"Env: {env}={_env_value}", color=Color.YELLOW, flush=True)
+                    print(f"Parsed Env: {env}={exp_value_str}", color=Color.YELLOW, flush=True)
 
                 return exp_value_str
 
@@ -843,7 +843,7 @@ class TaskRunner:
         for dep in _depends:
             self.run_task(dep)
 
-        print(f"> Executing task: {label} <", color=Color.GREEN)
+        print(f"> Executing task: {label} <", color=Color.GREEN, flush=True)
 
         # prepare the command
         _cmd = _task.command
@@ -920,10 +920,10 @@ class TaskRunner:
         _cmd_join = f"{_cmd} {' '.join(_args)}{_is_background}"
 
         if self.__debug:
-            print(f"Command: {_task.command}", color=Color.YELLOW)
-            print(f"Args: {_task.args}", color=Color.YELLOW)
-            print(f"Parsed Args: {_args}", color=Color.YELLOW)
-            print(f"Parsed Command: {_cmd_join}", color=Color.YELLOW)
+            print(f"Command: {_task.command}", color=Color.YELLOW, flush=True)
+            print(f"Args: {_task.args}", color=Color.YELLOW, flush=True)
+            print(f"Parsed Args: {_args}", color=Color.YELLOW, flush=True)
+            print(f"Parsed Command: {_cmd_join}", color=Color.YELLOW, flush=True)
 
         # use bash to execute the VSCode tasks commands and scripts, as they
         # are written and tested in bash. Valid just for commands of shell
@@ -941,5 +941,5 @@ class TaskRunner:
         os.chdir(_last_cwd)
 
         if _ret.returncode != 0:
-            print(f"> TASK [{label}] exited with error code [{_ret.returncode}] <", color=Color.RED)
+            print(f"> TASK [{label}] exited with error code [{_ret.returncode}] <", color=Color.RED, flush=True)
             raise RuntimeError(f"Error running task: {label}")
