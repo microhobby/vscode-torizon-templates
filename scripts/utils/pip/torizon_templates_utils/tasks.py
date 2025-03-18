@@ -433,7 +433,7 @@ class TaskRunner:
         self.__can_receive_interactive_input = False
 
         # check if we have stdin
-        if os.isatty(0) and ("TASKS_DISABLE_INTERACTIVE_INPUT" not in os.environ):
+        if os.isatty(0) and (("TASKS_DISABLE_INTERACTIVE_INPUT" not in os.environ) or (os.environ["TASKS_DISABLE_INTERACTIVE_INPUT"] != "True")):
             self.__can_receive_interactive_input = True
 
         # environment configs
@@ -443,10 +443,10 @@ class TaskRunner:
         if "GITLAB_CI" in os.environ:
             self.__gitlab_ci = True
 
-        if "TASKS_OVERRIDE_ENV" in os.environ:
+        if "TASKS_OVERRIDE_ENV" in os.environ and os.environ["TASKS_OVERRIDE_ENV"] == "True":
             self.__override_env = True
 
-        if "TASKS_DEBUG" in os.environ:
+        if "TASKS_DEBUG" in os.environ and os.environ["TASKS_DEBUG"] == "True":
             self.__debug = True
 
         self.__settings_to_env()
@@ -558,7 +558,7 @@ class TaskRunner:
                     _p_ret = subprocess.run(
                         [
                             "xonsh",
-                            "./conf/torizon-io.xsh",
+                            "./.conf/torizon-io.xsh",
                             "package", "latest", "version",
                             os.environ["config:tcb_packageName"]
                         ],
