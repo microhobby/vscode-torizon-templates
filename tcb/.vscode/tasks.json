@@ -218,9 +218,6 @@
             "command": "DOCKER_HOST=",
             "type": "shell",
             "options": {
-                "env": {
-                    "VSCODE_CMD": "--help"
-                },
                 "cwd": "${workspaceFolder}"
             },
             "args": [
@@ -586,7 +583,8 @@
                 "echo": true,
                 "reveal": "always",
                 "focus": true,
-                "panel": "dedicated"
+                "panel": "dedicated",
+                "group": "cloud-related"
             }
         },
         {
