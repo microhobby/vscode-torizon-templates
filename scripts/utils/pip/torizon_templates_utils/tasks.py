@@ -428,7 +428,7 @@ class TaskRunner:
         self.__settings = settings
         self.__debug = debug
         self.__gitlab_ci = False
-        self.__override_env = False
+        self.__tasks_override_env = False
         self.__cli_inputs: Dict[str, str] = {}
         self.__can_receive_interactive_input = False
 
@@ -444,7 +444,7 @@ class TaskRunner:
             self.__gitlab_ci = True
 
         if "TASKS_OVERRIDE_ENV" in os.environ and os.environ["TASKS_OVERRIDE_ENV"] == "True":
-            self.__override_env = True
+            self.__tasks_override_env = True
 
         if "TASKS_DEBUG" in os.environ and os.environ["TASKS_DEBUG"] == "True":
             self.__debug = True
@@ -894,19 +894,15 @@ class TaskRunner:
         if self.__gitlab_ci:
             _cmd = self.__replace_docker_host(_cmd)
 
-        # Set env var for the task, adding the envs present on the task
         task_env = os.environ.copy()
+        # If TASKS_OVERRIDE_ENV is true, override the env vars with the
+        # env var values present on the task. If false, set just the env vars
+        # present on the task that doesn't already exist on the env var
         if _env is not None:
-            for env, value in _env.items():
-                if self.__override_env:
-                    if env not in os.environ:
-                        __env = self.__parse_envs(env, _task)
-                        if __env:
-                            task_env[env] = __env
-                else:
-                    __env = self.__parse_envs(env, _task)
-                    if __env:
-                        task_env[env] = __env
+            for env, _ in _env.items():
+                if self.__tasks_override_env == True or env not in os.environ:
+                    __parsed_env_value = self.__parse_envs(env, _task)
+                    task_env[env] = __parsed_env_value
 
         # we need to change the cwd if it's set
         if _cwd is not None:
