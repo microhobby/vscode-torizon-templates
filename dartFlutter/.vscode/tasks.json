@@ -98,7 +98,10 @@
             "type": "shell",
             "args": [
                 "pub",
-                "get"
+                "get",
+                "&&",
+                "sleep",
+                "0.5"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
