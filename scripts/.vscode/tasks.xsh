@@ -56,8 +56,8 @@ Environment variables:
 
     TASKS_DISABLE_INTERACTIVE_INPUT     to disable interactive input
 
-    TASKS_OVERRIDE_ENV                  enable the override of the environment
-                                        variables set in the tasks.json
+    TASKS_OVERRIDE_ENV                  enable the override of the environment variables
+                                        values with the ones set in the tasks.json file
 
     DOCKER_PSSWD                        to set the docker password in CI/CD pipelines
 

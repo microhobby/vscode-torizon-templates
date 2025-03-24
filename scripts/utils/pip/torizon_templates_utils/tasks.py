@@ -14,7 +14,7 @@ T = TypeVar('T')
 
 def replace_tasks_input():
     for file in Path('.').rglob('*.json'):
-        print(file)
+        print(file, flush=True)
         mime_type, _ = mimetypes.guess_type(file)
 
         if mime_type is None or mime_type.startswith("application/octet-stream"):
@@ -428,12 +428,12 @@ class TaskRunner:
         self.__settings = settings
         self.__debug = debug
         self.__gitlab_ci = False
-        self.__override_env = False
+        self.__tasks_override_env = False
         self.__cli_inputs: Dict[str, str] = {}
         self.__can_receive_interactive_input = False
 
         # check if we have stdin
-        if os.isatty(0) and ("TASKS_DISABLE_INTERACTIVE_INPUT" not in os.environ):
+        if os.isatty(0) and (("TASKS_DISABLE_INTERACTIVE_INPUT" not in os.environ) or (os.environ["TASKS_DISABLE_INTERACTIVE_INPUT"] != "True")):
             self.__can_receive_interactive_input = True
 
         # environment configs
@@ -443,10 +443,10 @@ class TaskRunner:
         if "GITLAB_CI" in os.environ:
             self.__gitlab_ci = True
 
-        if "TASKS_OVERRIDE_ENV" in os.environ:
-            self.__override_env = True
+        if "TASKS_OVERRIDE_ENV" in os.environ and os.environ["TASKS_OVERRIDE_ENV"] == "True":
+            self.__tasks_override_env = True
 
-        if "TASKS_DEBUG" in os.environ:
+        if "TASKS_DEBUG" in os.environ and os.environ["TASKS_DEBUG"] == "True":
             self.__debug = True
 
         self.__settings_to_env()
@@ -473,10 +473,10 @@ class TaskRunner:
         for task in self.__tasks:
             if no_index:
                 if show_hidden or not task.hide:
-                    print(task.label)
+                    print(task.label, flush=True)
             else:
                 if show_hidden or not task.hide:
-                    print(f"{i}. \t{task.label}")
+                    print(f"{i}. \t{task.label}", flush=True)
 
             i += 1
 
@@ -503,7 +503,7 @@ class TaskRunner:
 
         if task is not None:
             task_txt = json.dumps(task.to_dict(), indent=4)
-            print(task_txt)
+            print(task_txt, flush=True)
         else:
             raise ReferenceError(f"Task with index [{label}] not found")
 
@@ -558,7 +558,7 @@ class TaskRunner:
                     _p_ret = subprocess.run(
                         [
                             "xonsh",
-                            "./conf/torizon-io.xsh",
+                            "./.conf/torizon-io.xsh",
                             "package", "latest", "version",
                             os.environ["config:tcb_packageName"]
                         ],
@@ -585,7 +585,7 @@ class TaskRunner:
                         raise ValueError(f"Package version should be in one of the following formats: <int>, <string-int>, <major.minor.patch>, or <string-major.minor.patch>. Depending on format, int or patch value will be incremented")
 
                     if self.__debug:
-                        print(f"Next package version: {_next}")
+                        print(f"Next package version: {_next}", flush=True)
 
                     value = value.replace(f"${{command:tcb.getNextPackageVersion}}", f"{_next}")
 
@@ -797,8 +797,8 @@ class TaskRunner:
                 exp_value_str = " ".join(expvalue)
 
                 if self.__debug:
-                    print(f"Env: {env}={_env_value}", color=Color.YELLOW)
-                    print(f"Parsed Env: {env}={exp_value_str}", color=Color.YELLOW)
+                    print(f"Env: {env}={_env_value}", color=Color.YELLOW, flush=True)
+                    print(f"Parsed Env: {env}={exp_value_str}", color=Color.YELLOW, flush=True)
 
                 return exp_value_str
 
@@ -835,6 +835,16 @@ class TaskRunner:
         if _task is None:
             raise ReferenceError(f"Task with label [{label}] not found")
 
+        _depends = []
+        if _task.dependsOn is not None:
+            _depends = _task.dependsOn
+
+        # first we need to run the dependencies
+        for dep in _depends:
+            self.run_task(dep)
+
+        print(f"> Executing task: {label} <", color=Color.GREEN, flush=True)
+
         # prepare the command
         _cmd = _task.command
 
@@ -857,16 +867,6 @@ class TaskRunner:
         if _task.options is not None:
             _env = _task.options.env
             _cwd = _task.options.cwd
-
-        _depends = []
-        if _task.dependsOn is not None:
-            _depends = _task.dependsOn
-
-        # first we need to run the dependencies
-        for dep in _depends:
-            self.run_task(dep)
-
-        print(f"> Executing task: {label} <", color=Color.GREEN)
 
         _is_background = ""
         if _task.isBackground:
@@ -894,18 +894,15 @@ class TaskRunner:
         if self.__gitlab_ci:
             _cmd = self.__replace_docker_host(_cmd)
 
-        # inject env
+        task_env = os.environ.copy()
+        # If TASKS_OVERRIDE_ENV is true, override the env vars with the
+        # env var values present on the task. If false, set just the env vars
+        # present on the task that doesn't already exist on the env var
         if _env is not None:
-            for env, value in _env.items():
-                if self.__override_env:
-                    if env not in os.environ:
-                        __env = self.__parse_envs(env, _task)
-                        if __env:
-                            os.environ[env] = __env
-                else:
-                    __env = self.__parse_envs(env, _task)
-                    if __env:
-                        os.environ[env] = __env
+            for env, _ in _env.items():
+                if self.__tasks_override_env == True or env not in os.environ:
+                    __parsed_env_value = self.__parse_envs(env, _task)
+                    task_env[env] = __parsed_env_value
 
         # we need to change the cwd if it's set
         if _cwd is not None:
@@ -919,10 +916,10 @@ class TaskRunner:
         _cmd_join = f"{_cmd} {' '.join(_args)}{_is_background}"
 
         if self.__debug:
-            print(f"Command: {_task.command}", color=Color.YELLOW)
-            print(f"Args: {_task.args}", color=Color.YELLOW)
-            print(f"Parsed Args: {_args}", color=Color.YELLOW)
-            print(f"Parsed Command: {_cmd_join}", color=Color.YELLOW)
+            print(f"Command: {_task.command}", color=Color.YELLOW, flush=True)
+            print(f"Args: {_task.args}", color=Color.YELLOW, flush=True)
+            print(f"Parsed Args: {_args}", color=Color.YELLOW, flush=True)
+            print(f"Parsed Command: {_cmd_join}", color=Color.YELLOW, flush=True)
 
         # use bash to execute the VSCode tasks commands and scripts, as they
         # are written and tested in bash. Valid just for commands of shell
@@ -931,7 +928,7 @@ class TaskRunner:
             [_cmd, *_args] if not _shell else _cmd_join,
             stdout=None,
             stderr=None,
-            env=os.environ,
+            env=task_env,
             shell=_shell,
             executable="/bin/bash" if _shell else None
         )
@@ -940,5 +937,5 @@ class TaskRunner:
         os.chdir(_last_cwd)
 
         if _ret.returncode != 0:
-            print(f"> TASK [{label}] exited with error code [{_ret.returncode}] <", color=Color.RED)
+            print(f"> TASK [{label}] exited with error code [{_ret.returncode}] <", color=Color.RED, flush=True)
             raise RuntimeError(f"Error running task: {label}")

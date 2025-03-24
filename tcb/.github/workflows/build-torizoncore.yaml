@@ -35,6 +35,7 @@ jobs:
           xonsh ./.conf/validate-json.xsh
           xonsh ./.vscode/tasks.xsh run validate-pipeline-settings
           xonsh ./.conf/apply-ci-settings-file.xsh
+          xonsh ./.vscode/tasks.xsh run tcb-setup
 
 
       - name: Build TorizonCore Image
@@ -42,10 +43,8 @@ jobs:
         env:
           TASKS_DISABLE_INTERACTIVE_INPUT: "True"
           TASKS_OVERRIDE_ENV: "False"
-          PLATFORM_CREDENTIALS: ${{ secrets.PLATFORM_CREDENTIALS }}
         run: |
-          echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
-          xonsh ./.vscode/tasks.xsh run tcb-setup
+
           xonsh ./.vscode/tasks.xsh run tcb-build
 
       - name: Push OS Package to Platform
@@ -55,8 +54,10 @@ jobs:
           TASKS_OVERRIDE_ENV: "False"
           PLATFORM_CLIENT_ID: ${{ secrets.PLATFORM_CLIENT_ID }}
           PLATFORM_CLIENT_SECRET: ${{ secrets.PLATFORM_CLIENT_SECRET }}
+          PLATFORM_CREDENTIALS: ${{ secrets.PLATFORM_CREDENTIALS }}
         run: |
-          xonsh ./.vscode/tasks.xsh run tcb-setup
+
+          echo $PLATFORM_CREDENTIALS | base64 -d > credentials.zip
           xonsh ./.vscode/tasks.xsh run tcb-platform-push-ostree
 
       - name: Deploy to Fleet
