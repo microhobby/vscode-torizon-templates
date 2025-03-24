@@ -20,7 +20,8 @@ dependencies = [
     "torizon-io-api",
     "requests",
     "pyyaml",
-    "debugpy"
+    "debugpy",
+    "pkginfo>=1.12"
 ]
 
 [project.urls]
