@@ -51,6 +51,8 @@ jobs:
           echo "username = $TWINE_USERNAME" >> ./scripts/utils/pip/.pypirc
           echo "password = $TWINE_PASSWORD" >> ./scripts/utils/pip/.pypirc
 
+          python3 -m pip install twine --upgrade
+
       - name: Publish Package
         if: env.SKIP_PUBLISH != 'true'
         run: |
