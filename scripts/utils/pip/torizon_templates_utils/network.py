@@ -6,14 +6,14 @@ import subprocess
 
 def get_host_ip():
     if 'WSL_DISTRO_NAME' in os.environ and os.environ['WSL_DISTRO_NAME'] != '':
-        command = ["/mnt/c/Windows/System32/Wbem/WMIC.exe", "NICCONFIG", "WHERE", "IPEnabled=true", "GET", "IPAddress"]
+        command = ["/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "-c", '(Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias (Get-NetRoute -DestinationPrefix "0.0.0.0/0").InterfaceAlias).IPAddress']
 
         # if inside a container we need to run the command in the host
         if "APOLLOX_CONTAINER" in os.environ:
             command = [
                 "sudo", "nsenter", "-t", "1", "-m", "-u", "-n", "-i",
                 "--",
-                "/mnt/c/Windows/System32/Wbem/WMIC.exe", "NICCONFIG", "WHERE", "IPEnabled=true", "GET", "IPAddress"
+                "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "-c", '(Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias (Get-NetRoute -DestinationPrefix "0.0.0.0/0").InterfaceAlias).IPAddress'
             ]
 
         result = subprocess.run(command, capture_output=True, text=True)
