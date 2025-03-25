@@ -24,6 +24,9 @@ dependencies = [
     "pkginfo>=1.12"
 ]
 
+[tool.setuptools]
+license-files = []
+
 [project.urls]
 Homepage = "https://github.com/torizon/vscode-torizon-templates"
 Issues = "https://github.com/torizon/vscode-torizon-templates/issues"
