@@ -569,7 +569,7 @@ if "installDepsScripts" in _deps and len(_deps["installDepsScripts"]) > 0:
     # This is useful when there are scripts that are common for many templates.
     for _script in _deps["installDepsScripts"]:
         if not os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/{_script}") and ".conf/installDepsScripts" in _script:
-            _script_source = script.replace(".conf", "scripts")
+            _script_source = _script.replace(".conf", "scripts")
         else:
             _script_source = f"{_template_name}/{_script}"
 
