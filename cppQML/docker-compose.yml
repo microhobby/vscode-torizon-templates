@@ -83,4 +83,4 @@ services:
       # ... for /dev/dri devices
       - "c 226:* rmw"
       # ... for /dev/dma_heap device
-      - 'c 253:* rmw'
+      - "c 253:* rmw"
