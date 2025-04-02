@@ -10,6 +10,9 @@
 
 This document provides an overview of the `torizon-dev`, installation and its available commands and arguments.
 
+> [!WARNING]
+> This is an experimental feature, changes or issues may occur. Please report any issue or feedback to the Torizon IDE team.
+
 ## Installation
 
 ### Prerequisites
