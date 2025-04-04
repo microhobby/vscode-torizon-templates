@@ -111,7 +111,7 @@ if "5002->5000/tcp" not in _cmd_ret_reg.out:
     )
 
 # check if the binfmt is enabled
-_cmd_ret_reg = !(/proc/sys/fs/binfmt_misc/status)
+_cmd_ret_reg = !(cat /proc/sys/fs/binfmt_misc/status)
 
 if "enabled" not in _cmd_ret_reg.out:
     Error_Out(
