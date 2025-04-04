@@ -111,7 +111,7 @@ if "5002->5000/tcp" not in _cmd_ret_reg.out:
     )
 
 # check if the binfmt is enabled
-_cmd_ret_reg = !(cat /proc/sys/fs/binfmt_misc/status)
+_cmd_ret_reg = !(bash -c 'cat /proc/sys/fs/binfmt_misc/status')
 
 if "enabled" not in _cmd_ret_reg.out:
     Error_Out(
@@ -123,14 +123,14 @@ if "enabled" not in _cmd_ret_reg.out:
 # check if the binfmt is registered
 # FIXME: we check for arm64 and arm32 for now, if a new arch is introduced
 # we need to add the check here
-_cmd_ret_reg = !(ls /proc/sys/fs/binfmt_misc/qemu-aarch64)
+_cmd_ret_reg = !(bash -c 'ls /proc/sys/fs/binfmt_misc/qemu-aarch64')
 if "qemu-aarch64" not in _cmd_ret_reg.out:
     Error_Out(
         "❌ binfmt for arm64 is not registered!\n",
         Error.ENOCONF
     )
 
-_cmd_ret_reg = !(ls /proc/sys/fs/binfmt_misc/qemu-arm)
+_cmd_ret_reg = !(bash -c 'ls /proc/sys/fs/binfmt_misc/qemu-arm')
 if "qemu-arm" not in _cmd_ret_reg.out:
     Error_Out(
         "❌ binfmt for arm32 is not registered!\n",
