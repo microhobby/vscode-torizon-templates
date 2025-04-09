@@ -441,17 +441,22 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
     @(f"{project_folder}/.conf/validate-json.xsh")
 
-# DOCUMENTATION:
-if not os.path.exists(f"{project_folder}/.doc"):
-    mkdir -p @(f"{project_folder}/.doc")
 
-cp -rf \
+print("✅ always accept new OK", color=Color.GREEN)
+# ----------------------------------------------------------- ALWAYS ACCEPT NEW
+
+# DOCUMENTATION:
+_open_merge_window(
+    f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/README.md",
+    f"{project_folder}/.doc/README.md"
+)
+
+rsync -av --exclude='README.md' \
     @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
     @(f"{project_folder}/.doc/")
 
 
-print("✅ always accept new OK", color=Color.GREEN)
-# ----------------------------------------------------------- ALWAYS ACCEPT NEW
+print("✅ .doc folder", color=Color.GREEN)
 
 
 # now that we have an updated version we can read it
