@@ -39,7 +39,7 @@ ARG SSHUSERNAME=
 # Deploy Step
 ##
 
-FROM crossware.app:5050/public-repos/flutter${GPU}:${BASE_VERSION} AS debug
+FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION}${GPU} AS debug
 
 ARG IMAGE_ARCH
 ARG SSHUSERNAME

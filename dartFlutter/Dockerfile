@@ -44,7 +44,7 @@ RUN flutter-elinux clean; flutter-elinux pub get; flutter-elinux build elinux --
 
 # DEPLOY -----------------------------------------------------------------------
 
-FROM crossware.app:5050/public-repos/flutter${GPU}:${BASE_VERSION} AS final
+FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION}${GPU} AS final
 
 ARG GPU
 ARG APP_ROOT
