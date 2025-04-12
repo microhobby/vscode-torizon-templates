@@ -20,6 +20,11 @@ ARG IMAGE_ARCH=
 ARG APP_ROOT=
 
 ##
+# Board GPU vendor prefix
+##
+ARG GPU=
+
+##
 # Build/Deploy Step
 ##
 
@@ -27,7 +32,6 @@ ARG APP_ROOT=
 FROM crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION} AS build
 
 ARG IMAGE_ARCH
-ARG GPU
 ARG APP_ROOT
 
 COPY . ${APP_ROOT}
@@ -40,8 +44,9 @@ RUN flutter-elinux clean; flutter-elinux pub get; flutter-elinux build elinux --
 
 # DEPLOY -----------------------------------------------------------------------
 
-FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION} AS final
+FROM crossware.app:5050/public-repos/flutter${GPU}:${BASE_VERSION} AS final
 
+ARG GPU
 ARG APP_ROOT
 ARG SSHUSERNAME
 
