@@ -54,6 +54,15 @@ ENV DEBIAN_FRONTEND="noninteractive"
 
 WORKDIR ${APP_ROOT}
 
+# TODO: When the next version of the base containers, with this package added,
+# is released, this libwayland-cursor0 package install can be removed from here
+RUN apt-get -q -y update && \
+    apt-get -q -y install \
+    libwayland-cursor0 \
+    && \
+    apt-get clean && apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install debug required packages
 RUN apt-get -q -y update && \
     apt-get -q -y install \

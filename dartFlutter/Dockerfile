@@ -52,6 +52,15 @@ ARG SSHUSERNAME
 
 WORKDIR ${APP_ROOT}
 
+# TODO: When the next version of the base containers, with this package added,
+# is released, this libwayland-cursor0 package install can be removed from here
+RUN apt-get -q -y update && \
+    apt-get -q -y install \
+    libwayland-cursor0 \
+    && \
+    apt-get clean && apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY --chown=$SSHUSERNAME:$SSHUSERNAME run-release.sh ${APP_ROOT}/
 RUN chmod +x ${APP_ROOT}/run-release.sh
 
