@@ -29,7 +29,8 @@ ARG GPU=
 ##
 
 # BUILD ------------------------------------------------------------------------
-FROM crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION} AS build
+FROM --platform=linux/${IMAGE_ARCH} \
+    crossware.app:5050/public-repos/flutter:${SDK_BASE_VERSION} AS build
 
 ARG IMAGE_ARCH
 ARG APP_ROOT
@@ -43,8 +44,8 @@ RUN flutter-elinux clean; flutter-elinux pub get; flutter-elinux build elinux --
 
 
 # DEPLOY -----------------------------------------------------------------------
-
-FROM crossware.app:5050/public-repos/flutter:${BASE_VERSION}${GPU} AS final
+FROM --platform=linux/${IMAGE_ARCH} \
+    crossware.app:5050/public-repos/flutter:${BASE_VERSION}${GPU} AS final
 
 ARG GPU
 ARG APP_ROOT
