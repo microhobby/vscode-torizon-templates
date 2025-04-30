@@ -282,7 +282,26 @@
             "debugPort": "",
             "debugSSHPort": "",
             "multiContainer": false,
-            "mergeCommon": false,
+            "mergeCommon": {
+                "tasks": [
+                    "check-deps",
+                    "fetch-templates-repo",
+                    "try-update-template",
+                    "try-update-template-accepting-all",
+                    "run-docker-registry",
+                    "run-docker-registry-wsl",
+                    "run-torizon-binfmt",
+                    "run-share-wsl-ports",
+                    "platform-update-fleet",
+                    "fill-pipeline-settings",
+                    "validate-pipeline-settings",
+                    "validate-json-files",
+                    "show-project-documentation"
+                ],
+                "inputs": [
+                    "archList"
+                ]
+            },
             "support": "Toradex",
             "status": "incomplete",
             "customMessage": "Version 3.12.0 of TCB has a known issue with Lockboxes: https://developer-archives.toradex.com/software/torizon/release-details?view=all&key=TOR-3662"
