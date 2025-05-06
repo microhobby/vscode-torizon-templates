@@ -140,31 +140,40 @@ cp -r @(template_folder) @(new_project_path)
 print("✅ Folder copy done!", color=Color.GREEN)
 
 # apply the common tasks and inputs
-if "mergeCommon" not in _template_metadata or _template_metadata['mergeCommon'] != False:
-    print("Applying common tasks ...", color=Color.YELLOW)
+print("Applying common tasks ...", color=Color.YELLOW)
 
-    _f_commontasks = open(f"{template_folder}/../assets/tasks/common.json", "r")
-    _common_tasks = json.load(_f_commontasks)
-    _f_commontasks.close()
+with open(f"{template_folder}/../assets/tasks/common.json", "r") as f:
+    _common_tasks = json.load(f)
 
-    _f_commoninputs = open(f"{template_folder}/../assets/tasks/inputs.json", "r")
-    _common_inputs = json.load(_f_commoninputs)
-    _f_commoninputs.close()
+with open(f"{template_folder}/../assets/tasks/inputs.json", "r") as f:
+    _common_inputs = json.load(f)
 
-    _f_projtasks = open(f"{new_project_path}/.vscode/tasks.json", "r")
-    _proj_tasks = json.load(_f_projtasks)
-    _f_projtasks.close()
+with open(f"{new_project_path}/.vscode/tasks.json", "r") as f:
+    _proj_tasks = json.load(f)
 
-    # merge then
-    _proj_tasks["tasks"] += _common_tasks["tasks"]
-    _proj_tasks["inputs"] += _common_inputs["inputs"]
+merge_config = _template_metadata.get("mergeCommon", {})
+task_labels_to_merge = merge_config.get("tasks", "all")
+input_ids_to_merge = merge_config.get("inputs", "all")
 
-    # write back
-    _f_projtasks = open(f"{new_project_path}/.vscode/tasks.json", "w+")
-    _f_projtasks.write(json.dumps(_proj_tasks, indent=4))
-    _f_projtasks.close()
+def should_merge(item_label, allowed):
+    return allowed == "all" or "all" in allowed or item_label in allowed
 
-    print("✅ Common tasks applied!", color=Color.GREEN)
+merged_tasks = [
+    task for task in _common_tasks.get("tasks", [])
+    if should_merge(task.get("label"), task_labels_to_merge)
+]
+merged_inputs = [
+    input_ for input_ in _common_inputs.get("inputs", [])
+    if should_merge(input_.get("id"), input_ids_to_merge)
+]
+
+_proj_tasks.setdefault("tasks", []).extend(merged_tasks)
+_proj_tasks.setdefault("inputs", []).extend(merged_inputs)
+
+with open(f"{new_project_path}/.vscode/tasks.json", "w") as f:
+    f.write(json.dumps(_proj_tasks, indent=4))
+
+print("✅ Common tasks applied!", color=Color.GREEN)
 
 # we have to also copy the scripts
 cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/

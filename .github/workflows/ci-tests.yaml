@@ -51,3 +51,19 @@ jobs:
 
         run: |
           xonsh ./scripts/validate-json.xsh
+  
+  check-task-duplicates:
+    runs-on: ubuntu-24.04
+    container:
+      image: torizonextras/torizon-dev:dev
+      options: --user root
+    name: Check Task Duplicates
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Task Duplicates
+
+        shell: bash
+
+        run: |
+          xonsh ./scripts/test-duplicates.xsh

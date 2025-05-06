@@ -477,31 +477,41 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/{_template_name}/.vscode/tasks.json") \
     @(f"{project_folder}/.conf/tmp/tasks-next.json")
 
-# tcb also does not need to merge the common tasks
-if "mergeCommon" not in _template_metadata:
-    print("Applying common tasks ...", color=Color.YELLOW)
+print("Applying common tasks ...", color=Color.YELLOW)
 
-    _common_tasks_file = open(f"{os.environ['HOME']}/.apollox/assets/tasks/common.json", "r")
-    _common_tasks = json.loads(_common_tasks_file.read())
-    _common_tasks_file.close()
+with open(f"{os.environ['HOME']}/.apollox/assets/tasks/common.json", "r") as f:
+        _common_tasks = json.load(f)
 
-    _common_inputs_file = open(f"{os.environ['HOME']}/.apollox/assets/tasks/inputs.json", "r")
-    _common_inputs = json.loads(_common_inputs_file.read())
-    _common_inputs_file.close()
+with open(f"{os.environ['HOME']}/.apollox/assets/tasks/inputs.json", "r") as f:
+    _common_inputs = json.load(f)
 
-    _proj_tasks_file = open(f"{project_folder}/.conf/tmp/tasks-next.json", "r")
-    _proj_tasks = json.loads(_proj_tasks_file.read())
-    _proj_tasks_file.close()
+# Load project tasks
+tasks_path = f"{project_folder}/.conf/tmp/tasks-next.json"
+with open(tasks_path, "r") as f:
+    _proj_tasks = json.load(f)
 
-    # merge then
-    _proj_tasks["tasks"] += _common_tasks["tasks"]
-    _proj_tasks["inputs"] += _common_inputs["inputs"]
+# Get merge instructions
+merge_config = _template_metadata.get("mergeCommon", {})
+task_labels_to_merge = merge_config.get("tasks", "all")
+input_ids_to_merge = merge_config.get("inputs", "all")
 
-    # save the new tasks
-    _proj_tasks_file = open(f"{project_folder}/.conf/tmp/tasks-next.json", "w")
-    _proj_tasks_file.write(json.dumps(_proj_tasks, indent=4))
-    _proj_tasks_file.close()
+def should_merge(item_label, allowed):
+    return allowed == "all" or "all" in allowed or item_label in allowed
 
+merged_tasks = [
+    task for task in _common_tasks.get("tasks", [])
+    if should_merge(task.get("label"), task_labels_to_merge)
+]
+merged_inputs = [
+    input_ for input_ in _common_inputs.get("inputs", [])
+    if should_merge(input_.get("id"), input_ids_to_merge)
+]
+
+_proj_tasks.setdefault("tasks", []).extend(merged_tasks)
+_proj_tasks.setdefault("inputs", []).extend(merged_inputs)
+
+with open(tasks_path, "w") as f:
+    f.write(json.dumps(_proj_tasks, indent=4))
 
 # go to the tmp folder
 _old_location = os.getcwd()
