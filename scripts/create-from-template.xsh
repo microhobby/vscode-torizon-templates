@@ -175,6 +175,30 @@ with open(f"{new_project_path}/.vscode/tasks.json", "w") as f:
 
 print("✅ Common tasks applied!", color=Color.GREEN)
 
+print("Applying common settings ...", color=Color.YELLOW)
+
+project_settings_path = f"{new_project_path}/.vscode/settings.json"
+common_settings_path = f"{template_folder}/../assets/settings/common.json"
+
+try:
+    with open(common_settings_path, "r") as f:
+        _common_settings = json.load(f)
+        
+    with open(project_settings_path, "r") as f:
+        _proj_settings = json.load(f)
+        
+except FileNotFoundError:
+    raise FileNotFoundError("Missing settings.json or common.json file.")
+
+# Apply only keys that don't already exist in project settings
+for key, value in _common_settings.items():
+    _proj_settings.setdefault(key, value)
+
+with open(project_settings_path, "w") as f:
+    json.dump(_proj_settings, f, indent=4)
+
+print("✅ Common settings applied!", color=Color.GREEN)
+
 # we have to also copy the scripts
 cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
 cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
