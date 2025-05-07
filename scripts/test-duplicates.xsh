@@ -28,7 +28,7 @@ def load_json(path):
     except FileNotFoundError:
         return None
 
-def is_duplicate(task_a, task_b):
+def is_duplicate_task(task_a, task_b):
     return (
         (
             task_a.get("command") == task_b.get("command") and
@@ -40,10 +40,13 @@ def is_duplicate(task_a, task_b):
         task_a.get("label") == task_b.get("label")
     )
 
-def find_duplicates(project_tasks, common_tasks):
+def is_duplicate_input(input_a, input_b):
+    return input_a.get("id") == input_b.get("id")
+
+def find_duplicates(project_tasks, common_tasks, dup_func):
     duplicates = []
     for task in project_tasks:
-        if any(is_duplicate(task, common_task) for common_task in common_tasks):
+        if any(dup_func(task, common_task) for common_task in common_tasks):
             duplicates.append(task)
     return duplicates
 
@@ -75,8 +78,8 @@ def main():
             project_tasks = project_data.get("tasks", [])
             project_inputs = project_data.get("inputs", [])
 
-            dup_tasks = find_duplicates(project_tasks, common_tasks)
-            dup_inputs = find_duplicates(project_inputs, common_inputs)
+            dup_tasks = find_duplicates(project_tasks, common_tasks, is_duplicate_task)
+            dup_inputs = find_duplicates(project_inputs, common_inputs, is_duplicate_input)
 
             if dup_tasks or dup_inputs:
                 print(f"\n🔁 Duplicates in project: {folder.name}")
