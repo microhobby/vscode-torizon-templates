@@ -303,8 +303,8 @@
                 ]
             },
             "support": "Toradex",
-            "status": "incomplete",
-            "customMessage": "Version 3.12.0 of TCB has a known issue with Lockboxes: https://developer-archives.toradex.com/software/torizon/release-details?view=all&key=TOR-3662"
+            "status": "ok",
+            "customMessage": ""
         },
         {
             "img": "slint-cpp.png",
