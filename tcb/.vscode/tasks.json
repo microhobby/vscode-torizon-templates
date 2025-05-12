@@ -367,5 +367,11 @@
             }
         }
     ],
-    "inputs": []
+    "inputs": [
+        {
+            "id": "dindParam",
+            "type": "promptString",
+            "description": "--dind-param arguments"
+        }
+    ]
 }

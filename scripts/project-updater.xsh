@@ -513,6 +513,26 @@ _proj_tasks.setdefault("inputs", []).extend(merged_inputs)
 with open(tasks_path, "w") as f:
     f.write(json.dumps(_proj_tasks, indent=4))
 
+common_settings_path = f"{os.environ['HOME']}/.apollox/assets/settings/common.json"
+project_settings_path = f"{project_folder}/.conf/tmp/settings-next.json"
+
+try:
+    with open(common_settings_path, "r") as f:
+        _common_settings = json.load(f)
+        
+    with open(project_settings_path, "r") as f:
+        _proj_settings = json.load(f)
+        
+except FileNotFoundError:
+    raise FileNotFoundError("Missing settings.json or common.json file.")
+
+# Apply only keys that don't already exist in project settings
+for key, value in _common_settings.items():
+    _proj_settings.setdefault(key, value)
+
+with open(project_settings_path, "w") as f:
+    json.dump(_proj_settings, f, indent=4)
+
 # go to the tmp folder
 _old_location = os.getcwd()
 os.chdir(f"{project_folder}/.conf/tmp")
