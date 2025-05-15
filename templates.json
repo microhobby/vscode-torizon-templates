@@ -304,7 +304,19 @@
             },
             "support": "Toradex",
             "status": "ok",
-            "customMessage": ""
+            "customMessage": "",
+            "customFields": [
+                {
+                    "id": "branch",
+                    "label": "OSTree Branch Name",
+                    "placeHolder": "myos/custom",
+                    "default": "",
+                    "type": "text",
+                    "validRegex": "^(?!.*(?:^|\\/)(\\.\\.)(?:\\/|$))([A-Za-z0-9._-]+\\/)*[A-Za-z0-9._-]+$",
+                    "errorMessage": "Invalid branch name. Must not start with /, accepts alphanumeric characters, accepts -, _, ., and /",
+                    "description": "OSTree branch name to be used to commit the changes from the TCB project."
+                }
+            ]
         },
         {
             "img": "slint-cpp.png",
