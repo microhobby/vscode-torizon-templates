@@ -118,10 +118,10 @@
             "command": "DOCKER_HOST=",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "VSCODE_CMD": "--verbose images --remove-storage unpack ${command:tcb.outputTEZIFolder}"
-                }
+            "cwd": "${workspaceFolder}",
+            "env": {
+            "VSCODE_CMD": "--verbose images --remove-storage unpack ${command:tcb.outputTEZIFolder}"
+              }
             },
             "args": [
                 "source",
@@ -132,20 +132,20 @@
                 "${config:tcb.version}"
             ],
             "problemMatcher": [
-                "$tsc"
+              "$tsc"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [],
             "icon": {
-                "id": "package",
-                "color": "terminal.ansiYellow"
+              "id": "package",
+              "color": "terminal.ansiYellow"
             },
             "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "tcb-deploy"
+              "echo": true,
+              "reveal": "always",
+              "focus": true,
+              "panel": "shared",
+              "group": "tcb-deploy"
             }
         },
         {
@@ -194,7 +194,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose isolate --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password '${config:torizon_psswd}' --changes-directory ${input:change-dir}"
+                    "VSCODE_CMD": "--verbose isolate --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password '${config:torizon_psswd}' --changes-directory isolated-changes"
                 }
             },
             "args": [
@@ -333,42 +333,6 @@
             }
         },
         {
-            "label": "tcb-images-serve",
-            "detail": "Run the torizoncore-builder command to serve (via HTTP) Torizon OS images from a directory so those images can be installed in a Toradex device using Toradex Easy Installer.",
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "VSCODE_CMD": "--verbose images serve ${config:tcb.teziImagesDir}"
-                }
-            },
-            "args": [
-                "source",
-                "./.conf/tcb-env-setup.sh",
-                "-s",
-                "${workspaceFolder}/storage",
-                "-t",
-                "${config:tcb.version}"
-            ],
-            "problemMatcher": [
-                "$tsc"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [],
-            "icon": {
-                "id": "cloud-upload",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "dedicated",
-                "group": "cloud-related"
-            }
-        },
-        {
             "label": "tcb-platform-provisioning-data-local",
             "detail": "Run the torizoncore-builder command to get the data required for offline secure updates.",
             "command": "DOCKER_HOST=",
@@ -376,7 +340,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose platform provisioning-data --credentials credentials.zip --shared-data SHARED_DATA_FILE"
+                    "VSCODE_CMD": "--verbose platform provisioning-data --credentials credentials.zip --shared-data shared-data.tar.gz"
                 }
             },
             "args": [
@@ -441,11 +405,5 @@
             }
         }
     ],
-    "inputs": [
-        {
-            "id": "change-dir",
-            "type": "promptString",
-            "description": "Container Registry Login"
-        }
-    ]
+    "inputs": []
 }
