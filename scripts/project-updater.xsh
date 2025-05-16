@@ -266,6 +266,12 @@ else:
 _torizonOSMajor = _project_metadata["torizonOSMajor"]
 _template_name = _project_metadata['templateName']
 
+# support to update the custom fields
+_has_custom_fields = _project_metadata.get('hasCustomFields', False)
+_custom_fields = []
+if _has_custom_fields:
+    _custom_fields = _project_metadata['customFields']
+
 # signalize if the user is under a torizonOSMajor not 7
 if _torizonOSMajor != "7":
     print(
@@ -634,7 +640,14 @@ for root, dirs, files in os.walk("."):
             content = f.read()
 
         content = content.replace("__change__", project_name)
-        content = content.replace("__container__", _project_metadata["containerName"])
+
+        if not _has_custom_fields:
+                    content = content.replace("__container__", container_name)
+                else:
+                    # also check for ids from the custom fields
+                    for _field in _custom_fields:
+                        content = content.replace(f"__{_field['id']}__", _field['value'])
+
         content = content.replace("__home__", os.environ["HOME"])
         content = content.replace("__templateFolder__", _template_name)
 

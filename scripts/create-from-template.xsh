@@ -52,6 +52,13 @@ Usage:
 
     [telemetry]         This is a bool like argument. This signals if the script
                         is being used from VS Code extension.
+
+    Exception Behavior:
+
+    --customFields      When this flag is set, the script will be used to
+                        create a new project from a template that has custom
+                        fields.
+
 """
     )
 
@@ -59,6 +66,8 @@ Usage:
 
 
 _old_cwd = os.getcwd()
+_has_custom_fields = False
+_custom_fields = []
 
 template_folder = get_arg_not_empty(1)
 project_name = get_arg_not_empty(2)
@@ -73,6 +82,11 @@ template = get_optional_arg(5, _template)
 vscode = get_optional_arg(6, False)
 telemetry = get_optional_arg(7, True)
 
+
+if "--customFields" in sys.argv:
+    _has_custom_fields = True
+    _custom_fields = json.loads(sys.argv[sys.argv.index("--customFields") + 1])
+
 # the new_project_path need to be a full path
 new_project_path = f"{new_project_path}/{project_name}"
 
@@ -85,6 +99,7 @@ print(f"\tNew Project Path: {new_project_path}")
 print(f"\tTemplate: {template}")
 print(f"\tIs VS Code: {vscode}")
 print(f"\tSend Telemetry: {telemetry}")
+print(f"\tHas Custom Fields: {_has_custom_fields}")
 
 # get the template metadata from ../templates.json
 try:
@@ -286,7 +301,9 @@ _proj_metadata_json = {
     "projectName": project_name,
     "templateName": template,
     "containerName": container_name,
-    "torizonOSMajor": _metadata["TorizonOSMajor"]
+    "torizonOSMajor": _metadata["TorizonOSMajor"],
+    "hasCustomFields": _has_custom_fields,
+    "customFields": _custom_fields
 }
 
 # save the metadata json file
@@ -323,11 +340,20 @@ for item in Path('.').rglob('*'):
                 with open(item, 'r') as file:
                     content = file.read()
                 content = content.replace("__change__", project_name)
-                content = content.replace("__container__", container_name)
+
+                if not _has_custom_fields:
+                    content = content.replace("__container__", container_name)
+                else:
+                    # also check for ids from the custom fields
+                    for _field in _custom_fields:
+                        content = content.replace(f"__{_field['id']}__", _field['value'])
+
                 content = content.replace("__home__", os.environ['HOME'])
                 content = content.replace("__templateFolder__", template)
+
                 with open(item, 'w') as file:
                     file.write(content)
+
             elif "id_rsa.pub" not in str(item):
                 os.chmod(item, 0o400)
 
