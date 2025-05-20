@@ -220,7 +220,7 @@
                 "reveal": "always",
                 "focus": true,
                 "panel": "shared",
-                "group": "tcb-deploy"
+                "group": "tcb-build"
             }
         },
         {
