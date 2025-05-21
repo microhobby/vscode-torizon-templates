@@ -118,10 +118,10 @@
             "command": "DOCKER_HOST=",
             "type": "shell",
             "options": {
-            "cwd": "${workspaceFolder}",
-            "env": {
-            "VSCODE_CMD": "--verbose images --remove-storage unpack ${command:tcb.outputTEZIFolder}"
-              }
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "VSCODE_CMD": "--verbose images --remove-storage unpack ${command:tcb.outputTEZIFolder}"
+                }
             },
             "args": [
                 "source",
