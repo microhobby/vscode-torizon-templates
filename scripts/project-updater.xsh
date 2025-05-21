@@ -525,10 +525,10 @@ project_settings_path = f"{project_folder}/.conf/tmp/settings-next.json"
 try:
     with open(common_settings_path, "r") as f:
         _common_settings = json.load(f)
-        
+
     with open(project_settings_path, "r") as f:
         _proj_settings = json.load(f)
-        
+
 except FileNotFoundError:
     raise FileNotFoundError("Missing settings.json or common.json file.")
 
@@ -642,11 +642,11 @@ for root, dirs, files in os.walk("."):
         content = content.replace("__change__", project_name)
 
         if not _has_custom_fields:
-                    content = content.replace("__container__", container_name)
-                else:
-                    # also check for ids from the custom fields
-                    for _field in _custom_fields:
-                        content = content.replace(f"__{_field['id']}__", _field['value'])
+            content = content.replace("__container__", container_name)
+        else:
+            # also check for ids from the custom fields
+            for _field in _custom_fields:
+                content = content.replace(f"__{_field['id']}__", _field['value'])
 
         content = content.replace("__home__", os.environ["HOME"])
         content = content.replace("__templateFolder__", _template_name)
