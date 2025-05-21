@@ -302,6 +302,18 @@
                     "archList"
                 ]
             },
+            "tests": {
+                "tasks": {
+                    "run-tcb-in-terminal": "Setting up TorizonCore Builder",
+                    "tcb-build": "Build command successfully executed",
+                    "tcb-deploy": "Deploying successfully finished",
+                    "tcb-isolate": "Changes in /etc successfully isolated",
+                    "tcb-platform-push-ostree": "Signed and pushed OSTree package",
+                    "tcb-dto-status": "Enabled overlays over unknown device tree",
+                    "tcb-platform-provisioning-data-local": "successfully generated",
+                    "tcb-platform-provisioning-data-online": "Online provisioning data:"
+                }
+            },
             "support": "Toradex",
             "status": "ok",
             "customMessage": "",
