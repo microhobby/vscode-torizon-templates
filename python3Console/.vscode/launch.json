@@ -6,7 +6,9 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/src/main.py",
-            "preLaunchTask": "host-install-pip-requirements"
+            "preLaunchTask": "host-install-pip-requirements",
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole"
         },
         {
             "name": "Torizon arm32",
@@ -23,6 +25,7 @@
                 "remoteRoot": "${config:torizon_app_root}"
                 }
             ],
+            "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": "deploy-torizon-arm"
         },
         {
@@ -34,6 +37,7 @@
                 "host": "${config:torizon_ip}",
                 "port": "${config:torizon_debug_port1}"
             },
+            "internalConsoleOptions": "openOnSessionStart",
             "pathMappings": [
                 {
                 "localRoot": "${workspaceFolder}",
