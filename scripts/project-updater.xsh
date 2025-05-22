@@ -647,7 +647,7 @@ for root, dirs, files in os.walk("."):
         content = content.replace("__change__", project_name)
 
         if not _has_custom_fields:
-            content = content.replace("__container__", container_name)
+            content = content.replace("__container__", _project_metadata["containerName"])
         else:
             # also check for ids from the custom fields
             for _field in _custom_fields:
