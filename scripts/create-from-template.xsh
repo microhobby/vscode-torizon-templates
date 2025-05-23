@@ -362,8 +362,9 @@ for item in Path('.').rglob('*'):
                 os.chmod(item, 0o400)
 
 
-# the project updater does not need to change the contents
+# remove-dangling-images and project-updater don't require changing contents
 cp -r @(template_folder)/../scripts/project-updater.xsh @(new_project_path)/.conf/
+cp -r @(template_folder)/../scripts/remove-dangling-images.xsh @(new_project_path)/.conf/
 
 # if from vs code we need to replace the inputs
 if vscode != False:
