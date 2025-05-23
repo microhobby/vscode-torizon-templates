@@ -8,7 +8,7 @@ from subprocess import run
 from torizon_templates_utils.colors import Color, print
 
 # Get the Docker host from args
-docker_host = $ARGS[1] if len($ARGS) > 0 else None
+docker_host = $ARGS[1] if len($ARGS) > 1 else None
 
 if not docker_host:
     print("Missing DOCKER_HOST as argument.", color=Color.RED)
