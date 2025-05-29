@@ -69,8 +69,14 @@ print(f"Container Name: {container_name}")
 lock_suffix = sha256(container_name.encode()).hexdigest()[:8]
 lockfile_path = Path(f"/tmp/run-container-lock-{lock_suffix}.lock")
 
-# acquire lock
+# acquire lock with timeout
+max_wait_time = 10  # Maximum wait time in seconds
+start_time = time.time()
 while lockfile_path.exists():
+    elapsed_time = time.time() - start_time
+    if elapsed_time > max_wait_time:
+        print(f"Timeout while waiting for lock on container '{container_name}'", color=Color.RED)
+        raise TimeoutError(f"Failed to acquire lock for container '{container_name}' within {max_wait_time} seconds.")
     print(f"Waiting for lock on container '{container_name}'", color=Color.YELLOW)
     time.sleep(0.5)
 
