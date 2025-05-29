@@ -198,10 +198,10 @@ common_settings_path = f"{template_folder}/../assets/settings/common.json"
 try:
     with open(common_settings_path, "r") as f:
         _common_settings = json.load(f)
-
+        
     with open(project_settings_path, "r") as f:
         _proj_settings = json.load(f)
-
+        
 except FileNotFoundError:
     raise FileNotFoundError("Missing settings.json or common.json file.")
 
@@ -297,17 +297,13 @@ if not os.path.exists(f"{new_project_path}/.gitlab-ci.yml"):
 # template name
 # container name
 # base TOR used when created
-with open(f"{template_folder}/../.git/ORIG_HEAD", "r") as base_template_repo_hash_file:
-    base_template_repo_hash = base_template_repo_hash_file.read().replace("\n", "")
-
 _proj_metadata_json = {
     "projectName": project_name,
     "templateName": template,
     "containerName": container_name,
     "torizonOSMajor": _metadata["TorizonOSMajor"],
     "hasCustomFields": _has_custom_fields,
-    "customFields": _custom_fields,
-    "baseTemplateRepoHash": base_template_repo_hash
+    "customFields": _custom_fields
 }
 
 # save the metadata json file

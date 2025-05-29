@@ -441,22 +441,17 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
     @(f"{project_folder}/.conf/validate-json.xsh")
 
-
-print("✅ always accept new OK", color=Color.GREEN)
-# ----------------------------------------------------------- ALWAYS ACCEPT NEW
-
 # DOCUMENTATION:
-_open_merge_window(
-    f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/README.md",
-    f"{project_folder}/.doc/README.md"
-)
+if not os.path.exists(f"{project_folder}/.doc"):
+    mkdir -p @(f"{project_folder}/.doc")
 
-rsync -av --exclude='README.md' \
+cp -rf \
     @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
     @(f"{project_folder}/.doc/")
 
 
-print("✅ .doc folder", color=Color.GREEN)
+print("✅ always accept new OK", color=Color.GREEN)
+# ----------------------------------------------------------- ALWAYS ACCEPT NEW
 
 
 # now that we have an updated version we can read it
@@ -647,7 +642,7 @@ for root, dirs, files in os.walk("."):
         content = content.replace("__change__", project_name)
 
         if not _has_custom_fields:
-            content = content.replace("__container__", _project_metadata["containerName"])
+            content = content.replace("__container__", container_name)
         else:
             # also check for ids from the custom fields
             for _field in _custom_fields:
@@ -847,12 +842,9 @@ print("✅ specific files OK", color=Color.GREEN)
 rm -rf @(f"{project_folder}/.conf/tmp")
 
 # update metadata.json
-with open(f"{os.environ['HOME']}/.apollox/.git/ORIG_HEAD", "r") as base_template_repo_hash_file:
-    base_template_repo_hash = base_template_repo_hash_file.read().replace("\n", "")
-
-with open(f"{project_folder}/.conf/metadata.json", "w") as _project_metadata_file:
-    _project_metadata["baseTemplateRepoHash"] = base_template_repo_hash
-    _project_metadata["torizonOSMajor"] = _templates_metadata["TorizonOSMajor"]
-    _project_metadata_file.write(json.dumps(_project_metadata, indent=4))
+_project_metadata_file = open(f"{project_folder}/.conf/metadata.json", "w")
+_project_metadata["torizonOSMajor"] = _templates_metadata["TorizonOSMajor"]
+_project_metadata_file.write(json.dumps(_project_metadata, indent=4))
+_project_metadata_file.close()
 
 print("\n✅ Update done", color=Color.GREEN)
