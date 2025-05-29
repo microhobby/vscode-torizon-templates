@@ -19,7 +19,7 @@ import yaml
 import json
 from pathlib import Path
 from collections import defaultdict
-from torizon_templates_utils.colors import print, Colors
+from torizon_templates_utils.colors import print, Color
 
 def base_service_name(service_name):
     for suffix in ['-debug', '-dev', '-test']:
@@ -134,7 +134,7 @@ def suggest_fixes_for_all_ports(all_ports):
                 conflicts.append((i, j, overlap))
 
     if not conflicts:
-        print("✅ No port conflicts detected across docker-compose and settings.json ports.", color=Colors.GREEN)
+        print("✅ No port conflicts detected across docker-compose and settings.json ports.", color=Color.GREEN)
         return all_ports, []
 
     # Collect all conflicting ports across all conflicts (to know where to start reassignment)
@@ -193,7 +193,7 @@ def suggest_fixes_for_all_ports(all_ports):
         base = group["base"] or "settings.json containers.environment"
         ports_desc = ", ".join(f"{p['settingName']}{' (' + p.get('service','') + ')' if 'service' in p else ''}: {p['settingValue']}" for p in group["ports"])
         changes_desc = ", ".join(f"{old} -> {new_port_map[old]}" for old in sorted(new_port_map) if old != new_port_map[old])
-        print(f"⚠️ Port conflict for base '{base}' with ports {ports_desc}. Suggested changes: {changes_desc}", color=Colors.YELLOW)
+        print(f"⚠️ Port conflict for base '{base}' with ports {ports_desc}. Suggested changes: {changes_desc}", color=Color.YELLOW)
 
     return all_ports, suggestions
 
@@ -239,7 +239,7 @@ def suggest_fixes_for_all_ports(all_ports):
                 changed_groups.add(j)
 
     if not changed_groups:
-        print("✅ No port conflicts detected across docker-compose and settings.json ports.", color=Colors.GREEN)
+        print("✅ No port conflicts detected across docker-compose and settings.json ports.", color=Color.GREEN)
         return all_ports, []
 
     used_ports = set()
@@ -270,7 +270,7 @@ def suggest_fixes_for_all_ports(all_ports):
         group = port_groups[idx]
         base = group["base"] or "settings.json containers.environment"
         ports_desc = ", ".join(f"{p['settingName']}{' (' + p.get('service','') + ')' if 'service' in p else ''}: {p['settingValue']}" for p in group["ports"])
-        print(f"⚠️ Port conflict for base '{base}' with ports {ports_desc}. Suggested new port: {new_port}", color=Colors.YELLOW)
+        print(f"⚠️ Port conflict for base '{base}' with ports {ports_desc}. Suggested new port: {new_port}", color=Color.YELLOW)
 
     return all_ports, suggestions
 
@@ -301,7 +301,7 @@ def apply_suggestions(suggestions):
 
             with open(path, 'w') as f:
                 json.dump(content, f, indent=4)
-            print(f"Applied changes to {path}", color=Colors.GREEN)
+            print(f"Applied changes to {path}", color=Color.GREEN)
 
         elif info["type"] == "yaml":
             for p, old_val, new_val in info["changes"]:
@@ -321,25 +321,25 @@ def apply_suggestions(suggestions):
 
             with open(path, 'w') as f:
                 yaml.dump(content, f, sort_keys=False)
-            print(f"Applied changes to {path}", color=Colors.GREEN)
+            print(f"Applied changes to {path}", color=Color.GREEN)
 
 def ask_and_apply_suggestions(suggestions):
     if not suggestions:
-        print("No suggestions to apply.", color=Colors.GREEN)
+        print("No suggestions to apply.", color=Color.GREEN)
         return
 
-    print("\nSuggested port changes:", color=Colors.YELLOW)
+    print("\nSuggested port changes:", color=Color.YELLOW)
     for p, old_val, new_val in suggestions:
         folder = p.get("folder", "?")
         service = p.get("service") or "settings.json"
         setting_name = p["settingName"]
-        print(f"- {folder} / {service} / {setting_name} : {old_val} -> {new_val}", color=Colors.YELLOW)
+        print(f"- {folder} / {service} / {setting_name} : {old_val} -> {new_val}", color=Color.YELLOW)
 
     ans = input("Apply these changes? (y/N): ").strip().lower()
     if ans == 'y':
         apply_suggestions(suggestions)
     else:
-        print("No changes applied.", color=Colors.YELLOW)
+        print("No changes applied.", color=Color.YELLOW)
 
 def main():
     root_path = Path.cwd()
@@ -355,7 +355,7 @@ def main():
                 workspace_folders.append(entry)
 
     if not workspace_folders:
-        print("No workspace folders with docker-compose or settings.json found.", color=Colors.RED)
+        print("No workspace folders with docker-compose or settings.json found.", color=Color.RED)
         return
 
     all_ports = gather_all_ports(workspace_folders)
