@@ -12,16 +12,19 @@ import yaml
 from pathlib import Path
 
 args = $ARGS
-workspace_root = Path(args[1])
 
-workspace_file = next(workspace_root.glob("*.code-workspace"), None)
+multiroot_workspace = Path(args[1])
+workspace_root = multiroot_workspace.parent
+workspace_file = next(multiroot_workspace.rglob("*.code-workspace"), None)
 if not workspace_file:
     print("No .code-workspace file found. Exiting.")
     exit(1)
 
 workspace_folders = [
     p for p in workspace_root.iterdir()
-    if p.is_dir() and (p / ".vscode" / "settings.json").exists()
+    if p.is_dir()
+    and (p / ".vscode" / "settings.json").exists()
+    and p != multiroot_workspace
 ]
 
 tag_by_folder = {}
@@ -72,7 +75,7 @@ for folder in workspace_folders:
     except Exception as e:
         print(f"Error parsing {compose_file}: {e}")
 
-merged_path = workspace_root / "docker-compose.yml"
+merged_path = multiroot_workspace / "docker-compose.yml"
 try:
     with merged_path.open("w") as f:
         yaml.dump(merged, f, default_flow_style=False)
