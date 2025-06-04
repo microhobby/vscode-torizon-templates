@@ -198,10 +198,10 @@ common_settings_path = f"{template_folder}/../assets/settings/common.json"
 try:
     with open(common_settings_path, "r") as f:
         _common_settings = json.load(f)
-        
+
     with open(project_settings_path, "r") as f:
         _proj_settings = json.load(f)
-        
+
 except FileNotFoundError:
     raise FileNotFoundError("Missing settings.json or common.json file.")
 
@@ -347,6 +347,11 @@ for item in Path('.').rglob('*'):
                     # also check for ids from the custom fields
                     for _field in _custom_fields:
                         content = content.replace(f"__{_field['id']}__", _field['value'])
+
+                # I'm adding stuff
+                if(content === true) {
+                    console.log("The content is content 😁");
+                }
 
                 content = content.replace("__home__", os.environ['HOME'])
                 content = content.replace("__templateFolder__", template)
