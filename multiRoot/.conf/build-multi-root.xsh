@@ -1,16 +1,12 @@
-
 # Copyright (c) 2025 Toradex
 # SPDX-License-Identifier: MIT
 
 ##
-# This script is used to build the multi-root files.
+# This script is used to build or update the multi-root files.
 ##
 
-# use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
-# Get the full log of error
 $XONSH_SHOW_TRACEBACK = True
-# this script should handle the subprocess errors
 $RAISE_SUBPROC_ERROR = True
 
 import os
@@ -21,39 +17,47 @@ import yaml
 import subprocess
 
 args = $ARGS
-home = Path.home()  
+home = Path.home()
 location_folder_join = Path(args[1])
 obj_rec = json.loads(args[2])
 project_name = obj_rec["Name"]
 project_folder = location_folder_join / project_name
 
-# Copy docker-compose.yml
-shutil.copy2(
-    home / ".apollox" / "empty" / "docker-compose.yml",
-    project_folder / "docker-compose.yml"
-)
+# Compose path
+compose_path = project_folder / "docker-compose.yml"
+compose_template_path = home / ".apollox" / "empty" / "docker-compose.yml"
 
-workspace_file = project_folder / "multiRoot.code-workspace"
-workspace_file = workspace_file.rename(project_folder / f"{project_name}.code-workspace")
+# Only create docker-compose.yml if it doesn't exist
+if not compose_path.exists():
+    shutil.copy2(compose_template_path, compose_path)
 
-# Load code-workspace
+# Workspace file
+workspace_file = project_folder / f"{project_name}.code-workspace"
+if not workspace_file.exists():
+    workspace_file_orig = project_folder / "multiRoot.code-workspace"
+    if workspace_file_orig.exists():
+        workspace_file_orig.rename(workspace_file)
+
 with open(workspace_file, "r") as f:
     code_workspace = json.load(f)
 
-# Load and reset top-level docker-compose
-with open(project_folder / "docker-compose.yml", "r") as f:
-    compose_yaml = yaml.safe_load(f)
-compose_yaml["services"] = {}
+# Reset folders and compounds
+code_workspace["folders"] = []
+code_workspace["launch"]["compounds"][0]["configurations"] = []
+code_workspace["launch"]["compounds"][1]["configurations"] = []
+code_workspace["settings"]["files.exclude"] = {}
 
-# Optionally add TCB folder
-if obj_rec["WithTCB"]:
+# Add TCB folder if requested
+if obj_rec.get("WithTCB"):
     code_workspace["folders"].append({
         "path": f"../{project_name.lower()}-os"
     })
 
-# Add single container project folders to
-# files.exclude setting, to avoid showing them
-# duplicated in the workspace
+# Load and reset compose YAML
+with open(compose_path, "r") as f:
+    compose_yaml = yaml.safe_load(f) or {}
+compose_yaml["services"] = {}
+
 factor = 0
 port_keys = [
     "torizon_debug_port",
@@ -61,6 +65,8 @@ port_keys = [
     "torizon_debug_port2",
     "torizon_debug_port3"
 ]
+
+# Add project templates
 for template in obj_rec["Projects"]:
     factor += 1
     template_name = template["Name"]
@@ -69,28 +75,24 @@ for template in obj_rec["Projects"]:
         "path": f"../{template_name}"
     })
 
-    code_workspace["settings"].setdefault("files.exclude", {}).update({
-        template_name: True
-    })
+    code_workspace["settings"].setdefault("files.exclude", {})[template_name] = True
 
     if template_name != project_name:
         code_workspace["launch"]["compounds"][0]["configurations"].append({
             "folder": template_name,
             "name": "Torizon arm64"
         })
-
         code_workspace["launch"]["compounds"][1]["configurations"].append({
             "folder": template_name,
             "name": "Torizon arm32"
         })
 
-        # Update .vscode/settings.json
-        settings_path = location_folder_join / template_name / ".vscode" / "settings.json"
+    settings_path = location_folder_join / template_name / ".vscode" / "settings.json"
+    if settings_path.exists():
         with open(settings_path, "r") as f:
             settings_json = json.load(f)
 
-        if "torizon_workspace" in settings_json:
-            del settings_json["torizon_workspace"]
+        settings_json.pop("torizon_workspace", None)
 
         if "wait_sync" in settings_json:
             try:
@@ -98,7 +100,6 @@ for template in obj_rec["Projects"]:
                 settings_json["wait_sync"] = ws + factor
             except ValueError:
                 pass
-
 
         for key in port_keys:
             val = settings_json.get(key)
@@ -111,18 +112,18 @@ for template in obj_rec["Projects"]:
         with open(settings_path, "w") as f:
             json.dump(settings_json, f, indent=4)
 
-        # Merge docker-compose services
-        template_compose_path = location_folder_join / template_name / "docker-compose.yml"
+    # Merge services
+    template_compose_path = location_folder_join / template_name / "docker-compose.yml"
+    if template_compose_path.exists():
         with open(template_compose_path, "r") as f:
             compose_item_yaml = yaml.safe_load(f) or {}
-
-        for service, config in compose_item_yaml.get("services", {}).items():
-            # Remove 'build' key if it contains a dockerfile
+        services = compose_item_yaml.get("services") or {}
+        for service, config in services.items():
             if "build" in config and "dockerfile" in config["build"]:
                 del config["build"]
             compose_yaml["services"][service] = config
 
-# Replace ${workspaceFolder} in task args and cwd with ${workspaceFolder:project_name}
+# Replace ${workspaceFolder} placeholders in task args and cwd with ${workspaceFolder:project_name}
 for task in code_workspace.get("tasks", {}).get("tasks", []):
     if "args" in task:
         task["args"] = [
@@ -130,21 +131,18 @@ for task in code_workspace.get("tasks", {}).get("tasks", []):
             if isinstance(arg, str) else arg
             for arg in task["args"]
         ]
-
     if "options" in task and isinstance(task["options"], dict):
         cwd = task["options"].get("cwd")
         if isinstance(cwd, str):
             task["options"]["cwd"] = cwd.replace("${workspaceFolder}", f"${{workspaceFolder:{project_name}}}")
 
-# Write updated docker-compose
-with open(project_folder / "docker-compose.yml", "w") as f:
+# Save updated files
+with open(compose_path, "w") as f:
     yaml.dump(compose_yaml, f)
 
-# Write updated workspace
 with open(workspace_file, "w") as f:
     json.dump(code_workspace, f, indent=4)
 
-# Run check-single-projects-conflicts.xsh
+# Run conflict check
 cmd = f'xonsh "{project_folder}/.conf/check-single-projects-conflicts.xsh" -acceptAll 1'
 subprocess.run(cmd, shell=True)
-
