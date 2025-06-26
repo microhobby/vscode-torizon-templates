@@ -324,7 +324,7 @@
             "language": "YAML",
             "debugPort": "",
             "debugSSHPort": "",
-            "multiContainer": false,
+            "multiContainer": true,
             "mergeCommon": {
                 "tasks": [
                     "check-deps",
