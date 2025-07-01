@@ -194,18 +194,23 @@ print("✅ Common tasks applied!", color=Color.GREEN)
 print("Applying common settings ...", color=Color.YELLOW)
 
 code_workspace_config = _template_metadata.get("codeWorkspace", False)
-project_settings_path = f"{new_project_path}/.vscode/settings.json" if not code_workspace_config else f"{new_project_path}/multiRoot.code-workspace"
 common_settings_path = f"{template_folder}/../assets/settings/common.json"
+if not code_workspace_config:
+    project_settings_path = f"{new_project_path}/.vscode/settings.json"
+else:
+    project_settings_path = f"{new_project_path}/multiRoot.code-workspace"
 
 try:
     with open(common_settings_path, "r") as f:
         _common_settings = json.load(f)
-        
+except FileNotFoundError:
+    raise FileNotFoundError("Missing common.json file.")
+
+try:
     with open(project_settings_path, "r") as f:
         _proj_settings = json.load(f)
-        
 except FileNotFoundError:
-    raise FileNotFoundError("Missing settings.json or .code-workspace or common.json file.")
+    raise FileNotFoundError("Missing settings.json or .code-workspace.")
 
 # Apply only keys that don't already exist in project settings
 if code_workspace_config:
