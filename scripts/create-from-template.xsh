@@ -226,8 +226,9 @@ with open(project_settings_path, "w") as f:
 
 print("✅ Common settings applied!", color=Color.GREEN)
 
-ignore_scripts = _template_metadata.get("ignoreCommonScripts", False)
-if not ignore_scripts:
+# If scripts not specified, copy common scripts
+template_scripts = _template_metadata.get("scripts")
+if template_scripts is None:
     # we have to also copy the scripts
     cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
@@ -242,6 +243,9 @@ if not ignore_scripts:
     cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
+else:
+    for script in template_scripts:
+        cp -r @(os.path.join(template_folder, "..", "scripts", script)) @(os.path.join(new_project_path, ".conf"))
 
 # torizonPackages.json fixups
 ignore_torizon_packages = _template_metadata.get("ignoreTorizonPackages", False)

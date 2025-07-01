@@ -25,7 +25,13 @@
                 "inputs": []
             },
             "codeWorkspace": true,
-            "ignoreCommonScripts": true,
+            "scripts": [
+                "build-multi-root.xsh",
+                "check-single-projects-conflicts.xsh",
+                "create-multi-root-docker-compose.xsh",
+                "merge-docker-compose.xsh",
+                "multi-root-tasks.xsh"
+            ],
             "ignoreTorizonPackages": true,
             "support": "Toradex",
             "status": "ok",
