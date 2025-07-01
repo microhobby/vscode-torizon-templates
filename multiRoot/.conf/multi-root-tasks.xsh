@@ -22,6 +22,7 @@ if len(args) < 2:
 task_names = args[1:]
 
 script_dir = Path(__file__).resolve().parent
+# Traverse two levels up to locate the top-level directory containing all workspaces.
 top_level = script_dir.parent.parent
 original_dir = Path.cwd()
 
