@@ -5,4 +5,4 @@ services:
       dockerfile: Dockerfile
     image: ${DOCKER_LOGIN}/__container__:${TAG}
     profiles:
-    - release
+      - release
