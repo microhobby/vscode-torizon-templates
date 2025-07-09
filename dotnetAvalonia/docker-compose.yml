@@ -83,3 +83,4 @@ services:
       - "c 253:* rmw"
     profiles:
       - release
+      - debug

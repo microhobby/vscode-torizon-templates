@@ -88,3 +88,4 @@ services:
       - "c 226:* rmw"
     profiles:
       - release
+      - debug
