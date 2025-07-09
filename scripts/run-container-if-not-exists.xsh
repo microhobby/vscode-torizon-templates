@@ -21,6 +21,7 @@ $DOCKER_HOST = ""
 import os
 import argparse
 import time
+from json import loads
 from hashlib import sha256
 from pathlib import Path
 from xonsh.procs.pipelines import CommandPipeline
@@ -91,9 +92,25 @@ try:
     if _exec_container_info.returncode == 0:
         print(f"Container {container_name} already created")
         print(f"Checking if container {container_name} is running...")
+        container_info = loads(_exec_container_info.out)[0]
+        state = container_info["State"]["Status"]
+
+        if state != "running":
+            print(f"Container {container_name} exists but is not running. Restarting it...", color=Color.YELLOW)
+
+            start_result = !(@(container_runtime) start @(container_name))
+
+            if start_result.returncode != 0:
+                print(f"Failed to start container {container_name}. Attempting to remove and recreate...", color=Color.RED)
+                !(@(container_runtime) rm -f @(container_name))
+                evalx(f"{container_runtime} run --name {container_name} {run_arguments}")
+            else:
+                print(f"Successfully started container {container_name}.", color=Color.GREEN)
+        else:
+            print(f"Container {container_name} is already running.", color=Color.GREEN)
     else:
         if "No such container" in _exec_container_info.err:
-            print("Container does not exist. Starting ...")
+            print("Container does not exist. Starting ...", color=Color.YELLOW)
             print(f"Cmd: {container_runtime} run --name {container_name} {run_arguments}")
             evalx(f"{container_runtime} run --name {container_name} {run_arguments}")
 
