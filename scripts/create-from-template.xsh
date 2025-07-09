@@ -190,51 +190,66 @@ with open(f"{new_project_path}/.vscode/tasks.json", "w") as f:
 
 print("✅ Common tasks applied!", color=Color.GREEN)
 
+
 print("Applying common settings ...", color=Color.YELLOW)
 
-project_settings_path = f"{new_project_path}/.vscode/settings.json"
+code_workspace_config = _template_metadata.get("codeWorkspace", False)
 common_settings_path = f"{template_folder}/../assets/settings/common.json"
+if not code_workspace_config:
+    project_settings_path = f"{new_project_path}/.vscode/settings.json"
+else:
+    project_settings_path = f"{new_project_path}/multiRoot.code-workspace"
 
 try:
     with open(common_settings_path, "r") as f:
         _common_settings = json.load(f)
-        
+except FileNotFoundError:
+    raise FileNotFoundError("Missing common.json file.")
+
+try:
     with open(project_settings_path, "r") as f:
         _proj_settings = json.load(f)
-        
 except FileNotFoundError:
-    raise FileNotFoundError("Missing settings.json or common.json file.")
+    raise FileNotFoundError("Missing settings.json or .code-workspace.")
 
 # Apply only keys that don't already exist in project settings
-for key, value in _common_settings.items():
-    _proj_settings.setdefault(key, value)
+if code_workspace_config:
+    _proj_settings.setdefault("settings", {})
+    for key, value in _common_settings.items():
+        _proj_settings["settings"].setdefault(key, value)
+else:
+    for key, value in _common_settings.items():
+        _proj_settings.setdefault(key, value)
 
 with open(project_settings_path, "w") as f:
     json.dump(_proj_settings, f, indent=4)
 
 print("✅ Common settings applied!", color=Color.GREEN)
 
-# we have to also copy the scripts
-cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/share-wsl-ports.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/docker-login.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/create-docker-compose-production.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/torizon-packages.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/.vscode/tasks.xsh @(new_project_path)/.vscode/
-cp -r @(template_folder)/../scripts/bash/tcb-env-setup.sh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/torizon-io.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/check-ci-env.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
-cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
-
-
-template_name = os.path.basename(template_folder)
+# If scripts not specified, copy common scripts
+template_scripts = _template_metadata.get("scripts")
+if template_scripts is None:
+    # we have to also copy the scripts
+    cp -r @(template_folder)/../scripts/check-deps.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/run-container-if-not-exists.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/share-wsl-ports.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/docker-login.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/create-docker-compose-production.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/torizon-packages.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/.vscode/tasks.xsh @(new_project_path)/.vscode/
+    cp -r @(template_folder)/../scripts/bash/tcb-env-setup.sh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/torizon-io.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/check-ci-env.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
+else:
+    for script in template_scripts:
+        cp -r @(os.path.join(template_folder, "..", "scripts", script)) @(os.path.join(new_project_path, ".conf"))
 
 # torizonPackages.json fixups
-# TCB template does not use it
-if template_name != "tcb":
+ignore_torizon_packages = _template_metadata.get("ignoreTorizonPackages", False)
+if not ignore_torizon_packages:
     _tor_package_json_file = open(f"{template_folder}/../assets/json/torizonPackages.json", "r")
     _tor_package_json = json.load(_tor_package_json_file)
     _tor_package_json_file.close()

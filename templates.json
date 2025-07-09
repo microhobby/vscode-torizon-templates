@@ -13,6 +13,55 @@
             "customMessage": ""
         },
         {
+            "img": "genericTemplate.png",
+            "folder": "multiRoot",
+            "hide": true,
+            "description": "Generic Multiroot Template",
+            "runtime": "None",
+            "language": "None",
+            "multiContainer": true,
+            "mergeCommon": {
+                "tasks": [],
+                "inputs": []
+            },
+            "codeWorkspace": true,
+            "scripts": [
+                "build-multi-root.xsh",
+                "check-single-projects-conflicts.xsh",
+                "create-multi-root-docker-compose.xsh",
+                "merge-docker-compose.xsh",
+                "multi-root-tasks.xsh"
+            ],
+            "ignoreTorizonPackages": true,
+            "support": "Toradex",
+            "status": "ok",
+            "customMessage": "",
+            "tests": {
+                "tasks": {
+                    "check-single-projects-conflicts": {
+                        "output": "No port conflicts detected across docker-compose and settings.json ports."
+                    },
+                    "create-production-docker-compose": {
+                        "output": "Combined docker-compose.prod.yml written",
+                        "inputBoxes": {
+                            "Container registry (leave empty for Dockerhub)": "",
+                            "Docker registry user login": "TEST_DOCKERHUB_LOGIN",
+                            "Docker registry password or token": "TEST_DOCKERHUB_PASSWORD",
+                            "Container architecture": "TEST_DEVICE_ARCH"
+                        }
+                    },
+                    "run-containers-release-arm": {
+                        "output": "Enable Watch",
+                        "arch": "arm"
+                    },
+                    "run-containers-release-arm64": {
+                        "output": "Enable Watch",
+                        "arch": "arm64"
+                    }
+                }
+            }
+        },
+        {
             "img": "dotnetconsole.png",
             "folder": "dotnetConsole",
             "description": ".NET 8 C# Console Application",
@@ -281,7 +330,7 @@
             "language": "YAML",
             "debugPort": "",
             "debugSSHPort": "",
-            "multiContainer": false,
+            "multiContainer": true,
             "mergeCommon": {
                 "tasks": [
                     "check-deps",
@@ -304,16 +353,37 @@
             },
             "tests": {
                 "tasks": {
-                    "run-tcb-in-terminal": "Setting up TorizonCore Builder",
-                    "tcb-build": "Build command successfully executed",
-                    "tcb-deploy": "Deploying successfully finished",
-                    "tcb-isolate": "Changes in /etc successfully isolated",
-                    "tcb-platform-push-ostree": "Signed and pushed OSTree package",
-                    "tcb-dto-status": "Enabled overlays over unknown device tree",
-                    "tcb-platform-provisioning-data-local": "successfully generated",
-                    "tcb-platform-provisioning-data-online": "Online provisioning data:"
+                    "run-tcb-in-terminal": {
+                        "output": "Setting up TorizonCore Builder"
+                    },
+                    "tcb-build": {
+                        "output": "Build command successfully executed"
+                    },
+                    "tcb-deploy": {
+                        "output": "Deploying successfully finished"
+                    },
+                    "tcb-isolate": {
+                        "output": "Changes in /etc successfully isolated"
+                    },
+                    "tcb-platform-push-ostree": {
+                        "output": "Signed and pushed OSTree package",
+                        "inputBoxes": {
+                            "Torizon Platform API v2 Client ID": "TEST_TORIZON_CLOUD_ID",
+                            "Torizon Platform API v2 Secret": "TEST_TORIZON_CLOUD_SECRET"
+                        }
+                    },
+                    "tcb-dto-status": {
+                        "output": "Enabled overlays over unknown device tree"
+                    },
+                    "tcb-platform-provisioning-data-local": {
+                        "output": "successfully generated"
+                    },
+                    "tcb-platform-provisioning-data-online": {
+                        "output": "Online provisioning data:"
+                    }
                 }
             },
+            "ignoreTorizonPackages": true,
             "support": "Toradex",
             "status": "ok",
             "customMessage": "",
