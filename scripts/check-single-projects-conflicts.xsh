@@ -342,15 +342,12 @@ def ask_and_apply_suggestions(suggestions):
         print("No changes applied.", color=Color.YELLOW)
 
 def main():
-    root_path = Path.cwd().parent
+    args = $ARGS
+    root_path = Path(args[1]).resolve()
     workspace_folders = []
 
     # Detect workspace folders (folders with docker-compose.yml or .vscode/settings.json)
     for entry in root_path.iterdir():
-        # We don't want to check the multi-root folder
-        if entry == Path.cwd():
-            continue
-
         if entry.is_dir():
             dc_yml = entry / "docker-compose.yml"
             dc_yaml = entry / "docker-compose.yaml"

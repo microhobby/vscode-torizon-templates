@@ -21,7 +21,7 @@ home = Path.home()
 location_folder_join = Path(args[1])
 obj_rec = json.loads(args[2])
 project_name = obj_rec["Name"]
-project_folder = location_folder_join / project_name
+project_folder = location_folder_join
 
 # Compose path
 compose_path = project_folder / "docker-compose.yml"
@@ -47,12 +47,6 @@ code_workspace["launch"]["compounds"][0]["configurations"] = []
 code_workspace["launch"]["compounds"][1]["configurations"] = []
 code_workspace["settings"]["files.exclude"] = {}
 
-# Add TCB folder if requested
-if obj_rec.get("WithTCB"):
-    code_workspace["folders"].append({
-        "path": f"../{project_name.lower()}-os"
-    })
-
 # Load and reset compose YAML
 with open(compose_path, "r") as f:
     compose_yaml = yaml.safe_load(f) or {}
@@ -72,10 +66,11 @@ for template in obj_rec["Projects"]:
     template_name = template["Name"]
 
     code_workspace["folders"].append({
-        "path": f"../{template_name}"
+        "path": f"{'.' if project_name == template_name else template_name}"
     })
 
-    code_workspace["settings"].setdefault("files.exclude", {})[template_name] = True
+    if template_name != project_name:
+        code_workspace["settings"].setdefault("files.exclude", {})[template_name] = True
 
     if template_name != project_name:
         code_workspace["launch"]["compounds"][0]["configurations"].append({
@@ -144,5 +139,5 @@ with open(workspace_file, "w") as f:
     json.dump(code_workspace, f, indent=4)
 
 # Run conflict check
-cmd = f'xonsh "{project_folder}/.conf/check-single-projects-conflicts.xsh" -acceptAll 1'
+cmd = f'xonsh "{project_folder}/.conf/check-single-projects-conflicts.xsh" {project_folder} -acceptAll 1'
 subprocess.run(cmd, shell=True)

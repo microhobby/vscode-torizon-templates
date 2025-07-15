@@ -21,7 +21,7 @@
             "language": "None",
             "multiContainer": true,
             "mergeCommon": {
-                "tasks": [],
+                "tasks": ["wait-a-bit"],
                 "inputs": []
             },
             "codeWorkspace": true,

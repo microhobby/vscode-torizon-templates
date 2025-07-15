@@ -29,7 +29,8 @@
 				"command": "xonsh",
 				"type": "process",
 				"args": [
-					"${workspaceFolder}/.conf/check-single-projects-conflicts.xsh"
+					"${workspaceFolder}/.conf/check-single-projects-conflicts.xsh",
+					"${workspaceFolder}"
 				],
 				"dependsOrder": "sequence",
 				"icon": {
@@ -125,7 +126,7 @@
 					"UserKnownHostsFile=/dev/null",
 					"-o",
 					"StrictHostKeyChecking=no",
-					"${command:torizon_workspace}/docker-compose.yml",
+					"${workspaceFolder}/docker-compose.yml",
 					"torizon@${config:torizon_ip}:~/"
 				],
 				"dependsOrder": "sequence",

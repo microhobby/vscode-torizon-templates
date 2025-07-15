@@ -17,6 +17,7 @@ $RAISE_SUBPROC_ERROR = True
 import os
 import sys
 import json
+from glob import glob
 from pathlib import Path
 from typing import TypeVar
 from xonsh.procs.pipelines import CommandPipeline
@@ -155,7 +156,14 @@ else:
 
 # create the copy
 print("Creating from template ...", color=Color.YELLOW)
-cp -r @(template_folder) @(new_project_path)
+if _template == "multiRoot":
+    files_to_copy = glob(template_folder + '/*') + [
+        f for f in glob(template_folder + '/.*')
+        if os.path.basename(f) not in ('.', '..')
+    ]
+    cp -r @(files_to_copy) @(new_project_path)
+else:
+    cp -r @(template_folder) @(new_project_path)
 print("✅ Folder copy done!", color=Color.GREEN)
 
 # apply the common tasks and inputs
