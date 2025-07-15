@@ -1818,6 +1818,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
+                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-arm64",
                 "copy-docker-compose",
@@ -1825,6 +1826,7 @@
                 "build-container-torizon-release-arm64",
                 "push-container-torizon-release-arm64",
                 "pull-container-torizon-release-arm64",
+                "template-specific-final-task",
                 "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
@@ -1864,6 +1866,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
+                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-arm",
                 "copy-docker-compose",
@@ -1871,6 +1874,7 @@
                 "build-container-torizon-release-arm",
                 "push-container-torizon-release-arm",
                 "pull-container-torizon-release-arm",
+                "template-specific-final-task",
                 "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
@@ -1910,6 +1914,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
+                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-amd64",
                 "copy-docker-compose",
@@ -1917,6 +1922,7 @@
                 "build-container-torizon-release-amd64",
                 "push-container-torizon-release-amd64",
                 "pull-container-torizon-release-amd64",
+                "template-specific-final-task",
                 "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
@@ -1926,6 +1932,64 @@
             },
             "presentation": {
                 "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "template-specific-initial-task",
+            "detail": "Specific task to be executed on the beginning of the release pipeline",
+            "command": "echo",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "'No specific initial task defined for this template'"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+            ],
+            "icon": {
+                "id": "notebook",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "template-specific-final-task",
+            "detail": "Specific task to be executed on the end of the release pipeline",
+            "command": "echo",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "'No specific final task defined for this template'"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+            ],
+            "icon": {
+                "id": "notebook",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": false,
                 "reveal": "always",
                 "focus": true,
                 "panel": "shared",

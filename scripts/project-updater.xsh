@@ -510,6 +510,19 @@ input_ids_to_merge = merge_config.get("inputs", "all")
 def should_merge(item_label, allowed):
     return allowed == "all" or "all" in allowed or item_label in allowed
 
+# Check if template-specific tasks are on the template's tasks.json
+# If so, we need to exclude them from the merge list (that is, not add the ones that are on common.json)
+template_specific_tasks = ["template-specific-initial-task", "template-specific-final-task"]
+existing_template_tasks = {task.get("label") for task in _proj_tasks.get("tasks", [])}
+tasks_to_exclude = [task for task in template_specific_tasks if task in existing_template_tasks]
+
+if tasks_to_exclude:
+    if task_labels_to_merge == "all":
+        # Convert "all" to explicit list
+        task_labels_to_merge = [task.get("label") for task in _common_tasks.get("tasks", [])]
+    # Remove tasks listed in tasks_to_exclude
+    task_labels_to_merge = [label for label in task_labels_to_merge if label not in tasks_to_exclude]
+
 merged_tasks = [
     task for task in _common_tasks.get("tasks", [])
     if should_merge(task.get("label"), task_labels_to_merge)
