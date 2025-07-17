@@ -801,6 +801,58 @@
             }
         },
         {
+            "label": "create-store-folder",
+            "detail": "",
+            "hide": true,
+            "command": "mkdir",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "-p",
+                ".store-__container__"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "store-local-debug",
+            "detail": "",
+            "hide": true,
+            "command": "DOCKER_HOST=",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/.store-__container__"
+            },
+            "args": [
+                "docker",
+                "save",
+                "localhost:5002/__container__-debug:${config:torizon_arch}",
+                "|",
+                "tar",
+                "-xvf",
+                "-"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "sync-store-debug",
+            "detail": "",
+            "hide": true,
+            "command": "sshpass",
+            "type": "shell",
+            "args": [
+                "-p",
+                "${config:torizon_psswd}",
+                "rsync",
+                "-av",
+                "--progress",
+                ".store-__container__/",
+                "${config:torizon_login}@${config:torizon_ip}:/home/${config:torizon_login}/.store-__container__"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
             "label": "build-container-torizon-debug-arm64",
             "detail": "",
             "hide": true,
@@ -809,7 +861,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "arm64",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
@@ -1122,7 +1174,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "arm64",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
@@ -1188,142 +1240,31 @@
             }
         },
         {
-            "label": "pull-container-torizon-debug-arm64",
+            "label": "pull-container-torizon-debug",
             "detail": "",
             "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "command": "sshpass",
             "type": "shell",
             "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=arm64",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "pull",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "wait-a-bit"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-pull",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "pull-container-torizon-debug-arm",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=arm",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "pull",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "wait-a-bit"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-pull",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "pull-container-torizon-debug-amd64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=amd64",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "pull",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "wait-a-bit"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-pull",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "run-container-torizon-debug-arm64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=arm64",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
                 "-p",
-                "torizon",
-                "up",
-                "-d",
-                "__container__-debug"
+                "${config:torizon_psswd}",
+                "ssh",
+                "-o",
+                "UserKnownHostsFile=/dev/null",
+                "-o",
+                "StrictHostKeyChecking=no",
+                "${config:torizon_login}@${config:torizon_ip}",
+                "cd /home/${config:torizon_login} && tar cf - -C .store-__container__/ . | docker load"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "wait-a-bit"
+                "create-store-folder",
+                "store-local-debug",
+                "sync-store-debug"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
-                "id": "debug-alt",
+                "id": "repo-pull",
                 "color": "terminal.ansiYellow"
             },
             "presentation": {
@@ -1335,53 +1276,14 @@
             }
         },
         {
-            "label": "run-container-torizon-debug-arm",
+            "label": "run-container-torizon-debug",
             "detail": "",
             "hide": true,
             "command": "DOCKER_HOST=${config:torizon_ip}:2375",
             "type": "shell",
             "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=arm",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "-p",
-                "torizon",
-                "up",
-                "-d",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "wait-a-bit"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "debug-alt",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "run-container-torizon-debug-amd64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "TAG=amd64",
+                "LOCAL_REGISTRY=localhost",
+                "TAG=${config:torizon_arch}",
                 "GPU=${config:torizon_gpu}",
                 "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
                 "DEBUG_PORT1=${config:torizon_debug_port1}",
