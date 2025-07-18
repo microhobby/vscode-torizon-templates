@@ -22,7 +22,7 @@ if len(args) < 2:
 task_names = args[1:]
 
 script_dir = Path(__file__).resolve().parent
-top_level = script_dir.parent.parent
+top_level = script_dir.parent
 original_dir = Path.cwd()
 
 for workspace in top_level.iterdir():

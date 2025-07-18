@@ -14,17 +14,15 @@ from pathlib import Path
 args = $ARGS
 
 multiroot_workspace = Path(args[1])
-workspace_root = multiroot_workspace.parent
 workspace_file = next(multiroot_workspace.rglob("*.code-workspace"), None)
 if not workspace_file:
     print("No .code-workspace file found. Exiting.")
     exit(1)
 
 workspace_folders = [
-    p for p in workspace_root.iterdir()
+    p for p in multiroot_workspace.iterdir()
     if p.is_dir()
     and (p / ".vscode" / "settings.json").exists()
-    and p != multiroot_workspace
 ]
 
 tag_by_folder = {}

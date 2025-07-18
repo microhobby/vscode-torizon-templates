@@ -17,6 +17,7 @@ $RAISE_SUBPROC_ERROR = True
 import os
 import sys
 import json
+from glob import glob
 from pathlib import Path
 from typing import TypeVar
 from xonsh.procs.pipelines import CommandPipeline
@@ -31,10 +32,12 @@ if len(sys.argv) < 5:
 """
 Usage:
 
-    create-from-template.xsh <template_folder> <project_name> <container_name> <new_project_path> [template] [vscode] [telemetry]
+    create-from-template.xsh <template_folder> <folder_name> <project_name> <container_name> <new_project_path> [template] [vscode] [telemetry]
 
     <template_folder>   The folder where the template that will be used to create
                         the new project is located.
+
+    <folder_name>       The name of the workspace.
 
     <project_name>      The name of the new project.
 
@@ -70,17 +73,18 @@ _has_custom_fields = False
 _custom_fields = []
 
 template_folder = get_arg_not_empty(1)
-project_name = get_arg_not_empty(2)
-container_name = get_arg_not_empty(3)
-new_project_path = get_arg_not_empty(4)
+folder_name = get_arg_not_empty(2)
+project_name = get_arg_not_empty(3)
+container_name = get_arg_not_empty(4)
+new_project_path = get_arg_not_empty(5)
 
 # get the template_folder name
 _template = Path(template_folder).name
 
 # optional
-template = get_optional_arg(5, _template)
-vscode = get_optional_arg(6, False)
-telemetry = get_optional_arg(7, True)
+template = get_optional_arg(6, _template)
+vscode = get_optional_arg(7, False)
+telemetry = get_optional_arg(8, True)
 
 
 if "--customFields" in sys.argv:
@@ -88,11 +92,13 @@ if "--customFields" in sys.argv:
     _custom_fields = json.loads(sys.argv[sys.argv.index("--customFields") + 1])
 
 # the new_project_path need to be a full path
-new_project_path = f"{new_project_path}/{project_name}"
+new_project_path = f"{new_project_path}/{folder_name}"
+root_path = Path(new_project_path).resolve()
 
 
 print("Data:")
 print(f"\tTemplate Folder: {template_folder}")
+print(f"\tFolder Name: {folder_name}")
 print(f"\tProject Name: {project_name}")
 print(f"\tContainer Name: {container_name}")
 print(f"\tNew Project Path: {new_project_path}")
@@ -151,7 +157,14 @@ else:
 
 # create the copy
 print("Creating from template ...", color=Color.YELLOW)
-cp -r @(template_folder) @(new_project_path)
+if _template == "multiRoot":
+    files_to_copy = glob(template_folder + '/*') + [
+        f for f in glob(template_folder + '/.*')
+        if os.path.basename(f) not in ('.', '..')
+    ]
+    cp -r @(files_to_copy) @(new_project_path)
+else:
+    cp -r @(template_folder) @(new_project_path)
 print("✅ Folder copy done!", color=Color.GREEN)
 
 # apply the common tasks and inputs
@@ -330,47 +343,56 @@ print("✅ Scripts copy done", color=Color.GREEN)
 
 os.chdir(new_project_path)
 
+def is_nested_workspace_folder(folder: Path) -> bool:
+    return (folder / '.conf' / 'metadata.json').exists()
 
-# change the folders that is needed
+def walk_workspace(path: Path):
+    for item in path.iterdir():
+        if item.is_dir():
+            if is_nested_workspace_folder(item):
+                continue
+            yield from walk_workspace(item)
+        yield item
+
 print("Renaming folders ...", color=Color.YELLOW)
+root_path = Path(new_project_path).resolve()
 
-for item in Path('.').rglob('*__change__*'):
-    print(item)
-    new_name = str(item).replace('__change__', project_name)
-    item.rename(new_name)
+for item in walk_workspace(root_path):
+    # Rename folders and files containing __change__
+    if '__change__' in item.name:
+        renamed = item.with_name(item.name.replace('__change__', project_name))
+        item.rename(renamed)
+        item = renamed
 
-print("✅ Project folders ok", color=Color.GREEN)
-
-
-# change the contents
-print("Renaming file contents ...", color=Color.YELLOW)
-
-for item in Path('.').rglob('*'):
+    # If it's a file, process contents
     if item.is_file():
-        mime_type: CommandPipeline
+        if "id_rsa" in str(item) and "id_rsa.pub" not in str(item):
+            os.chmod(item, 0o400)
+            continue
+
         mime_type = !(file --mime-encoding @(item))
+        if "binary" in mime_type.out:
+            continue
 
-        if "binary" not in mime_type.out:
-            if "id_rsa" not in str(item):
-                with open(item, 'r') as file:
-                    content = file.read()
-                content = content.replace("__change__", project_name)
+        if "id_rsa" not in str(item):
+            with open(item, 'r') as file:
+                content = file.read()
 
-                if not _has_custom_fields:
-                    content = content.replace("__container__", container_name)
-                else:
-                    # also check for ids from the custom fields
-                    for _field in _custom_fields:
-                        content = content.replace(f"__{_field['id']}__", _field['value'])
+            content = content.replace("__change__", project_name)
 
-                content = content.replace("__home__", os.environ['HOME'])
-                content = content.replace("__templateFolder__", template)
+            if not _has_custom_fields:
+                content = content.replace("__container__", container_name)
+            else:
+                for _field in _custom_fields:
+                    content = content.replace(f"__{_field['id']}__", _field['value'])
 
-                with open(item, 'w') as file:
-                    file.write(content)
+            content = content.replace("__home__", os.environ['HOME'])
+            content = content.replace("__templateFolder__", template)
 
-            elif "id_rsa.pub" not in str(item):
-                os.chmod(item, 0o400)
+            with open(item, 'w') as file:
+                file.write(content)
+
+print("✅ Project folders and contents renamed", color=Color.GREEN)
 
 
 # remove-dangling-images and project-updater don't require changing contents
