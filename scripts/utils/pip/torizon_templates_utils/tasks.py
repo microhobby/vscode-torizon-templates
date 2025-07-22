@@ -8,6 +8,7 @@ import mimetypes
 import subprocess
 from pathlib import Path
 from typing import List, Dict, Type, TypeVar, Union, Tuple, Optional, Literal
+from torizon_templates_utils.network import is_in_docker_container
 from torizon_templates_utils.colors import print, Color
 
 T = TypeVar('T')
@@ -844,7 +845,7 @@ class TaskRunner:
 
 
     def __replace_docker_host(self, arg: str) -> str:
-        if "DOCKER_HOST" in arg:
+        if "DOCKER_HOST" in arg and is_in_docker_container():
             arg = arg.replace("DOCKER_HOST=", "DOCKER_HOST=tcp://docker:2375")
 
         return arg
