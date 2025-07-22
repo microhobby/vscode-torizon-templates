@@ -412,8 +412,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "apply-torizon-packages-arm64",
-                "generate-qt-feed-auth-conf-arm64"
+                "apply-torizon-packages-arm64"
             ],
             "problemMatcher": [
                 "$gcc"
