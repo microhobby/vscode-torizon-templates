@@ -134,7 +134,51 @@
             "multiContainer": true,
             "support": "Toradex",
             "status": "ok",
-            "customMessage": ""
+            "customMessage": "To learn more about Qt Enterprise and get a free evaluation license, please go to https://www.qt.io/qt-and-toradex",
+            "tests": {
+                "debuggers": {
+                    "local": ["Local AMD64"],
+                    "arm": ["Torizon arm32"],
+                    "arm64": ["Torizon arm64"]
+                },
+                "debuggerConsole": "cppdbg",
+                "mainFile": "main.cpp",
+                "mainFileBreakpointLine": 19,
+                "successDebugMessage": "Hello Torizon!"
+
+            },
+            "customFields": [
+                {
+                    "id": "qt_license_login",
+                    "label": "Qt Enterprise license login",
+                    "placeHolder": "Leave empty for using open source Qt",
+                    "default": "",
+                    "type": "text",
+                    "validRegex": "^.*$",
+                    "errorMessage": "Invalid Qt Enterprise license login.",
+                    "description": "Qt Enterprise license username. To learn more about Qt Enterprise and get a free evaluation license, please go to https://www.qt.io/qt-and-toradex"
+                },
+                {
+                    "id": "qt_license_password",
+                    "label": "Qt Enterprise license password",
+                    "placeHolder": "Leave empty for using open source Qt",
+                    "default": "",
+                    "type": "password",
+                    "validRegex": "^.*$",
+                    "errorMessage": "Invalid Qt Enterprise license password.",
+                    "description": "Qt Enterprise license password. To learn more about Qt Enterprise and get a free evaluation license, please go to https://www.qt.io/qt-and-toradex"
+                },
+                {
+                    "id": "container",
+                    "label": "Container name (docker-compose service)",
+                    "placeHolder": "",
+                    "default": "",
+                    "type": "text",
+                    "validRegex": "^[a-z0-9_\\-]+$",
+                    "errorMessage": "Invalid Docker image name. Must not be empty. Accepts alphanumeric characters, -, and _",
+                    "description": "Container name (docker-compose service)"
+                }
+            ]
         },
         {
             "img": "python3console.png",
@@ -214,7 +258,7 @@
                     "default": "",
                     "type": "text",
                     "validRegex": "^(?!.*(?:^|\\/)(\\.\\.)(?:\\/|$))([A-Za-z0-9._-]+\\/)*[A-Za-z0-9._-]+$",
-                    "errorMessage": "Invalid branch name. Must not start with /, accepts alphanumeric characters, accepts -, _, ., and /",
+                    "errorMessage": "Invalid branch name. Must not be empty, start with /. Accepts alphanumeric characters, -, _, ., and /",
                     "description": "OSTree branch name to be used to commit the changes from the TCB project."
                 }
             ]
