@@ -11,7 +11,7 @@ if [ "$DOCKER_REGISTRY" = "" ]; then
 fi
 
 # Edge case for Github Actions dind
-if [ -n "$CI" ]; then
+if [ -n "$GITHUB_ACTIONS" ]; then
     # in this case we need to mount the workspace to the environment
     working_directory=$(cat abs-path)
 else
