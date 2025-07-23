@@ -41,6 +41,13 @@ jobs:
         run: |
           pipx inject -f xonsh ./scripts/utils/pip/
 
+      - name: Update the docker and docker compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            docker-ce docker-ce-cli containerd.io \
+            docker-buildx-plugin docker-compose-plugin
+
       - name: Build ${{ matrix.project.folder }} Dockerfile
         shell: xonsh {0}
         env:
@@ -61,10 +68,6 @@ jobs:
           vendor = json.loads(os.environ['VENDOR'])
           $TORIZON_ARCH = vendor["torizon_arch"]
           $PROJECT_ARCH = vendor["arch"]
-
-          print("😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥")
-          docker compose version
-          print("😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥")
 
           _custom_dict = None
           if os.environ['PROJECT_FOLDER'] == 'cppQML':
