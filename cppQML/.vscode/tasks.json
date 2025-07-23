@@ -562,8 +562,8 @@
                 "build-container-torizon-debug-arm64",
                 "qt-enterprise-remove-auth-conf",
                 "push-container-torizon-debug-arm64",
-                "pull-container-torizon-debug-arm64",
-                "run-container-torizon-debug-arm64"
+                "pull-container-torizon-debug",
+                "run-container-torizon-debug"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -712,8 +712,8 @@
                 "build-container-torizon-debug-arm",
                 "qt-enterprise-remove-auth-conf",
                 "push-container-torizon-debug-arm",
-                "pull-container-torizon-debug-arm",
-                "run-container-torizon-debug-arm"
+                "pull-container-torizon-debug",
+                "run-container-torizon-debug"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
