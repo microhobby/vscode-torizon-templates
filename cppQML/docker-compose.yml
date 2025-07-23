@@ -98,8 +98,8 @@ services:
       - release
       - debug
     healthcheck:
-        test: ["CMD", "test", "-S", "/tmp/1000-runtime-dir/wayland-0"]
-        interval: 5s
-        timeout: 4s
-        retries: 6
-        start_period: 10s
+      test: ["CMD", "test", "-S", "/tmp/1000-runtime-dir/wayland-0"]
+      interval: 5s
+      timeout: 4s
+      retries: 6
+      start_period: 10s
