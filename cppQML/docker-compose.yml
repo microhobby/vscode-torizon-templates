@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.debug
       secrets:
-        - qt-feed-auth
+        - id=qt-feed-auth,src=.conf/qt6-enterprise/qt-feed-auth.conf
     image: ${LOCAL_REGISTRY}:5002/__container__-debug:${TAG}
     ports:
       # SSH debug
@@ -40,7 +40,7 @@ services:
       context: .
       dockerfile: Dockerfile
       secrets:
-        - qt-feed-auth
+        - id=qt-feed-auth,src=.conf/qt6-enterprise/qt-feed-auth.conf
     image: ${DOCKER_LOGIN}/__container__:${TAG}
     volumes:
       - type: bind
@@ -97,14 +97,9 @@ services:
     profiles:
       - release
       - debug
-    command: -- --shell=kiosk
     healthcheck:
         test: ["CMD", "test", "-S", "/tmp/1000-runtime-dir/wayland-0"]
         interval: 5s
         timeout: 4s
         retries: 6
         start_period: 10s
-
-secrets:
-  qt-feed-auth:
-    file: ./.conf/qt6-enterprise/qt-feed-auth.conf
