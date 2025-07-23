@@ -61,15 +61,35 @@ jobs:
           $TORIZON_ARCH = vendor["torizon_arch"]
           $PROJECT_ARCH = vendor["arch"]
 
-          xonsh ./scripts/create-from-template.xsh \
-                  @(f"{os.environ['GITHUB_WORKSPACE']}/{os.environ['PROJECT_FOLDER']}") \
-                  @(f"{os.environ['PROJECT_FOLDER']}CITest") \
-                  @(f"{os.environ['PROJECT_FOLDER']}CITest") \
-                  @(f"{os.environ['PROJECT_CONTAINER']}-ci-test") \
-                  @(os.environ['GITHUB_WORKSPACE']) \
-                  @(os.environ['PROJECT_FOLDER']) \
-                  "false" \
-                  "false"
+          _custom_dict = None
+          if os.environ['PROJECT_FOLDER'] == 'cppQML':
+            _custom_dict = [
+              {"id": "qt_license_login", "value": "", "type": "text"},
+              {"id": "qt_license_password", "value": "", "type": "password"},
+              {"id": "container", "value": "cpp-qml-ci-test", "type": "text"}
+            ]
+
+            xonsh ./scripts/create-from-template.xsh \
+                    @(f"{os.environ['GITHUB_WORKSPACE']}/{os.environ['PROJECT_FOLDER']}") \
+                    @(f"{os.environ['PROJECT_FOLDER']}CITest") \
+                    @(f"{os.environ['PROJECT_FOLDER']}CITest") \
+                    @(f"{os.environ['PROJECT_CONTAINER']}-ci-test") \
+                    @(os.environ['GITHUB_WORKSPACE']) \
+                    @(os.environ['PROJECT_FOLDER']) \
+                    "false" \
+                    "false" \
+                    --customFields \
+                    @(json.dumps(_custom_dict))
+          else:
+            xonsh ./scripts/create-from-template.xsh \
+                    @(f"{os.environ['GITHUB_WORKSPACE']}/{os.environ['PROJECT_FOLDER']}") \
+                    @(f"{os.environ['PROJECT_FOLDER']}CITest") \
+                    @(f"{os.environ['PROJECT_FOLDER']}CITest") \
+                    @(f"{os.environ['PROJECT_CONTAINER']}-ci-test") \
+                    @(os.environ['GITHUB_WORKSPACE']) \
+                    @(os.environ['PROJECT_FOLDER']) \
+                    "false" \
+                    "false"
 
           cp "abs-path" @(f"{os.environ['GITHUB_WORKSPACE']}/{os.environ['PROJECT_FOLDER']}CITest")
           os.chdir(f"{os.environ['GITHUB_WORKSPACE']}/{os.environ['PROJECT_FOLDER']}CITest")
@@ -86,9 +106,9 @@ jobs:
             xonsh ./.vscode/tasks.xsh run get-lvgl-lib
 
           if os.environ['PROJECT_FOLDER'] == 'cppQML':
-            xonsh ./.vscode/tasks.xsh run @(f"qt-enterprise-generate-auth-conf")
+            xonsh ./.vscode/tasks.xsh run qt-enterprise-generate-auth-conf
 
           xonsh ./.vscode/tasks.xsh run @(f"build-container-torizon-release-{os.environ['PROJECT_ARCH']}")
 
           if os.environ['PROJECT_FOLDER'] == 'cppQML':
-            xonsh ./.vscode/tasks.xsh run @(f"qt-enterprise-remove-auth-conf")
+            xonsh ./.vscode/tasks.xsh run qt-enterprise-remove-auth-conf
