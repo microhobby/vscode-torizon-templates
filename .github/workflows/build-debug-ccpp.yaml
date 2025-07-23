@@ -48,6 +48,7 @@ jobs:
           PROJECT_CONTAINER: ${{ matrix.project.container }}
           VENDOR: ${{ matrix.project.vendor }}
           DOCKER_LOGIN: localhost:5002
+          DOCKER_BUILDKIT: 1
 
         run: |
           import os
