@@ -47,7 +47,8 @@ RUN rm -f /temporary/qt-feed-auth.hash
 
 RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth.conf \
     bash -c ' \
-    if grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && \
+    if [ "$GPU" = "-imx8" ] && \
+       grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && \
        grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
         wget -O- https://cdn.qt.io/debian/keys/qt-company-debian-repo.gpg \
         | gpg --dearmor \
@@ -59,7 +60,7 @@ RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth
 
 RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth.conf \
     apt-get update && \
-    if [ "$IMAGE_ARCH" = "arm64" ] && grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
+    if [ "$GPU" = "-imx8" ] && grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
         apt-get install -y --no-install-recommends \
         cmake \
         qt6.8.2-full-dev \
@@ -121,7 +122,7 @@ RUN rm -rf ${APP_ROOT}/build-${IMAGE_ARCH}
 
 RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth.conf \
     if [ "$IMAGE_ARCH" = "arm64" ] ; then \
-        if grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
+        if [ "$GPU" = "-imx8" ] &&grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
             /opt/qt-6.8.2/aarch64-linux-gnu/bin/qt-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -Bbuild-${IMAGE_ARCH} \
         ;else \
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -Bbuild-${IMAGE_ARCH} \
@@ -163,7 +164,8 @@ RUN rm -f /temporary/qt-feed-auth.hash
 
 RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth.conf \
     bash -c ' \
-    if grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && \
+    if [ "$GPU" = "-imx8" ] && \
+       grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && \
        grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
         wget -O- https://cdn.qt.io/debian/keys/qt-company-debian-repo.gpg \
         | gpg --dearmor \
@@ -174,7 +176,7 @@ RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth
 
 RUN --mount=type=secret,id=qt-feed-auth,target=/etc/apt/auth.conf.d/qt-feed-auth.conf \
     apt-get update && \
-    if [ "$IMAGE_ARCH" = "arm64" ] && grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
+    if [ "$GPU" = "-imx8" ] && grep -q "login" /etc/apt/auth.conf.d/qt-feed-auth.conf && grep -q "password" /etc/apt/auth.conf.d/qt-feed-auth.conf; then \
         apt-get install -y --no-install-recommends \
         boot2qt-launcher \
         qt6.8.2-full \
