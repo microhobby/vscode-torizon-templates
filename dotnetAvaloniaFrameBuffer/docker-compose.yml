@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.debug
-    image: ${LOCAL_REGISTRY}:5002/__container__:${TAG}
+    image: ${LOCAL_REGISTRY}:5002/__container__-debug:${TAG}
     # Required to get udev events from host udevd via netlink
     network_mode: host
     volumes:
