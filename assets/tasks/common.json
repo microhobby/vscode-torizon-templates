@@ -847,6 +847,8 @@
                 "rsync",
                 "-av",
                 "--progress",
+                "-e",
+                "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null",
                 ".store-__container__/",
                 "${config:torizon_login}@${config:torizon_ip}:/home/${config:torizon_login}/.store-__container__"
             ],
