@@ -25,6 +25,7 @@ from json import loads
 from hashlib import sha256
 from pathlib import Path
 from xonsh.procs.pipelines import CommandPipeline
+from torizon_templates_utils.network import is_in_gitlab_ci_container
 from torizon_templates_utils.errors import Error, Error_Out, last_return_code
 from torizon_templates_utils.colors import Color, BgColor, print
 
@@ -57,7 +58,7 @@ run_arguments = args.run_arguments.replace("\"", "")
 run_arguments = run_arguments.replace("'", "")
 container_name = args.container_name.replace("\"", "")
 
-if "GITLAB_CI" in os.environ and os.path.exists("/.dockerenv"):
+if is_in_gitlab_ci_container():
     print("ℹ️ :: GITLAB_CI using docker executor :: ℹ️")
     $DOCKER_HOST = "tcp://docker:2375"
 
