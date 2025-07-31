@@ -662,7 +662,7 @@
             "type": "process",
             "args": [
                 "-c",
-                "[[ \"${config:torizon_arch}\" == \"armv7l\" ]] && true || false"
+                "[[ \"${config:torizon_arch}\" == \"arm\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
