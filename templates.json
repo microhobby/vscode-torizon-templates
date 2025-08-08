@@ -324,10 +324,10 @@
             "debugPort": "42271",
             "debugPort2": "42272",
             "debugSSHPort": "42271",
-            "multiContainer": false,
+            "multiContainer": true,
             "support": "Partner",
             "status": "ok",
-            "customMessage": ""
+            "customMessage": "Provided by https://www.crossware.io/flutter-on-linux"
         }
     ]
 }
