@@ -48,7 +48,7 @@ Usage:
     exit()
 
 # Check if it's True or 1
-accept_all = get_optional_arg(1, False) in ("True", "1")
+accept_all = get_optional_arg(1, "False") in ("True", "1")
 
 script_path = os.path.realpath(__file__)
 conf_folder = os.path.dirname(script_path)
@@ -564,8 +564,11 @@ if _template_name != "tcb":
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile.sdk"):
         cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile.sdk") .
 
-    cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile") .
-    cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml") .
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile"):
+        cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile") .
+
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml"): 
+        cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml") .
     cp -f @(f"{os.environ['HOME']}/.apollox/assets/github/workflows/build-application.yaml") .
     cp -f @(f"{os.environ['HOME']}/.apollox/assets/gitlab/.gitlab-ci.yml") .
 
@@ -578,11 +581,14 @@ if _template_name != "tcb":
         _torPackagesJson = json.load(f)
 
     # Check also the build part of Dockerfile, for the presence of torizon_packages_build
-    with open(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile", "r") as f:
-        dockerfileLines = f.readlines()
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile"):
+        with open(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile", "r") as f:
+            dockerfileLines = f.readlines()
 
-    buildDepDockerfile = any("torizon_packages_build" in line for line in dockerfileLines)
-
+        buildDepDockerfile = any("torizon_packages_build" in line for line in dockerfileLines)
+    else:
+        buildDepDockerfile = None
+    
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile.sdk") or buildDepDockerfile:
         _torPackagesJson["buildDeps"] = []
 
@@ -741,20 +747,22 @@ if _template_name != "tcb":
     # DOCKERFILE
     # all projects must have it (less TCB)
     # FIXME: should we not be more generic here? if there is tcb should be more
-    _open_merge_window(
-        f"{project_folder}/.conf/tmp/Dockerfile",
-        f"{project_folder}/Dockerfile"
-    )
+    if os.path.exists(f"{project_folder}/.conf/tmp/Dockerfile"):
+        _open_merge_window(
+            f"{project_folder}/.conf/tmp/Dockerfile",
+            f"{project_folder}/Dockerfile"
+        )
 
-    print("✅ Dockerfile", color=Color.GREEN)
+        print("✅ Dockerfile", color=Color.GREEN)
 
     # DOCKER-COMPOSE.YML
-    _open_merge_window(
-        f"{project_folder}/.conf/tmp/docker-compose.yml",
-        f"{project_folder}/docker-compose.yml"
-    )
+    if os.path.exists(f"{project_folder}/.conf/tmp/docker-compose.yml"):
+        _open_merge_window(
+            f"{project_folder}/.conf/tmp/docker-compose.yml",
+            f"{project_folder}/docker-compose.yml"
+        )
 
-    print("✅ docker-compose.yml", color=Color.GREEN)
+        print("✅ docker-compose.yml", color=Color.GREEN)
 
     # GITHUB ACTIONS
     _open_merge_window(
