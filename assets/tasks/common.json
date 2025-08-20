@@ -699,7 +699,6 @@
         {
             "label": "containers-cleanup",
             "detail": "Docker compose down on the target (default device)",
-            "hide": true,
             "command": "if",
             "type": "shell",
             "args": [
