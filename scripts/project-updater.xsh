@@ -15,6 +15,7 @@ $XONSH_SHOW_TRACEBACK = True
 $RAISE_SUBPROC_ERROR = True
 
 import os
+import psutil
 import sys
 import json
 import hashlib
@@ -24,7 +25,7 @@ from xonsh.procs.pipelines import CommandPipeline
 from torizon_templates_utils.tasks import replace_tasks_input
 from torizon_templates_utils.errors import Error,Error_Out
 from torizon_templates_utils.colors import Color,BgColor,print
-from torizon_templates_utils.args import get_arg_not_empty,get_optional_arg
+from torizon_templates_utils.args import get_optional_arg
 
 
 ## In case of fire break glass
@@ -32,44 +33,40 @@ from torizon_templates_utils.args import get_arg_not_empty,get_optional_arg
 # debug.breakpoint()
 
 
-if len(sys.argv) < 4:
+if "--help" in sys.argv or "-h" in sys.argv:
     print(
 """
 Usage:
-    project-updater.xsh <project_folder> <project_name> <container_name> <accept_all> <vscode> <second_run>
-
-        <project_folder>    The folder path where the project that will be updated is located.
-
-        <project_name>      The name of the project that will be updated.
-
-        <container_name>    The name of the container of the project that will be updated.
+    project-updater.xsh <accept_all>
 
         <accept_all>        This is a bool like argument (True or False).
                             This signals if the updater should accept all the new
                             changes without open a diff window.
-
-    Optional:
-
-        <vscode>            This is a bool like argument (True or False).
-                            This signals if the script is being used from VS Code extension.
-                            The default is False.
-
-        <second_run>        This is a bool like argument (True or False).
-                            This is used internally to signal that the script updated
-                            itself and is running again.
 """
     )
 
-    Error_Out("", Error.EUSER)
+    exit()
 
-
-project_folder = get_arg_not_empty(1)
-project_name = get_arg_not_empty(2)
-container_name = get_arg_not_empty(3)
 # Check if it's True or 1
-accept_all = get_arg_not_empty(4) in ("True", "1")
-vscode = get_optional_arg(5, True)
-second_run = get_optional_arg(6, False)
+accept_all = get_optional_arg(1, False) in ("True", "1")
+
+script_path = os.path.realpath(__file__)
+conf_folder = os.path.dirname(script_path)
+project_folder = os.path.dirname(conf_folder)
+
+metadata_path_for_task = f"{project_folder}/.conf/metadata.json"
+with open(metadata_path_for_task) as f:
+    metadata_for_task = json.load(f)
+project_name = metadata_for_task.get("projectName")
+container_name = metadata_for_task.get("containerName")
+
+vscode = os.environ.get("TERM_PROGRAM") == "vscode" or "VSCODE_PID" in os.environ
+
+# Here we want to check if the current process was started from another project-updater process
+# We do this by checking if the name of this file is in the arguments of the parent process, as the name of the file is passed as an argument
+parent = psutil.Process(os.getppid())
+parent_cmd = parent.cmdline()
+second_run = any(os.path.basename(__file__) in arg for arg in parent_cmd)
 
 ##
 # even tough the vscode arg is true, if the TORIZON_TEMPLATES_NON_VSCODE
@@ -212,12 +209,7 @@ if not _check_if_file_content_is_equal(
     # run the updater again
     xonsh \
         @(f"{project_folder}/.conf/project-updater.xsh") \
-        @(project_folder) \
-        @(project_name) \
-        @(container_name) \
-        @(accept_all) \
-        @(vscode) \
-        True
+        @(accept_all)
 
     sys.exit(__xonsh__.last.returncode)
 
