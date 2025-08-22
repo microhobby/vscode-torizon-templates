@@ -587,7 +587,7 @@ if _template_name != "tcb":
 
         buildDepDockerfile = any("torizon_packages_build" in line for line in dockerfileLines)
     else:
-        buildDepDockerfile = None
+        buildDepDockerfile = False
     
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile.sdk") or buildDepDockerfile:
         _torPackagesJson["buildDeps"] = []
