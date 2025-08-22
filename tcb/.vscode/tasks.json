@@ -376,7 +376,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose platform provisioning-data --credentials credentials.zip --online-data DEFAULT"
+                    "VSCODE_CMD": "--verbose platform provisioning-data --credentials credentials.zip --online-data ${command:tcb.onlineData}"
                 }
             },
             "args": [
