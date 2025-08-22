@@ -567,7 +567,7 @@ if _template_name != "tcb":
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile"):
         cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile") .
 
-    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml"): 
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml"):
         cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml") .
     cp -f @(f"{os.environ['HOME']}/.apollox/assets/github/workflows/build-application.yaml") .
     cp -f @(f"{os.environ['HOME']}/.apollox/assets/gitlab/.gitlab-ci.yml") .
