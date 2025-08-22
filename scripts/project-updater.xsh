@@ -439,6 +439,12 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
     @(f"{project_folder}/.conf/validate-json.xsh")
 
+# REMOVE DANGLING IMAGES:
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/remove-dangling-images.xsh") \
+    @(f"{project_folder}/.conf/remove-dangling-images.xsh")
+
+
 # DOCUMENTATION:
 if not os.path.exists(f"{project_folder}/.doc"):
     mkdir -p @(f"{project_folder}/.doc")
