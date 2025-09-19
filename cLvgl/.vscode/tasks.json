@@ -616,7 +616,7 @@
                 "-o",
                 "StrictHostKeyChecking=no",
                 "torizon@${config:torizon_ip}",
-                "LOCAL_REGISTRY=${config:host_ip} DEBUG_SSH_PORT=1 DEBUG_PORT1=2 DEBUG_PORT2=3 DEBUG_PORT3=4 docker-compose down --remove-orphans"
+                "LOCAL_REGISTRY=localhost DEBUG_SSH_PORT=1 DEBUG_PORT1=2 DEBUG_PORT2=3 DEBUG_PORT3=4 docker-compose down --remove-orphans"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",

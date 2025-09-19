@@ -829,7 +829,7 @@
             "dependsOrder": "sequence"
         },
         {
-            "label": "sync-store-debug",
+            "label": "sync-store",
             "detail": "",
             "hide": true,
             "command": "sshpass",
@@ -1255,7 +1255,7 @@
             "dependsOn": [
                 "create-store-folder",
                 "store-local-debug",
-                "sync-store-debug"
+                "sync-store"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1460,7 +1460,7 @@
             }
         },
         {
-            "label": "push-container-torizon-release-arm64",
+            "label": "push-container-torizon-release",
             "detail": "",
             "hide": true,
             "command": "DOCKER_HOST=",
@@ -1481,9 +1481,7 @@
                 "push",
                 "__container__"
             ],
-            "dependsOn": [
-                "build-container-torizon-release-arm64"
-            ],
+            "dependsOn": [],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1499,91 +1497,13 @@
             }
         },
         {
-            "label": "push-container-torizon-release-arm",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "options": {
-                "env": {
-                    "DOCKER_LOGIN": "localhost:5002",
-                    "TAG": "${config:docker_tag}",
-                    "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
-                    "DEBUG_PORT1": "${config:torizon_debug_port1}",
-                    "DEBUG_PORT2": "${config:torizon_debug_port2}",
-                    "DEBUG_PORT3": "${config:torizon_debug_port3}"
-                }
-            },
-            "args": [
-                "docker",
-                "compose",
-                "push",
-                "__container__"
-            ],
-            "dependsOn": [
-                "build-container-torizon-release-arm"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-push",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "push-container-torizon-release-amd64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "options": {
-                "env": {
-                    "DOCKER_LOGIN": "localhost:5002",
-                    "TAG": "${config:docker_tag}",
-                    "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
-                    "DEBUG_PORT1": "${config:torizon_debug_port1}",
-                    "DEBUG_PORT2": "${config:torizon_debug_port2}",
-                    "DEBUG_PORT3": "${config:torizon_debug_port3}"
-                }
-            },
-            "args": [
-                "docker",
-                "compose",
-                "push",
-                "__container__"
-            ],
-            "dependsOn": [
-                "build-container-torizon-release-amd64"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-push",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "pull-container-torizon-release-arm64",
+            "label": "pull-container-torizon-release",
             "detail": "",
             "hide": true,
             "command": "DOCKER_HOST=${config:torizon_ip}:2375",
             "type": "shell",
             "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
+                "LOCAL_REGISTRY=localhost",
                 "DOCKER_LOGIN=${config:host_ip}:5002",
                 "TAG=${config:docker_tag}",
                 "GPU=${config:torizon_gpu}",
@@ -1600,85 +1520,9 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "push-container-torizon-release-arm64"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-pull",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "pull-container-torizon-release-arm",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "DOCKER_LOGIN=${config:host_ip}:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "--profile",
-                "release",
-                "pull",
-                "__container__"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "push-container-torizon-release-arm"
-            ],
-            "problemMatcher": "$msCompile",
-            "icon": {
-                "id": "repo-pull",
-                "color": "terminal.ansiYellow"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "group": "build-execution"
-            }
-        },
-        {
-            "label": "pull-container-torizon-release-amd64",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
-            "type": "shell",
-            "args": [
-                "LOCAL_REGISTRY=${config:host_ip}",
-                "DOCKER_LOGIN=${config:host_ip}:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "--profile",
-                "release",
-                "pull",
-                "__container__"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "push-container-torizon-release-amd64"
+                "create-store-folder",
+                "store-local-debug",
+                "sync-store"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1721,8 +1565,8 @@
                 "copy-docker-compose",
                 "pre-cleanup",
                 "build-container-torizon-release-arm64",
-                "push-container-torizon-release-arm64",
-                "pull-container-torizon-release-arm64",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
@@ -1769,8 +1613,8 @@
                 "copy-docker-compose",
                 "pre-cleanup",
                 "build-container-torizon-release-arm",
-                "push-container-torizon-release-arm",
-                "pull-container-torizon-release-arm",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
@@ -1817,8 +1661,8 @@
                 "copy-docker-compose",
                 "pre-cleanup",
                 "build-container-torizon-release-amd64",
-                "push-container-torizon-release-amd64",
-                "pull-container-torizon-release-amd64",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
