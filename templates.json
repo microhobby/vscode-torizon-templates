@@ -164,6 +164,7 @@
                     "placeHolder": "Leave empty for using open source Qt",
                     "default": "",
                     "type": "password",
+                    "featureUsage": 0,
                     "validRegex": "^.*$",
                     "errorMessage": "Invalid Qt Enterprise license password.",
                     "description": "Qt Enterprise license password. To learn more about Qt Enterprise and get a free evaluation license, please go to https://www.qt.io/qt-and-toradex"
