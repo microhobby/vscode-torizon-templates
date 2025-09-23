@@ -1249,7 +1249,7 @@
                 "-o",
                 "StrictHostKeyChecking=no",
                 "${config:torizon_login}@${config:torizon_ip}",
-                "cd /home/${config:torizon_login} && tar cf - -C .store-__container__/ . | docker load"
+                "cd /home/${config:torizon_login} && tar cvf - -C .store-__container__/ . | docker load"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
