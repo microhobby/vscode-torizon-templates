@@ -48,7 +48,7 @@
 			},
 			{
 				"label": "check-deps-all",
-				"type": "shell",
+				"type": "process",
 				"command": "xonsh",
 				"args": [
 					"${workspaceFolder}/.conf/multi-root-tasks.xsh",
