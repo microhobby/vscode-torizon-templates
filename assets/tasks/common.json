@@ -845,7 +845,11 @@
                 ".store-__container__/",
                 "${config:torizon_login}@${config:torizon_ip}:/home/${config:torizon_login}/.store-__container__"
             ],
-            "dependsOrder": "sequence"
+            "dependsOrder": "sequence",
+            "presentation": {
+                "focus": true,
+                "group": "build-execution"
+            }
         },
         {
             "label": "build-container-torizon-debug-arm64",
