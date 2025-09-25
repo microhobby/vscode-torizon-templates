@@ -222,6 +222,15 @@ for key in _remove_keys:
 
 print("✅ Services cleaned", color=Color.GREEN)
 
+print("Removing profiles ...")
+
+for service in _prod_keys:
+    _service = _compose_services[service]
+    if "profiles" in _service:
+        _service.pop("profiles")
+
+print("✅ Profiles removed", color=Color.GREEN)
+
 # replace the env  variables
 print("Replacing variables ...")
 
