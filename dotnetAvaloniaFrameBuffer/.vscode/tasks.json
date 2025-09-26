@@ -261,7 +261,7 @@
                 "-o",
                 "StrictHostKeyChecking=no",
                 "torizon@${config:torizon_ip}",
-                "LOCAL_REGISTRY=${config:host_ip} TAG=arm docker-compose down --remove-orphans"
+                "LOCAL_REGISTRY=localhost TAG=arm docker-compose down --remove-orphans"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -400,7 +400,7 @@
                 "-o",
                 "StrictHostKeyChecking=no",
                 "torizon@${config:torizon_ip}",
-                "LOCAL_REGISTRY=${config:host_ip} TAG=arm64 docker-compose down --remove-orphans"
+                "LOCAL_REGISTRY=localhost TAG=arm64 docker-compose down --remove-orphans"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -594,7 +594,7 @@
                 "-o",
                 "StrictHostKeyChecking=no",
                 "torizon@${config:torizon_ip}",
-                "LOCAL_REGISTRY=${config:host_ip} TAG=amd64 docker-compose down --remove-orphans"
+                "LOCAL_REGISTRY=localhost TAG=amd64 docker-compose down --remove-orphans"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",

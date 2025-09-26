@@ -173,8 +173,8 @@
 					"validate-arch-arm",
 					"pre-cleanup",
 					"build-container-torizon-release-arm",
-					"push-container-torizon-release-arm",
-					"pull-container-torizon-release-arm",
+					"push-container-torizon-release",
+					"pull-container-torizon-release",
 					"wait-a-bit"
 				],
 				"presentation": {
@@ -196,8 +196,8 @@
 					"validate-arch-arm64",
 					"pre-cleanup",
 					"build-container-torizon-release-arm64",
-					"push-container-torizon-release-arm64",
-					"pull-container-torizon-release-arm64",
+					"push-container-torizon-release",
+					"pull-container-torizon-release",
 					"wait-a-bit"
 				],
 				"presentation": {
