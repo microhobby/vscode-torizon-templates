@@ -72,7 +72,7 @@
 				],
 				"options": {
 					"env": {
-						"DOCKER_REGISTRY": "${command:docker_registry}",
+						"DOCKER_REGISTRY": "${command:inputBoxDockerRegistry}",
 						"DOCKER_LOGIN": "${command:docker_login}",
 						"DOCKER_PSSWD": "${command:docker_password}",
 						"TORIZON_ARCH": "${input:archList}",

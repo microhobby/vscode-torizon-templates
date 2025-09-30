@@ -24,7 +24,7 @@ def replace_tasks_input():
                     content = f.read()
 
                 content = content.replace("input:dockerLogin", "command:docker_login")
-                content = content.replace("input:dockerImageRegistry", "command:docker_registry")
+                content = content.replace("input:dockerImageRegistry", "command:inputBoxDockerRegistry")
                 content = content.replace("input:dockerPsswd", "command:docker_password")
 
                 with open(file, 'w') as f:
