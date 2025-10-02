@@ -107,6 +107,20 @@ for template in obj_rec["Projects"]:
         with open(settings_path, "w") as f:
             json.dump(settings_json, f, indent=4)
 
+    # Merge extensions recommendations
+    extensions_path = location_folder_join / template_name / ".vscode" / "extensions.json"
+    if extensions_path.exists():
+        with open(extensions_path, "r") as f:
+            extensions_json = json.load(f)
+
+        ws_ext = code_workspace.setdefault("extensions", {})
+        for key in ["recommendations", "unwantedRecommendations"]:
+            if key in extensions_json and isinstance(extensions_json[key], list):
+                ws_ext.setdefault(key, [])
+                for ext in extensions_json[key]:
+                    if ext not in ws_ext[key]:
+                        ws_ext[key].append(ext)
+
     # Merge services
     template_compose_path = location_folder_join / template_name / "docker-compose.yml"
     if template_compose_path.exists():
