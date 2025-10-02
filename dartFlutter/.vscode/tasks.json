@@ -8,6 +8,8 @@
             "args": [
                 "-p", "${config:torizon_psswd}",
                 "ssh",
+                "-o",
+                "PubkeyAuthentication=no",
                 "-L", "42271:127.0.0.1:42271",
                 "torizon@${config:torizon_ip}"
             ],

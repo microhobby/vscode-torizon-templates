@@ -524,6 +524,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "${command:torizon_workspace}/docker-compose.yml",
                 "torizon@${config:torizon_ip}:~/"
             ],
@@ -841,7 +843,7 @@
                 "-av",
                 "--progress",
                 "-e",
-                "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null",
+                "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PubkeyAuthentication=no",
                 ".store-__container__/",
                 "${config:torizon_login}@${config:torizon_ip}:/home/${config:torizon_login}/.store-__container__"
             ],
@@ -1252,6 +1254,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "${config:torizon_login}@${config:torizon_ip}",
                 "cd /home/${config:torizon_login} && tar cvf - -C .store-__container__/ . | docker load"
             ],
