@@ -3,6 +3,7 @@
 	"settings": {
 		"torizon_workspace": "${workspaceFolder}",
 		"torizon.gpuPrefixRC": true,
+		"torizon.restartDocker": false,
 		"files.exclude": {}
 	},
 	"launch": {
