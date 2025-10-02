@@ -126,6 +126,8 @@
 					"UserKnownHostsFile=/dev/null",
 					"-o",
 					"StrictHostKeyChecking=no",
+					"-o",
+					"PubkeyAuthentication=no",
 					"${workspaceFolder}/docker-compose.yml",
 					"torizon@${config:torizon_ip}:~/"
 				],

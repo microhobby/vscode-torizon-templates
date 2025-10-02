@@ -335,6 +335,7 @@ def _target_console(args):
             ssh \
             -o UserKnownHostsFile=/dev/null \
             -o StrictHostKeyChecking=no \
+            -o PubkeyAuthentication=no \
             -p @(target['SshPort']) \
             @(target['Login'])@@(target['Ip']) @(args.cmd if "cmd" in args else "")
 

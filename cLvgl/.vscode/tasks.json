@@ -579,6 +579,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "cat /dev/zero > /dev/fb0 ; true"
             ],
@@ -615,6 +617,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "LOCAL_REGISTRY=localhost DEBUG_SSH_PORT=1 DEBUG_PORT1=2 DEBUG_PORT2=3 DEBUG_PORT3=4 docker-compose down --remove-orphans"
             ],

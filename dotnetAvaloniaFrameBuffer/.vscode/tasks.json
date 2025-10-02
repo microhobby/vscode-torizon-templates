@@ -224,6 +224,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "cat /dev/zero > /dev/fb0 ; true"
             ],
@@ -260,6 +262,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "LOCAL_REGISTRY=localhost TAG=arm docker-compose down --remove-orphans"
             ],
@@ -363,6 +367,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "cat /dev/zero > /dev/fb0 ; true"
             ],
@@ -399,6 +405,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "LOCAL_REGISTRY=localhost TAG=arm64 docker-compose down --remove-orphans"
             ],
@@ -557,6 +565,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "cat /dev/zero > /dev/fb0 ; true"
             ],
@@ -593,6 +603,8 @@
                 "UserKnownHostsFile=/dev/null",
                 "-o",
                 "StrictHostKeyChecking=no",
+                "-o",
+                "PubkeyAuthentication=no",
                 "torizon@${config:torizon_ip}",
                 "LOCAL_REGISTRY=localhost TAG=amd64 docker-compose down --remove-orphans"
             ],
