@@ -14,5 +14,6 @@
     "tcb.packageName": "__change__",
     "tcb.version": "3.13.0",
     "torizon.gpuPrefixRC": true,
+    "torizon.restartDocker": false,
     "terminal.integrated.defaultProfile.linux": "bash"
 }
