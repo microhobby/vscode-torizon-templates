@@ -11,11 +11,16 @@ if [ -f "$HOME/.local/bin/xonsh" ]; then
     branch="${TEST_TEMPLATES_GIT_REPO_BRANCH:-main}"
     tag_or_hash="${TEST_TEMPLATES_GIT_TAG}"
 
-    # Ensure repo ends with .git
-    case "$repo" in
-        *.git) ;; # already ends with .git
-        *) repo="${repo}.git" ;;
-    esac
+    # Detect if repo is a local path
+    if [ -d "$repo" ] || [ -f "$repo" ]; then
+        repo="file://$(realpath "$repo")"
+    else
+        # Ensure repo ends with .git
+        case "$repo" in
+            *.git) ;;
+            *) repo="${repo}.git" ;;
+        esac
+    fi
 
     if [ -n "$tag_or_hash" ]; then
     ref="$tag_or_hash"
