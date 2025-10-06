@@ -796,64 +796,6 @@
             }
         },
         {
-            "label": "create-store-folder",
-            "detail": "",
-            "hide": true,
-            "command": "mkdir",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "args": [
-                "-p",
-                ".store-__container__"
-            ],
-            "dependsOrder": "sequence"
-        },
-        {
-            "label": "store-local-debug",
-            "detail": "",
-            "hide": true,
-            "command": "DOCKER_HOST=",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/.store-__container__"
-            },
-            "args": [
-                "docker",
-                "save",
-                "localhost:5002/__container__-debug:${config:torizon_arch}",
-                "|",
-                "tar",
-                "-xvf",
-                "-"
-            ],
-            "dependsOrder": "sequence"
-        },
-        {
-            "label": "sync-store",
-            "detail": "",
-            "hide": true,
-            "command": "sshpass",
-            "type": "shell",
-            "args": [
-                "-p",
-                "${config:torizon_psswd}",
-                "rsync",
-                "-av",
-                "--progress",
-                "-e",
-                "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PubkeyAuthentication=no",
-                ".store-__container__/",
-                "${config:torizon_login}@${config:torizon_ip}:/home/${config:torizon_login}/.store-__container__"
-            ],
-            "dependsOrder": "sequence",
-            "presentation": {
-                "focus": true,
-                "group": "build-execution"
-            }
-        },
-        {
             "label": "build-container-torizon-debug-arm64",
             "detail": "",
             "hide": true,
@@ -1241,29 +1183,124 @@
             }
         },
         {
-            "label": "pull-container-torizon-debug",
+            "label": "spin-up-tunnel",
             "detail": "",
             "hide": true,
-            "command": "sshpass",
+            "command": "${env:HOME}/.local/bin/xonsh",
+            "type": "process",
+            "args": [
+                "${workspaceFolder}/.conf/run-container-if-not-exists.xsh",
+                "--container-runtime",
+                "docker",
+                "--run-arguments",
+                "\"--rm -d --network host torizonextras/ide-port-tunnel:0.0.0 sshpass -p ${config:torizon_psswd} ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no ${config:torizon_login}@${config:torizon_ip}\"",
+                "--container-name",
+                "torizon-ide-port-tunnel"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "repo-push",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "spin-down-tunnel",
+            "detail": "",
+            "hide": true,
+            "command": "DOCKER_HOST=",
             "type": "shell",
             "args": [
-                "-p",
-                "${config:torizon_psswd}",
-                "ssh",
-                "-o",
-                "UserKnownHostsFile=/dev/null",
-                "-o",
-                "StrictHostKeyChecking=no",
-                "-o",
-                "PubkeyAuthentication=no",
-                "${config:torizon_login}@${config:torizon_ip}",
-                "cd /home/${config:torizon_login} && tar cvf - -C .store-__container__/ . | docker load"
+                "docker",
+                "rm",
+                "-f",
+                "torizon-ide-port-tunnel"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "repo-push",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "pull-from-target-debug",
+            "detail": "",
+            "hide": true,
+            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "type": "shell",
+            "args": [
+                "docker",
+                "pull",
+                "localhost:5002/__container__-debug:${config:torizon_arch}"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "repo-pull",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "pull-from-target-release",
+            "detail": "",
+            "hide": true,
+            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "type": "shell",
+            "args": [
+                "docker",
+                "pull",
+                "localhost:5002/__container__:${config:torizon_arch}"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "repo-pull",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "pull-container-torizon-debug",
+            "detail": "This is only a collection of dependencies",
+            "hide": true,
+            "command": "echo",
+            "type": "shell",
+            "args": [
+                "pull-ok"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "create-store-folder",
-                "store-local-debug",
-                "sync-store"
+                "spin-up-tunnel",
+                "pull-from-target-debug",
+                "spin-down-tunnel"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1506,31 +1543,18 @@
         },
         {
             "label": "pull-container-torizon-release",
-            "detail": "",
+            "detail": "This is only a collection of dependencies",
             "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "command": "echo",
             "type": "shell",
             "args": [
-                "LOCAL_REGISTRY=localhost",
-                "DOCKER_LOGIN=${config:host_ip}:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "--profile",
-                "release",
-                "pull",
-                "__container__"
+                "pull-ok"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "create-store-folder",
-                "store-local-debug",
-                "sync-store"
+                "spin-up-tunnel",
+                "pull-from-target-release",
+                "spin-down-tunnel"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
