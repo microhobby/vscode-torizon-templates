@@ -7,9 +7,15 @@ if [ -f "$HOME/.local/bin/xonsh" ]; then
     echo "xonsh is already installed, updating torizon-templates-utils ..."
     # force the install of the latest version of torizon-templates-utils
 
-    repo="${TEST_TEMPLATES_GIT_REPO}"
+    repo="${TEST_TEMPLATES_GIT_REPO:-https://github.com/toradex/torizon-templates.git}"
     branch="${TEST_TEMPLATES_GIT_REPO_BRANCH:-main}"
     tag_or_hash="${TEST_TEMPLATES_GIT_TAG}"
+
+    # Ensure repo ends with .git
+    case "$repo" in
+        *.git) ;; # already ends with .git
+        *) repo="${repo}.git" ;;
+    esac
 
     if [ -n "$tag_or_hash" ]; then
     ref="$tag_or_hash"
