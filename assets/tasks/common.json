@@ -1193,7 +1193,7 @@
                 "--container-runtime",
                 "docker",
                 "--run-arguments",
-                "\"--rm -d --network host matheuscastello/ide-port-tunnel:0.0.0 sshpass -p ${config:torizon_psswd} ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no ${config:torizon_login}@${config:torizon_ip}\"",
+                "\"--rm -d --network host torizonextras/ide-port-tunnel:0.0.0 sshpass -p ${config:torizon_psswd} ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no ${config:torizon_login}@${config:torizon_ip}\"",
                 "--container-name",
                 "torizon-ide-port-tunnel"
             ],
@@ -1246,7 +1246,7 @@
             "args": [
                 "docker",
                 "pull",
-                "localhost:5002/__change__-debug:${config:torizon_arch}"
+                "localhost:5002/__container__-debug:${config:torizon_arch}"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -1271,7 +1271,7 @@
             "args": [
                 "docker",
                 "pull",
-                "localhost:5002/__change__:${config:torizon_arch}"
+                "localhost:5002/__container__:${config:torizon_arch}"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
