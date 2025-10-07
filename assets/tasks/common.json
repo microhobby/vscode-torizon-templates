@@ -1241,9 +1241,12 @@
             "label": "pull-from-target-debug",
             "detail": "",
             "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "command": "sleep",
             "type": "shell",
             "args": [
+                "${config:wait_sync}",
+                "&&",
+                "DOCKER_HOST=${config:torizon_ip}:2375",
                 "docker",
                 "pull",
                 "localhost:5002/__container__-debug:${config:torizon_arch}"
@@ -1266,9 +1269,12 @@
             "label": "pull-from-target-release",
             "detail": "",
             "hide": true,
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "command": "sleep",
             "type": "shell",
             "args": [
+                "${config:wait_sync}",
+                "&&",
+                "DOCKER_HOST=${config:torizon_ip}:2375",
                 "docker",
                 "pull",
                 "localhost:5002/__container__:${config:torizon_arch}"
