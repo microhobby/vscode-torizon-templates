@@ -1299,6 +1299,7 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "spin-up-tunnel",
+                "wait-a-bit",
                 "pull-from-target-debug",
                 "spin-down-tunnel"
             ],
@@ -1553,6 +1554,7 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "spin-up-tunnel",
+                "wait-a-bit",
                 "pull-from-target-release",
                 "spin-down-tunnel"
             ],
