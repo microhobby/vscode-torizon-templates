@@ -67,13 +67,13 @@ _image_name = get_arg_iterative(
 _gpu = get_optional_arg(4, "")
 
 # check env vars
-if "DOCKER_PSSWD" not in os.environ:
+if "DOCKER_PASSWORD" not in os.environ:
     Error_Out(
-        "❌ DOCKER_PSSWD not set",
+        "❌ DOCKER_PASSWORD not set",
         Error.ENOCONF
     )
 else:
-    _docker_psswd = os.environ["DOCKER_PSSWD"]
+    _docker_password = os.environ["DOCKER_PASSWORD"]
 
 if "DOCKER_LOGIN" not in os.environ:
     Error_Out(

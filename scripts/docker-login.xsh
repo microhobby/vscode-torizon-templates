@@ -40,13 +40,13 @@ if "TASK_ITERATIVE" in os.environ:
 
 
 # check env vars
-if "DOCKER_PSSWD" not in os.environ:
+if "DOCKER_PASSWORD" not in os.environ:
     Error_Out(
-        "❌ DOCKER_PSSWD not set",
+        "❌ DOCKER_PASSWORD not set",
         Error.ENOCONF
     )
 else:
-    _docker_psswd = os.environ["DOCKER_PSSWD"]
+    _docker_password = os.environ["DOCKER_PASSWORD"]
 
 if "DOCKER_LOGIN" not in os.environ:
     Error_Out(
@@ -76,6 +76,6 @@ __xonsh__.env = xos
 # Login
 print(f"Performing container registry login ...")
 
-echo @(_docker_psswd) | docker login --username @(_docker_login) --password-stdin @(_docker_registry)
+echo @(_docker_password) | docker login --username @(_docker_login) --password-stdin @(_docker_registry)
 
 print("✅ Logged in the container registry", color=Color.GREEN)
