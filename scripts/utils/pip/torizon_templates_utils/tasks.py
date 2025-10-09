@@ -476,8 +476,8 @@ class TaskRunner:
             self.__can_receive_interactive_input = True
 
         # environment configs
-        if "DOCKER_PSSWD" in os.environ:
-            os.environ["config:docker_password"] = os.environ["DOCKER_PSSWD"]
+        if "DOCKER_PASSWORD" in os.environ:
+            os.environ["config:docker_password"] = os.environ["DOCKER_PASSWORD"]
 
         if "GITLAB_CI" in os.environ:
             self.__gitlab_ci = True

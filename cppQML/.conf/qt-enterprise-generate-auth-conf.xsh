@@ -12,7 +12,7 @@ def hash_file(filepath, algorithm='sha256'):
 
 # Retrieve environment variables
 login = os.getenv('QT_LICENSE_LOGIN')
-password = os.getenv('QT_LICENSE_PSSWD')
+password = os.getenv('QT_LICENSE_PASSWORD')
 
 # Define output path (adjust this to fit your workspaceFolder if running standalone)
 output_path = Path.cwd() / ".conf" / "qt6-enterprise" / "qt-feed-auth.conf"
