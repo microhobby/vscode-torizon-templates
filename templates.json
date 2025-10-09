@@ -134,7 +134,7 @@
             "multiContainer": true,
             "support": "Toradex",
             "status": "ok",
-            "customMessage": "To learn more about Qt Enterprise and get a free evaluation license, please go to https://www.qt.io/qt-and-toradex",
+            "customMessage": "To learn more about Qt Enterprise and get a free evaluation license, please go to [https://www.qt.io/qt-and-toradex](https://www.qt.io/qt-and-toradex)",
             "tests": {
                 "debuggers": {
                     "local": ["Local AMD64"],
