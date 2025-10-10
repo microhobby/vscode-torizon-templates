@@ -119,7 +119,7 @@ if _torizon_arch == "aarch64":
     _torizon_arch = "arm64"
 elif _torizon_arch == "armv7":
     _torizon_arch = "arm"
-elif _torizon_arch == "arm":
+elif _torizon_arch == "armv7l":
     _torizon_arch = "arm"
 elif _torizon_arch == "armhf":
     _torizon_arch = "arm"
