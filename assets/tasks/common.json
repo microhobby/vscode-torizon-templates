@@ -1277,7 +1277,7 @@
                 "DOCKER_HOST=${config:torizon_ip}:2375",
                 "docker",
                 "pull",
-                "localhost:5002/__container__:${config:torizon_arch}"
+                "localhost:5002/__container__:${config:docker_tag}"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
