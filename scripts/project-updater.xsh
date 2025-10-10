@@ -575,8 +575,20 @@ if _template_name != "tcb":
 
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml"):
         cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/docker-compose.yml") .
-    cp -f @(f"{os.environ['HOME']}/.apollox/assets/github/workflows/build-application.yaml") .
-    cp -f @(f"{os.environ['HOME']}/.apollox/assets/gitlab/.gitlab-ci.yml") .
+
+    # Copy the CI files. Copy from common if not present in the template
+    # GITHUB WORKFLOWS
+    mkdir -p ./.github/workflows
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/.github/workflows/build-application.yaml"):
+        cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/.github/workflows/build-application.yaml") ./.github/workflows/
+    else:
+        cp -f @(f"{os.environ['HOME']}/.apollox/assets/github/workflows/build-application.yaml") ./.github/workflows/
+
+    # GITLAB CI
+    if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/.gitlab-ci.yml"):
+        cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/.gitlab-ci.yml") .
+    else:
+        cp -f @(f"{os.environ['HOME']}/.apollox/assets/gitlab/.gitlab-ci.yml") .
 
     # If there is a .dockerignore file, also include it
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/.dockerignore"):
@@ -772,7 +784,7 @@ if _template_name != "tcb":
 
     # GITHUB ACTIONS
     _open_merge_window(
-        f"{project_folder}/.conf/tmp/build-application.yaml",
+        f"{project_folder}/.conf/tmp/.github/workflows/build-application.yaml",
         f"{project_folder}/.github/workflows/build-application.yaml"
     )
 
