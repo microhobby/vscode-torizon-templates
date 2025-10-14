@@ -658,7 +658,7 @@
             "type": "process",
             "args": [
                 "-c",
-                "[[ \"${config:torizon_arch}\" == \"armv7l\" ]] && true || false"
+                "[[ \"${config:torizon_arch}\" == \"arm\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -682,7 +682,7 @@
             "type": "process",
             "args": [
                 "-c",
-                "[[ \"${config:torizon_arch}\" == \"aarch64\" ]] && true || false"
+                "[[ \"${config:torizon_arch}\" == \"arm64\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -855,7 +855,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "arm",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
@@ -906,7 +906,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "amd64",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
@@ -1080,7 +1080,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "arm",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
@@ -1154,7 +1154,7 @@
             "options": {
                 "env": {
                     "LOCAL_REGISTRY": "localhost",
-                    "TAG": "amd64",
+                    "TAG": "${config:torizon_arch}",
                     "GPU": "${config:torizon_gpu}",
                     "DEBUG_SSH_PORT": "${config:torizon_debug_ssh_port}",
                     "DEBUG_PORT1": "${config:torizon_debug_port1}",
