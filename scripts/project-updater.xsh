@@ -450,15 +450,6 @@ cp -f \
     @(f"{project_folder}/.conf/remove-dangling-images.xsh")
 
 
-# DOCUMENTATION:
-if not os.path.exists(f"{project_folder}/.doc"):
-    mkdir -p @(f"{project_folder}/.doc")
-
-cp -rf \
-    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
-    @(f"{project_folder}/.doc/")
-
-
 print("✅ always accept new OK", color=Color.GREEN)
 # ----------------------------------------------------------- ALWAYS ACCEPT NEW
 
@@ -622,6 +613,11 @@ if _template_name != "tcb":
         json.dump(_torPackagesJson, f, indent=4)
     # ----------------------------------------------------------------- TORIZONPACKAGES.JSON
 
+# DOCUMENTATION:
+mkdir -p @(f"./.doc")
+cp -rf \
+    @(f"{os.environ['HOME']}/.apollox/{_template_name}/.doc/.") \
+    @(f"./.doc/")
 
 # GIT IGNORE
 cp -f @(f"{os.environ['HOME']}/.apollox/{_template_name}/.gitignore") .
@@ -709,6 +705,15 @@ os.chdir(_old_location)
 
 # ---------------------------------------------------------------------- .VSCODE
 print("Diff .vscode files ...", color=Color.YELLOW)
+
+if not os.path.exists(f"{project_folder}/.doc"):
+    mkdir -p @(f"{project_folder}/.doc")
+
+for file in os.listdir(f"{project_folder}/.conf/tmp/.doc"):
+    _open_merge_window(
+        f"{project_folder}/.conf/tmp/.doc/{file}",
+        f"{project_folder}/.doc/{file}"
+    )
 
 # TASKS.JSON
 _open_merge_window(
