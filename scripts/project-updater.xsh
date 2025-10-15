@@ -140,8 +140,19 @@ def _open_merge_window(to_update, current):
         else:
             @(_diff_tool) --wait --diff @(to_update) @(current)
 
+        # Read the file to trigger a UnicodeDecodeError if the file is not valid text.
+        try:
+            with open(to_update, "r") as f:
+                content = f.read()
+
+        except UnicodeDecodeError:
+            print(f"File {to_update} is not readable and cannot be opened on diff tool", color=Color.YELLOW)
+            _iam_sure = input("Do you want to update it by replacing it? [y/n] ")
+            if _iam_sure == "y":
+                cp -f @(to_update) @(current)
+
         # if after the merge the file is still empty
-        # means that this file should bot be added to the project
+        # means that this file should not be added to the project
         # so, let's remove it
         if os.path.getsize(to_update) == 0:
             rm -f @(to_update)
@@ -674,23 +685,29 @@ for root, dirs, files in os.walk("."):
             os.chmod(file_path, 0o400)
             continue
 
-        with open(file_path, "r") as f:
-            content = f.read()
+        try:
+            with open(file_path, "r") as f:
+                content = f.read()
 
-        content = content.replace("__change__", project_name)
+            content = content.replace("__change__", project_name)
 
-        if not _has_custom_fields:
-            content = content.replace("__container__", container_name)
-        else:
-            # also check for ids from the custom fields
-            for _field in _custom_fields:
-                content = content.replace(f"__{_field['id']}__", _field['value'])
+            if not _has_custom_fields:
+                content = content.replace("__container__", container_name)
+            else:
+                # also check for ids from the custom fields
+                for _field in _custom_fields:
+                    content = content.replace(f"__{_field['id']}__", _field['value'])
 
-        content = content.replace("__home__", os.environ["HOME"])
-        content = content.replace("__templateFolder__", _template_name)
+            content = content.replace("__home__", os.environ["HOME"])
+            content = content.replace("__templateFolder__", _template_name)
 
-        with open(file_path, "w") as f:
-            f.write(content)
+            with open(file_path, "w") as f:
+                f.write(content)
+
+        except UnicodeDecodeError:
+            # not readable file, skip it
+            print("Not readable file:", file_path)
+            continue
 
         # this means that the file passed all the checks
         print(file_path)
