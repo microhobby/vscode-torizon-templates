@@ -531,7 +531,6 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -754,12 +753,14 @@
                 "rm",
                 "-f",
                 "__container__",
-                "__container__-debug"
+                "__container__-debug",
+                "&&",
+                "sleep",
+                "${config:wait_sync}"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "remove-dangling-images",
-                "wait-a-bit"
+                "remove-dangling-images"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1306,7 +1307,6 @@
             "dependsOn": [
                 "spin-down-tunnel",
                 "spin-up-tunnel",
-                "wait-a-bit",
                 "pull-from-target-debug",
                 "spin-down-tunnel"
             ],
@@ -1347,7 +1347,6 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -1562,7 +1561,6 @@
             "dependsOn": [
                 "spin-down-tunnel",
                 "spin-up-tunnel",
-                "wait-a-bit",
                 "pull-from-target-release",
                 "spin-down-tunnel"
             ],
