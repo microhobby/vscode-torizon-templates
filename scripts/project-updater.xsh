@@ -465,7 +465,9 @@ print("✅ always accept new OK", color=Color.GREEN)
 
 # now that we have an updated version we can read it
 _update_table_file = open(f"{project_folder}/.conf/update.json", "r")
-_update_table = json.loads(_update_table_file.read())
+_update_table = _update_table_file.read()
+_update_table = _update_table.replace("$projectName", project_name)
+_update_table = json.loads(_update_table)
 _update_table_file.close()
 
 

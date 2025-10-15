@@ -388,7 +388,7 @@ for item in walk_workspace(root_path):
         if "binary" in mime_type.out:
             continue
 
-        if "id_rsa" not in str(item):
+        if "id_rsa" not in str(item) and ".conf/update.json" not in str(item):
             with open(item, 'r') as file:
                 content = file.read()
 
