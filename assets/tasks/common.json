@@ -1585,7 +1585,7 @@
             "command": "DOCKER_HOST=${config:torizon_ip}:2375",
             "type": "shell",
             "args": [
-                "DOCKER_LOGIN=${config:host_ip}:5002",
+                "DOCKER_LOGIN=localhost:5002",
                 "TAG=${config:docker_tag}",
                 "GPU=${config:torizon_gpu}",
                 "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
@@ -1631,7 +1631,7 @@
             "command": "DOCKER_HOST=${config:torizon_ip}:2375",
             "type": "shell",
             "args": [
-                "DOCKER_LOGIN=${config:host_ip}:5002",
+                "DOCKER_LOGIN=localhost:5002",
                 "TAG=${config:docker_tag}",
                 "GPU=${config:torizon_gpu}",
                 "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
@@ -1679,7 +1679,7 @@
             "command": "DOCKER_HOST=${config:torizon_ip}:2375",
             "type": "shell",
             "args": [
-                "DOCKER_LOGIN=${config:host_ip}:5002",
+                "DOCKER_LOGIN=localhost:5002",
                 "TAG=${config:docker_tag}",
                 "GPU=${config:torizon_gpu}",
                 "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
