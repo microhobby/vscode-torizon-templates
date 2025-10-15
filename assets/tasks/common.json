@@ -1213,6 +1213,33 @@
             }
         },
         {
+            "label": "tunnel-check",
+            "detail": "",
+            "hide": true,
+            "command": "xonsh",
+            "type": "shell",
+            "args": [
+                "${workspaceFolder}/.conf/tunnel-check.xsh",
+                "${config:torizon_psswd}",
+                "${config:torizon_ssh_port}",
+                "${config:torizon_login}",
+                "${config:torizon_ip}"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$msCompile",
+            "icon": {
+                "id": "repo-pull",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
             "label": "spin-down-tunnel",
             "detail": "",
             "hide": true,
@@ -1307,6 +1334,7 @@
             "dependsOn": [
                 "spin-down-tunnel",
                 "spin-up-tunnel",
+                "tunnel-check",
                 "pull-from-target-debug",
                 "spin-down-tunnel"
             ],
@@ -1561,6 +1589,7 @@
             "dependsOn": [
                 "spin-down-tunnel",
                 "spin-up-tunnel",
+                "tunnel-check",
                 "pull-from-target-release",
                 "spin-down-tunnel"
             ],

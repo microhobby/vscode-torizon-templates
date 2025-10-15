@@ -269,6 +269,7 @@ if template_scripts is None:
     cp -r @(template_folder)/../scripts/validate-deps-running.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/apply-ci-settings-file.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
+    cp -r @(template_folder)/../scripts/tunnel-check.xsh @(new_project_path)/.conf/
 else:
     for script in template_scripts:
         cp -r @(os.path.join(template_folder, "..", "scripts", script)) @(os.path.join(new_project_path, ".conf"))
