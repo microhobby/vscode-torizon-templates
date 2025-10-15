@@ -33,11 +33,11 @@ services:
     profiles:
       - debug
 
-  blazor-browser:
+  __container__-browser:
     build:
       context: .
       dockerfile: Dockerfile.debug
-    image: ${LOCAL_REGISTRY}:5002/__container__:${TAG}
+    image: ${DOCKER_LOGIN}/__container__:${TAG}
     ports:
       - 7001:7001
     depends_on:
@@ -46,7 +46,7 @@ services:
       - release
 
   cog:
-    image: torizon/cog${GPU}:3.4.0
+    image: torizon/cog${GPU}:4
     command: http://localhost:7001 -w
     environment:
       - ACCEPT_FSL_EULA=1
