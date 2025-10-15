@@ -247,7 +247,6 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "wait-a-bit"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
