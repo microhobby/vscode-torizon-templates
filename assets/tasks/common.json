@@ -1733,7 +1733,7 @@
                 "'No specific initial task defined for this template'"
             ],
             "problemMatcher": [
-                "$gcc"
+                "$tsc"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -1762,7 +1762,7 @@
                 "'No specific final task defined for this template'"
             ],
             "problemMatcher": [
-                "$gcc"
+                "$tsc"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
