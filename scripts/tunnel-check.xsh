@@ -25,9 +25,9 @@ from torizon_templates_utils.errors import Error,Error_Out
 
 
 
-if len(sys.argv) == 4:
+if len(sys.argv) != 5:
     Error_Out(
-        f"Error: Expected 4 arguments, but got {len(sys.argv)}.\n" +
+        f"Error: Expected 5 arguments, but got {len(sys.argv) -1}.\n" +
         "Report on https://github.com/torizon/vscode-torizon-templates/issues",
         Error.EINVAL
     )
