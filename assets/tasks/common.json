@@ -532,7 +532,7 @@
             "dependsOrder": "sequence",
             "dependsOn": [
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -555,7 +555,7 @@
                 "${config:wait_sync}"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -585,7 +585,7 @@
                 "rm -rf ${config:torizon_app_root}"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "trash",
                 "color": "terminal.ansiYellow"
@@ -609,7 +609,7 @@
                 "[[ ! -z \"${config:torizon_ip}\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "dependsOn": [
                 "validate-deps-running"
             ],
@@ -636,7 +636,7 @@
                 "[[ \"${config:torizon_arch}\" == \"x86_64\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -660,7 +660,7 @@
                 "[[ \"${config:torizon_arch}\" == \"arm\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -684,7 +684,7 @@
                 "[[ \"${config:torizon_arch}\" == \"arm64\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -719,7 +719,7 @@
                 "remove-dangling-images",
                 "wait-a-bit"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "trash",
                 "color": "terminal.ansiYellow"
@@ -762,7 +762,7 @@
             "dependsOn": [
                 "remove-dangling-images"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "trash",
                 "color": "terminal.ansiYellow"
@@ -783,7 +783,7 @@
                 "${config:torizon_ip}:2375"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "gear",
                 "color": "terminal.ansiYellow"
@@ -834,7 +834,7 @@
             "dependsOn": [
                 "apply-torizon-packages-arm64"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -885,7 +885,7 @@
             "dependsOn": [
                 "apply-torizon-packages-arm"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -936,7 +936,7 @@
             "dependsOn": [
                 "apply-torizon-packages-amd64"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -1096,7 +1096,7 @@
                 "__container__-debug"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1133,7 +1133,7 @@
                 "__container__-debug"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1170,7 +1170,7 @@
                 "__container__-debug"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1199,7 +1199,7 @@
                 "torizon-ide-port-tunnel"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1226,7 +1226,7 @@
                 "${config:torizon_ip}"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-pull",
                 "color": "terminal.ansiYellow"
@@ -1252,7 +1252,7 @@
                 "torizon-ide-port-tunnel"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1280,7 +1280,7 @@
                 "localhost:5002/__container__-debug:${config:torizon_arch}"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-pull",
                 "color": "terminal.ansiYellow"
@@ -1308,7 +1308,7 @@
                 "localhost:5002/__container__:${config:docker_tag}"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-pull",
                 "color": "terminal.ansiYellow"
@@ -1338,7 +1338,7 @@
                 "pull-from-target-debug",
                 "spin-down-tunnel"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-pull",
                 "color": "terminal.ansiYellow"
@@ -1376,7 +1376,7 @@
             "dependsOrder": "sequence",
             "dependsOn": [
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "debug-alt",
                 "color": "terminal.ansiYellow"
@@ -1426,7 +1426,7 @@
             "dependsOn": [
                 "apply-torizon-packages-arm64"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -1476,7 +1476,7 @@
             "dependsOn": [
                 "apply-torizon-packages-arm"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -1526,7 +1526,7 @@
             "dependsOn": [
                 "apply-torizon-packages-amd64"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiYellow"
@@ -1563,7 +1563,7 @@
             ],
             "dependsOn": [],
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-push",
                 "color": "terminal.ansiYellow"
@@ -1593,7 +1593,7 @@
                 "pull-from-target-release",
                 "spin-down-tunnel"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "repo-pull",
                 "color": "terminal.ansiYellow"
@@ -1639,7 +1639,7 @@
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "run",
                 "color": "terminal.ansiYellow"
@@ -1687,7 +1687,7 @@
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "run",
                 "color": "terminal.ansiYellow"
@@ -1735,7 +1735,7 @@
                 "template-specific-final-task",
                 "wait-a-bit"
             ],
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "run",
                 "color": "terminal.ansiYellow"
@@ -1812,7 +1812,7 @@
             "command": "${command:torizon.openTemplateDocumentation}",
             "type": "process",
             "dependsOrder": "sequence",
-            "problemMatcher": "$msCompile",
+            "problemMatcher": "$tsc",
             "icon": {
                 "id": "book",
                 "color": "terminal.ansiCyan"
