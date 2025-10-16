@@ -130,7 +130,7 @@
 					"-o",
 					"PubkeyAuthentication=no",
 					"${workspaceFolder}/docker-compose.yml",
-					"torizon@${config:torizon_ip}:~/"
+					"${config:torizon_login}@${config:torizon_ip}:~/"
 				],
 				"dependsOrder": "sequence",
 				"dependsOn": [

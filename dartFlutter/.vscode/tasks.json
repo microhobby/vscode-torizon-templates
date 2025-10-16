@@ -11,7 +11,7 @@
                 "-o",
                 "PubkeyAuthentication=no",
                 "-L", "42271:127.0.0.1:42271",
-                "torizon@${config:torizon_ip}"
+                "${config:torizon_login}@${config:torizon_ip}"
             ],
             "isBackground": true,
             "options": {
