@@ -138,6 +138,7 @@
                 "pull-container-torizon-debug",
                 "run-container-torizon-debug",
                 "wait-a-bit",
+                "ssh-check",
                 "stop-torizon-debug-generic",
                 "rsync-torizon-generic",
                 "start-torizon-debug-arm"
@@ -211,6 +212,7 @@
                 "pull-container-torizon-debug",
                 "run-container-torizon-debug",
                 "wait-a-bit",
+                "ssh-check",
                 "stop-torizon-debug-generic",
                 "rsync-torizon-generic",
                 "start-torizon-debug-arm64"
