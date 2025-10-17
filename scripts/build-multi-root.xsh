@@ -62,7 +62,6 @@ port_keys = [
 
 # Add project templates
 for template in obj_rec["Projects"]:
-    factor += 1
     template_name = template["Name"]
 
     code_workspace["folders"].append({
@@ -92,17 +91,10 @@ for template in obj_rec["Projects"]:
         if "wait_sync" in settings_json:
             try:
                 ws = int(settings_json["wait_sync"])
-                settings_json["wait_sync"] = ws + factor
+                settings_json["wait_sync"] = str(ws + factor)
+                factor += 1
             except ValueError:
                 pass
-
-        for key in port_keys:
-            val = settings_json.get(key)
-            if isinstance(val, str) and val.strip():
-                try:
-                    settings_json[key] = str(int(val) + factor)
-                except ValueError:
-                    pass
 
         with open(settings_path, "w") as f:
             json.dump(settings_json, f, indent=4)
