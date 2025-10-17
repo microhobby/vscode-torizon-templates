@@ -156,7 +156,7 @@ def apply_suggestions(suggestions):
             json.dump(content, f, indent=4)
         print(f"✅ Applied changes to {path}", color=Color.GREEN)
 
-def ask_and_apply_suggestions(suggestions):
+def ask_and_apply_suggestions(suggestions, prompt_user: bool):
     if not suggestions:
         print("No suggestions to apply.", color=Color.GREEN)
         return
@@ -168,15 +168,19 @@ def ask_and_apply_suggestions(suggestions):
         setting_name = p["settingName"]
         print(f"- {folder} / {service} / {setting_name} : {old_val} -> {new_val}", color=Color.YELLOW)
 
-    ans = input("Apply these changes? (y/N): ").strip().lower()
-    if ans == 'y':
-        apply_suggestions(suggestions)
+    if prompt_user:
+        ans = input("Apply these changes? (y/N): ").strip().lower()
+        if ans == 'y':
+            apply_suggestions(suggestions)
+        else:
+            print("No changes applied.", color=Color.YELLOW)
     else:
-        print("No changes applied.", color=Color.YELLOW)
+        apply_suggestions(suggestions)
 
 def main():
     args = $ARGS
     root_path = Path(args[1]).resolve()
+    prompt_user = False if len(args) < 3 else args[2].lower() == "true"
     workspace_folders = []
 
     # Detect workspace folders (folders with docker-compose.yml or .vscode/settings.json)
@@ -194,7 +198,7 @@ def main():
 
     all_ports = gather_all_ports(workspace_folders)
     _, suggestions = suggest_fixes_for_all_ports(all_ports)
-    ask_and_apply_suggestions(suggestions)
+    ask_and_apply_suggestions(suggestions, prompt_user)
 
 if __name__ == "__main__":
     main()
