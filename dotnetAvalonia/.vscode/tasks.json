@@ -225,7 +225,8 @@
                 "push-container-torizon-debug-arm",
                 "pull-container-torizon-debug",
                 "run-container-torizon-debug",
-                "pos-cleanup"
+                "pos-cleanup",
+                "ssh-check"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",
@@ -295,7 +296,8 @@
                 "push-container-torizon-debug-arm64",
                 "pull-container-torizon-debug",
                 "run-container-torizon-debug",
-                "pos-cleanup"
+                "pos-cleanup",
+                "ssh-check"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$msCompile",

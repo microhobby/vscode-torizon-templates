@@ -1213,17 +1213,48 @@
             }
         },
         {
+            "label": "ssh-check",
+            "detail": "",
+            "hide": true,
+            "command": "xonsh",
+            "type": "shell",
+            "args": [
+                "${workspaceFolder}/.conf/service-check.xsh",
+                "ssh",
+                "${config:torizon_psswd}",
+                "${config:torizon_debug_ssh_port}",
+                "${config:torizon_login}",
+                "${config:torizon_ip}",
+                "echo ssh-ok"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": "$tsc",
+            "icon": {
+                "id": "repo-pull",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
             "label": "tunnel-check",
             "detail": "",
             "hide": true,
             "command": "xonsh",
             "type": "shell",
             "args": [
-                "${workspaceFolder}/.conf/tunnel-check.xsh",
+                "${workspaceFolder}/.conf/service-check.xsh",
+                "registry",
                 "${config:torizon_psswd}",
                 "${config:torizon_ssh_port}",
                 "${config:torizon_login}",
-                "${config:torizon_ip}"
+                "${config:torizon_ip}",
+                "curl --silent --max-time 5 http://localhost:5002/v2/_catalog"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$tsc",
