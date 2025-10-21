@@ -439,6 +439,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/validate-json.xsh") \
     @(f"{project_folder}/.conf/validate-json.xsh")
 
+# SERVICE CHECK
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/service-check.xsh") \
+    @(f"{project_folder}/.conf/service-check.xsh")
+
 # REMOVE DANGLING IMAGES:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/remove-dangling-images.xsh") \
@@ -606,7 +611,7 @@ if _template_name != "tcb":
         buildDepDockerfile = any("torizon_packages_build" in line for line in dockerfileLines)
     else:
         buildDepDockerfile = False
-    
+
     if os.path.exists(f"{os.environ['HOME']}/.apollox/{_template_name}/Dockerfile.sdk") or buildDepDockerfile:
         _torPackagesJson["buildDeps"] = []
 
