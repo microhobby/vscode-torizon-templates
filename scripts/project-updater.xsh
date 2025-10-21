@@ -461,7 +461,7 @@ cp -f \
     @(f"{project_folder}/.conf/remove-dangling-images.xsh")
 
 
-print("✅ always accept new OK", color=Color.GREEN)
+print("✅ Latest scripts and documentation merged", color=Color.GREEN)
 # ----------------------------------------------------------- ALWAYS ACCEPT NEW
 
 
