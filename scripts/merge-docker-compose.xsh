@@ -55,19 +55,6 @@ for folder in workspace_folders:
             if "build" in svc and "dockerfile" in svc["build"]:
                 del svc["build"]
 
-            # Replace ${TAG} with the docker_tag if applicable
-            tag = tag_by_folder.get(folder.name)
-            if tag:
-                svc_yaml = yaml.dump(svc)
-                svc_yaml = svc_yaml.replace("${TAG}", tag)
-                svc = yaml.safe_load(svc_yaml)
-
-            # Add profiles based on service name
-            if "debug" in name.lower():
-                svc["profiles"] = ["debug"]
-            else:
-                svc["profiles"] = ["release"]
-
             merged["services"][name] = svc
 
     except Exception as e:
