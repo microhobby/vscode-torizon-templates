@@ -20,6 +20,7 @@ import json
 from glob import glob
 from pathlib import Path
 from typing import TypeVar
+from datetime import date
 from xonsh.procs.pipelines import CommandPipeline
 from torizon_templates_utils.tasks import replace_tasks_input
 from torizon_templates_utils.args import get_arg_not_empty,get_optional_arg
@@ -135,7 +136,8 @@ if telemetry:
         import urllib.parse
 
         _query = urllib.parse.urlencode({
-            "template": template
+            "template": template,
+            "dateTime": date.today().isoformat()
         }).encode("utf-8")
 
         _conn = http.client.HTTPConnection("ec2-3-133-114-116.us-east-2.compute.amazonaws.com")
