@@ -727,10 +727,11 @@ if not os.path.exists(f"{project_folder}/.doc"):
     mkdir -p @(f"{project_folder}/.doc")
 
 for file in os.listdir(f"{project_folder}/.conf/tmp/.doc"):
-    _open_merge_window(
-        f"{project_folder}/.conf/tmp/.doc/{file}",
-        f"{project_folder}/.doc/{file}"
-    )
+    cp -rf \
+    @(f"{project_folder}/.conf/tmp/.doc/{file}") \
+    @(f"{project_folder}/.doc/{file}")
+
+print("✅ .doc files", color=Color.GREEN)
 
 # TASKS.JSON
 _open_merge_window(
