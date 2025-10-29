@@ -46,7 +46,8 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-arm"
+            "preLaunchTask": "deploy-torizon-arm",
+            "postDebugTask": "spin-down-tunnel"
         },
         {
             "name": "Torizon arm64",
@@ -73,7 +74,8 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-arm64"
+            "preLaunchTask": "deploy-torizon-arm64",
+            "postDebugTask": "spin-down-tunnel"
         },
         {
             "name": "Torizon Browser ARMv8",
@@ -100,7 +102,8 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-browser-arm64"
+            "preLaunchTask": "deploy-torizon-browser-arm64",
+            "postDebugTask": "spin-down-tunnel"
         }
     ]
 }

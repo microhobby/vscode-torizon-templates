@@ -19,7 +19,8 @@
             "continueOnAttach": true,
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "${config:torizon_app_root}",
-            "preLaunchTask": "start-torizon-debug-amd64"
+            "preLaunchTask": "start-torizon-debug-amd64",
+            "postDebugTask": "spin-down-tunnel"
         },
         {
             "name": "Torizon arm32",
@@ -32,7 +33,8 @@
             "continueOnAttach": true,
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "${config:torizon_app_root}",
-            "preLaunchTask": "start-torizon-debug-arm"
+            "preLaunchTask": "start-torizon-debug-arm",
+            "postDebugTask": "spin-down-tunnel"
         },
         {
             "name": "Torizon arm64",
@@ -45,7 +47,8 @@
             "continueOnAttach": true,
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "${config:torizon_app_root}",
-            "preLaunchTask": "start-torizon-debug-arm64"
+            "preLaunchTask": "start-torizon-debug-arm64",
+            "postDebugTask": "spin-down-tunnel"
         }
     ]
 }
