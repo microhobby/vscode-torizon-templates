@@ -178,7 +178,8 @@
 					"build-container-torizon-release-arm",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
-					"wait-a-bit"
+					"wait-a-bit",
+					"spin-down-tunnel"
 				],
 				"presentation": {
 					"echo": true,
@@ -201,7 +202,8 @@
 					"build-container-torizon-release-arm64",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
-					"wait-a-bit"
+					"wait-a-bit",
+					"spin-down-tunnel"
 				],
 				"presentation": {
 					"echo": true,
