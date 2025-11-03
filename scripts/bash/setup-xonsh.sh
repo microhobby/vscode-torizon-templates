@@ -28,7 +28,7 @@ if [ -f "$HOME/.local/bin/xonsh" ]; then
     ref="$branch"
     fi
 
-    pipx runpip xonsh install --upgrade "git+${repo}@${ref}#subdirectory=scripts/utils/pip"
+    pipx runpip xonsh install --force-reinstall "git+${repo}@${ref}#subdirectory=scripts/utils/pip"
 
     echo "all ok ✅"
     exit 0

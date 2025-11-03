@@ -23,9 +23,9 @@ def replace_tasks_input():
                 with open(file, 'r') as f:
                     content = f.read()
 
-                content = content.replace("input:dockerLogin", "command:docker_login")
-                content = content.replace("input:dockerImageRegistry", "command:inputBoxDockerRegistry")
-                content = content.replace("input:dockerPsswd", "command:docker_password")
+                content = content.replace("input:dockerLogin", "command:docker_login.__change__")
+                content = content.replace("input:dockerImageRegistry", "command:inputBox-docker_registry.__change__")
+                content = content.replace("input:dockerPsswd", "command:docker_password.__change__")
 
                 with open(file, 'w') as f:
                     f.write(content)
@@ -576,6 +576,28 @@ class TaskRunner:
         return ret
 
 
+    def __check_input_boxes(self, env: List[str]) -> List[str]:
+        ret: List[str] = []
+
+        for value in env:
+            value = value.replace("${command:inputBox-", "${config:")
+            ret.append(value)
+
+        return ret
+
+
+    def __check_cmd_args(self, env: List[str]) -> List[str]:
+        ret: List[str] = []
+
+        for value in env:
+            # This will strip the workspace from the command
+            # For example command:inputBox.qt will be turned into command:inputBox
+            value = value.split(".", 1)[0]
+            ret.append(value)
+
+        return ret
+
+
     def __check_docker_inputs(self, env: List[str]) -> List[str]:
         ret: List[str] = []
 
@@ -828,6 +850,7 @@ class TaskRunner:
             if _env_value:
                 expvalue = [_env_value]
                 expvalue = self.__check_workspace_folder(expvalue)
+                expvalue = self.__check_input_boxes(expvalue)
                 expvalue = self.__check_torizon_inputs(expvalue)
                 expvalue = self.__check_docker_inputs(expvalue)
                 expvalue = self.__check_tcb_inputs(expvalue)
@@ -888,7 +911,9 @@ class TaskRunner:
         _cmd = _task.command
 
         # the cmd itself can use the mechanism to replace stuff
+        _cmd = self.__check_cmd_args([_cmd])[0]
         _cmd = self.__check_workspace_folder([_cmd])[0]
+        _cmd = self.__check_input_boxes([_cmd])[0]
         _cmd = self.__check_torizon_inputs([_cmd])[0]
         _cmd = self.__check_docker_inputs([_cmd])[0]
         _cmd = self.__check_tcb_inputs([_cmd])[0]
@@ -917,6 +942,7 @@ class TaskRunner:
         #           but when used on Python it generates weird behavior
         # _args = self.__scape_args(_args)
         _args = self.__check_workspace_folder(_args)
+        _args = self.__check_input_boxes(_args)
         _args = self.__check_torizon_inputs(_args)
         _args = self.__check_docker_inputs(_args)
         _args = self.__check_tcb_inputs(_args)
