@@ -23,6 +23,13 @@ obj_rec = json.loads(args[2])
 project_name = obj_rec["Name"]
 project_folder = location_folder_join
 
+ENV_MERGE_MAP = {
+    "create-image-production-all": {
+        "env_name": "DOCKER_TAG",
+        "env_value": "inputBox-docker_tag"
+    }
+}
+
 # Compose path
 compose_path = project_folder / "docker-compose.yml"
 compose_template_path = home / ".apollox" / "empty" / "docker-compose.yml"
@@ -136,6 +143,19 @@ for task in code_workspace.get("tasks", {}).get("tasks", []):
         cwd = task["options"].get("cwd")
         if isinstance(cwd, str):
             task["options"]["cwd"] = cwd.replace("${workspaceFolder}", f"${{workspaceFolder:{project_name}}}")
+    
+    label = task["label"]
+    if label in ENV_MERGE_MAP:
+        env_info = ENV_MERGE_MAP[label]
+        env_name = env_info["env_name"]
+        env_value = env_info["env_value"]
+
+        for template in obj_rec["Projects"]:
+            template_name = template["Name"]
+            if template_name != project_name:
+                if "env" not in task["options"] or not isinstance(task["options"]["env"], dict):
+                    task["options"]["env"] = {}
+                task["options"]["env"][f"{env_name}_{template_name}"] = f"${{command:{env_value}.{template_name}}}"
 
 # Save updated files
 with open(compose_path, "w") as f:
