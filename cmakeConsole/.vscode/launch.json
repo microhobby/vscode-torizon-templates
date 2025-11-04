@@ -71,8 +71,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "deploy-torizon-arm",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-arm"
         },
         {
             "name": "Torizon arm64",
@@ -119,8 +118,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "deploy-torizon-arm64",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-arm64"
         }
     ]
 }

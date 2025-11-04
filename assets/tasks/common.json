@@ -1619,9 +1619,11 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
+                "spin-down-tunnel",
                 "spin-up-tunnel",
                 "tunnel-check",
-                "pull-from-target-release"
+                "pull-from-target-release",
+                "spin-down-tunnel"
             ],
             "problemMatcher": "$tsc",
             "icon": {
@@ -1667,8 +1669,7 @@
                 "push-container-torizon-release",
                 "pull-container-torizon-release",
                 "template-specific-final-task",
-                "wait-a-bit",
-                "spin-down-tunnel"
+                "wait-a-bit"
             ],
             "problemMatcher": "$tsc",
             "icon": {
@@ -1716,8 +1717,7 @@
                 "push-container-torizon-release",
                 "pull-container-torizon-release",
                 "template-specific-final-task",
-                "wait-a-bit",
-                "spin-down-tunnel"
+                "wait-a-bit"
             ],
             "problemMatcher": "$tsc",
             "icon": {
@@ -1765,8 +1765,7 @@
                 "push-container-torizon-release",
                 "pull-container-torizon-release",
                 "template-specific-final-task",
-                "wait-a-bit",
-                "spin-down-tunnel"
+                "wait-a-bit"
             ],
             "problemMatcher": "$tsc",
             "icon": {

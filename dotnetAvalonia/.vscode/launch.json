@@ -39,8 +39,7 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-amd64",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-amd64"
         },
         {
             "name": "Torizon arm32",
@@ -69,8 +68,7 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-arm",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-arm"
         },
         {
             "name": "Torizon arm64",
@@ -99,8 +97,7 @@
                 ],
                 "debuggerPath": "/vsdbg/vsdbg"
             },
-            "preLaunchTask": "deploy-torizon-arm64",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-arm64"
         }
     ]
 }

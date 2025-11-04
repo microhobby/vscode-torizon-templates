@@ -56,8 +56,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "deploy-torizon-arm64",
-            "postDebugTask": "spin-down-tunnel"
+            "preLaunchTask": "deploy-torizon-arm64"
         }
     ]
 }

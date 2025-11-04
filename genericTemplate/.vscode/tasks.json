@@ -9,10 +9,6 @@
                 "id": "layers",
                 "color": "terminal.ansiCyan"
             },
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "spin-down-tunnel"
-            ],
             "presentation": {
                 "echo": false,
                 "reveal": "always",
