@@ -232,8 +232,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "stop-container-torizon-arm",
-                "spin-down-tunnel"
+                "stop-container-torizon-arm"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -377,8 +376,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "stop-container-torizon-arm64",
-                "spin-down-tunnel"
+                "stop-container-torizon-arm64"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
@@ -576,8 +574,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "stop-container-torizon-amd64",
-                "spin-down-tunnel"
+                "stop-container-torizon-amd64"
             ],
             "problemMatcher": "$msCompile",
             "icon": {

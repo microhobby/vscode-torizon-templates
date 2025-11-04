@@ -588,8 +588,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "stop-container-torizon",
-                "spin-down-tunnel"
+                "stop-container-torizon"
             ],
             "problemMatcher": "$msCompile",
             "icon": {
