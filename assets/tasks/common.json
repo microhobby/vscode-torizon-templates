@@ -1190,13 +1190,12 @@
             "command": "${env:HOME}/.local/bin/xonsh",
             "type": "process",
             "args": [
-                "${workspaceFolder}/.conf/run-container-if-not-exists.xsh",
-                "--container-runtime",
-                "docker",
-                "--run-arguments",
-                "\"--rm -d --network host torizonextras/ide-port-tunnel:0.0.0 sshpass -p ${config:torizon_psswd} ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no ${config:torizon_login}@${config:torizon_ip}\"",
-                "--container-name",
-                "torizon-ide-port-tunnel"
+                "${workspaceFolder}/.conf/spin-up-down-registry.xsh",
+                "up",
+                "${config:torizon_psswd}",
+                "${config:torizon_login}",
+                "${config:torizon_ip}",
+                "${workspaceFolder}"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$tsc",
@@ -1274,13 +1273,15 @@
             "label": "spin-down-tunnel",
             "detail": "",
             "hide": true,
-            "command": "DOCKER_HOST=",
-            "type": "shell",
+            "command": "${env:HOME}/.local/bin/xonsh",
+            "type": "process",
             "args": [
-                "docker",
-                "rm",
-                "-f",
-                "torizon-ide-port-tunnel"
+                "${workspaceFolder}/.conf/spin-up-down-registry.xsh",
+                "down",
+                "${config:torizon_psswd}",
+                "${config:torizon_login}",
+                "${config:torizon_ip}",
+                "${workspaceFolder}"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$tsc",
