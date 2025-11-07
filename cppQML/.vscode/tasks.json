@@ -560,9 +560,9 @@
                 "qt-enterprise-generate-auth-conf",
                 "build-debug-arm64",
                 "build-container-torizon-debug-arm64",
-                "qt-enterprise-remove-auth-conf",
                 "push-container-torizon-debug-arm64",
                 "pull-container-torizon-debug",
+                "qt-enterprise-remove-auth-conf",
                 "run-container-torizon-debug",
                 "ssh-check"
             ],
@@ -711,9 +711,9 @@
                 "qt-enterprise-generate-auth-conf",
                 "build-debug-arm",
                 "build-container-torizon-debug-arm",
-                "qt-enterprise-remove-auth-conf",
                 "push-container-torizon-debug-arm",
                 "pull-container-torizon-debug",
+                "qt-enterprise-remove-auth-conf",
                 "run-container-torizon-debug",
                 "ssh-check"
             ],
