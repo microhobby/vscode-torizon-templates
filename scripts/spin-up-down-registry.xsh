@@ -106,8 +106,8 @@ if len(sys.argv) != 6:
 
 action = get_arg_not_empty(1)
 psswd = get_arg_not_empty(2)
-login = get_optional_arg(3)
-ip = get_optional_arg(4)
+login = get_arg_not_empty(3)
+ip = get_arg_not_empty(4)
 workspace = get_arg_not_empty(5)
 
 if action not in ["up","down"]:
@@ -135,6 +135,9 @@ if action == "down":
 
     # just remove the container if no one is using it
     if count == 0:
-        DOCKER_HOST= docker rm -f torizon-ide-port-tunnel
+        $DOCKER_HOST = ""
+        os.environ["DOCKER_HOST"] = ""
+
+        docker rm -f torizon-ide-port-tunnel
 
     sys.exit(0)
