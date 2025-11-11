@@ -576,7 +576,10 @@ class TaskRunner:
 
         for value in env:
             if "${command:torizon_" in value:
+                # here is not needed to clean the torizon_<prop>.<project_name>
+                # because this will be handled on the cmd args check
                 value = value.replace("${command:torizon_", "${config:torizon_")
+
             ret.append(value)
 
         return ret
@@ -598,8 +601,15 @@ class TaskRunner:
         for value in env:
             for whitelisted_start in REPLACE_WHITELIST:
                 if value.startswith("${command:" + whitelisted_start) or value.startswith("${config:" + whitelisted_start):
+
                     if "." in value:
-                        value = value.rsplit(".", 1)[0] + "}"
+                        value_p1, value_p2 = value.split(".", 1)
+                        ret_p2 = value_p2.split("}", 1)
+
+                        if len(ret_p2) > 1:
+                            value = f"{value_p1}}}{ret_p2[1]}"
+                        else:
+                            value = f"{value_p1}}}"
                     break
 
             ret.append(value)
