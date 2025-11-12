@@ -971,9 +971,12 @@ class TaskRunner:
         _args = self.__check_vscode_env(_args)
         _args = self.__check_config(_args)
         _args = self.__check_workspace_folder(_args)
+
+        if _shell:
+            _args = self.__check_long_args(_args)
+
         # FIXME:    These was in the powershell implementation
         #           but when used on Python it generates weird behavior
-        # _args = self.__check_long_args(_args)
         # _args = self.__quoting_special_chars(_args)
 
         # if in gitlab ci env we need to replace the DOCKER_HOST
