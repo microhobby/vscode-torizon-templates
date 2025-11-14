@@ -172,12 +172,14 @@
 				"command": "xonsh",
 				"args": [
 					"${workspaceFolder}/.conf/multi-root-tasks.xsh",
+					"template-specific-initial-task",
 					"validate-settings",
 					"validate-arch-arm",
 					"pre-cleanup",
 					"build-container-torizon-release-arm",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
+					"template-specific-final-task",
 					"wait-a-bit"
 				],
 				"presentation": {
@@ -195,12 +197,14 @@
 				"command": "xonsh",
 				"args": [
 					"${workspaceFolder}/.conf/multi-root-tasks.xsh",
+					"template-specific-initial-task",
 					"validate-settings",
 					"validate-arch-arm64",
 					"pre-cleanup",
 					"build-container-torizon-release-arm64",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
+					"template-specific-final-task",
 					"wait-a-bit"
 				],
 				"presentation": {
