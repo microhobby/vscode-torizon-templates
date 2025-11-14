@@ -912,6 +912,7 @@
             "command": "rm",
             "type": "shell",
             "args": [
+                "-f",
                 "${workspaceFolder}/.conf/qt6-enterprise/qt-feed-auth.conf"
             ],
             "problemMatcher": [
