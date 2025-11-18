@@ -73,9 +73,9 @@
 				],
 				"options": {
 					"env": {
-						"DOCKER_REGISTRY": "${command:inputBoxDockerRegistry}",
-						"DOCKER_LOGIN": "${command:docker_login}",
-						"DOCKER_PASSWORD": "${command:docker_password}",
+						"DOCKER_REGISTRY": "${command:inputBox-docker_registry.__change__}",
+						"DOCKER_LOGIN": "${command:docker_login.__change__}",
+						"DOCKER_PASSWORD": "${command:docker_password.__change__}",
 						"TORIZON_ARCH": "${input:archList}",
 						"APP_ROOT": "${config:torizon_app_root}"
 					}
@@ -172,14 +172,15 @@
 				"command": "xonsh",
 				"args": [
 					"${workspaceFolder}/.conf/multi-root-tasks.xsh",
+					"template-specific-initial-task",
 					"validate-settings",
 					"validate-arch-arm",
 					"pre-cleanup",
 					"build-container-torizon-release-arm",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
-					"wait-a-bit",
-					"spin-down-tunnel"
+					"template-specific-final-task",
+					"wait-a-bit"
 				],
 				"presentation": {
 					"echo": true,
@@ -196,14 +197,15 @@
 				"command": "xonsh",
 				"args": [
 					"${workspaceFolder}/.conf/multi-root-tasks.xsh",
+					"template-specific-initial-task",
 					"validate-settings",
 					"validate-arch-arm64",
 					"pre-cleanup",
 					"build-container-torizon-release-arm64",
 					"push-container-torizon-release",
 					"pull-container-torizon-release",
-					"wait-a-bit",
-					"spin-down-tunnel"
+					"template-specific-final-task",
+					"wait-a-bit"
 				],
 				"presentation": {
 					"echo": true,

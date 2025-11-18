@@ -8,7 +8,7 @@
             "runtime": "None",
             "language": "None",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -33,7 +33,7 @@
                 "multi-root-tasks.xsh"
             ],
             "ignoreTorizonPackages": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -45,7 +45,7 @@
             "language": "C#",
             "debugSSHPort": "2222",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -57,7 +57,7 @@
             "language": "C#",
             "debugSSHPort": "2222",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -69,7 +69,7 @@
             "language": "C#",
             "debugSSHPort": "2223",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -81,7 +81,7 @@
             "language": "C#",
             "debugSSHPort": "2224",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -106,7 +106,7 @@
             "language": "C/C++",
             "debugSSHPort": "2230",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -118,7 +118,7 @@
             "language": "C/C++",
             "debugSSHPort": "2230",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -132,7 +132,7 @@
             "debugPort2": "2233",
             "debugSSHPort": "2231",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": "To learn more about Qt Enterprise and get a free evaluation license, please go to [https://www.qt.io/qt-and-toradex](https://www.qt.io/qt-and-toradex)",
             "tests": {
@@ -190,7 +190,7 @@
             "debugPort": "6512",
             "debugSSHPort": "6502",
             "multiContainer": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": ""
         },
@@ -248,7 +248,7 @@
                 ]
             },
             "ignoreTorizonPackages": true,
-            "support": "Toradex",
+            "support": "Torizon",
             "status": "ok",
             "customMessage": "",
             "customFields": [
