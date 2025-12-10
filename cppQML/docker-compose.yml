@@ -6,7 +6,7 @@ services:
       secrets:
         - qt-login
         - qt-password
-    image: ${LOCAL_REGISTRY}:5002/qt-debug:${TAG}
+    image: ${LOCAL_REGISTRY}:5002/__container__-debug:${TAG}
     ports:
       # SSH debug
       - ${DEBUG_SSH_PORT}:${DEBUG_SSH_PORT}
@@ -43,7 +43,7 @@ services:
       secrets:
         - qt-login
         - qt-password
-    image: ${DOCKER_LOGIN}/qt:${TAG}
+    image: ${DOCKER_LOGIN}/__container__:${TAG}
     volumes:
       - type: bind
         source: /tmp
