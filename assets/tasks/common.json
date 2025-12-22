@@ -635,7 +635,7 @@
             "type": "process",
             "args": [
                 "-c",
-                "[[ \"${config:torizon_arch}\" == \"x86_64\" ]] && true || false"
+                "[[ \"${config:torizon_arch}\" == \"amd64\" ]] && true || false"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": "$tsc",
