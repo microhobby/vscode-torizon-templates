@@ -187,7 +187,7 @@ if action not in ["up","down"]:
         Error.EINVAL
     )
 
-if action == "up":
+elif action == "up":
     # Check arguments before locking
     args_hash = _get_args_hash(psswd, login, ip)
 
@@ -209,10 +209,7 @@ if action == "up":
         --container-name \
         @(container_name)
 
-    sys.exit(0)
-
-
-if action == "down":
+elif action == "down":
     # Get the args hash for this workspace before removing it
     args_hash = _get_args_hash(psswd, login, ip)
     container_name = _get_container_name(args_hash)
@@ -227,5 +224,3 @@ if action == "down":
     if workspaces_with_same_hash == 0:
         # Re-check with lock right before removal to prevent race condition
         _safe_remove_container_if_unused(container_name, args_hash)
-
-    sys.exit(0)
