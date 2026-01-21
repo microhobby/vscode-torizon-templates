@@ -348,6 +348,11 @@ if not os.path.exists(f"{new_project_path}/.github"):
 if not os.path.exists(f"{new_project_path}/.gitlab-ci.yml"):
     cp -r @(template_folder)/../assets/gitlab/.gitlab-ci.yml @(new_project_path)/.gitlab-ci.yml
 
+
+# copy the ci-vars.json if not exists
+if not os.path.exists(f"{new_project_path}/.conf/ci-vars.json"):
+    cp -r @(template_folder)/../assets/conf/ci-vars.json @(new_project_path)/.conf/ci-vars.json
+
 # create a metadata.json to store
 # template name
 # container name
