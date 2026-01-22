@@ -29,7 +29,7 @@ if len(sys.argv) != 2:
 $__TCD_BRANCH = sys.argv[1]
 $__TCD_SHA_DIR = 0
 # ⚠️ THIS NEED TO BE IN SYNC WITH THE PYTHON UTILS VERSION
-$__UTILS_VERSION = "1.1.0"
+$__UTILS_VERSION = "1.1.1"
 
 # # run the build command
 print(f"🔨 :: XONSH :: 🔨", color=Color.GREEN)
