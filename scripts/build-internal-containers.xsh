@@ -42,8 +42,8 @@ docker compose \
 
 # rename for have the one with the right tag
 docker tag \
-    @(f"torizonextras/xonsh:${__TCD_BRANCH}") \
-    @(f"torizonextras/xonsh:${__UTILS_VERSION}")
+    @(f"torizonextras/xonsh:{$__TCD_BRANCH}") \
+    @(f"torizonextras/xonsh:{$__UTILS_VERSION}")
 
 # # run the build command
 print(f"🔨 :: TASKS :: 🔨", color=Color.GREEN)
@@ -56,8 +56,8 @@ docker compose \
 
 # create a copy with the right versioning tag
 docker tag \
-    @(f"torizonextras/torizon-dev-tasks:${__TCD_BRANCH}") \
-    @(f"torizonextras/torizon-dev-tasks:${__UTILS_VERSION}")
+    @(f"torizonextras/torizon-dev-tasks:{$__TCD_BRANCH}") \
+    @(f"torizonextras/torizon-dev-tasks:{$__UTILS_VERSION}")
 
 # # run the build command
 print(f"🔨 :: XONSH-WRAPPER :: 🔨", color=Color.GREEN)
@@ -70,8 +70,8 @@ docker compose \
 
 # rename for have the one with the right tag
 docker tag \
-    @(f"torizonextras/xonsh-wrapper:${__TCD_BRANCH}") \
-    @(f"torizonextras/xonsh-wrapper:${__UTILS_VERSION}")
+    @(f"torizonextras/xonsh-wrapper:{$__TCD_BRANCH}") \
+    @(f"torizonextras/xonsh-wrapper:{$__UTILS_VERSION}")
 
 # run the build command
 print(f"🔨 :: TORIZON-DEV :: 🔨", color=Color.GREEN)
@@ -84,8 +84,8 @@ docker compose \
 
 # rename for have the one with the right tag
 docker tag \
-    @(f"torizonextras/torizon-dev:${__TCD_BRANCH}") \
-    @(f"torizonextras/torizon-dev:${__UTILS_VERSION}")
+    @(f"torizonextras/torizon-dev:{$__TCD_BRANCH}") \
+    @(f"torizonextras/torizon-dev:{$__UTILS_VERSION}")
 
 # run the build command
 print(f"🔨 :: SSH-TUNNEL :: 🔨", color=Color.GREEN)
