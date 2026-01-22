@@ -28,6 +28,8 @@ if len(sys.argv) != 2:
 
 $__TCD_BRANCH = sys.argv[1]
 $__TCD_SHA_DIR = 0
+# ⚠️ THIS NEED TO BE IN SYNC WITH THE PYTHON UTILS VERSION
+$__UTILS_VERSION = "1.1.0"
 
 # # run the build command
 print(f"🔨 :: XONSH :: 🔨", color=Color.GREEN)
@@ -38,6 +40,11 @@ docker compose \
     --push \
     xonsh
 
+# rename for have the one with the right tag
+docker tag \
+    torizonextras/xonsh:${__TCD_BRANCH} \
+    torizonextras/xonsh:${__UTILS_VERSION}
+
 # # run the build command
 print(f"🔨 :: TASKS :: 🔨", color=Color.GREEN)
 docker compose \
@@ -46,6 +53,11 @@ docker compose \
     --no-cache \
     --push \
     tasks
+
+# create a copy with the right versioning tag
+docker tag \
+    torizonextras/torizon-dev-tasks:${__TCD_BRANCH} \
+    torizonextras/torizon-dev-tasks:${__UTILS_VERSION}
 
 # # run the build command
 print(f"🔨 :: XONSH-WRAPPER :: 🔨", color=Color.GREEN)
@@ -56,6 +68,11 @@ docker compose \
     --push \
     xonsh-wrapper
 
+# rename for have the one with the right tag
+docker tag \
+    torizonextras/xonsh-wrapper:${__TCD_BRANCH} \
+    torizonextras/xonsh-wrapper:${__UTILS_VERSION}
+
 # run the build command
 print(f"🔨 :: TORIZON-DEV :: 🔨", color=Color.GREEN)
 docker compose \
@@ -64,6 +81,11 @@ docker compose \
     --no-cache \
     --push \
     torizon-dev
+
+# rename for have the one with the right tag
+docker tag \
+    torizonextras/torizon-dev:${__TCD_BRANCH} \
+    torizonextras/torizon-dev:${__UTILS_VERSION}
 
 # run the build command
 print(f"🔨 :: SSH-TUNNEL :: 🔨", color=Color.GREEN)
