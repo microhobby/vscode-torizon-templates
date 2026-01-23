@@ -23,7 +23,6 @@ jobs:
 
       - name: Initial Setup
         shell: bash
-
         run: |
 
           echo "${{ github.workspace }}" >> abs-path
