@@ -7,7 +7,7 @@ if [ -f "$HOME/.local/bin/xonsh" ]; then
     echo "xonsh is already installed, updating torizon-templates-utils ..."
     # force the install of the latest version of torizon-templates-utils
 
-    repo="${XONSH_TEMPLATES_GIT_REPO:-https://github.com/toradex/torizon-templates.git}"
+    repo="${XONSH_TEMPLATES_GIT_REPO:-https://github.com/torizon/vscode-torizon-templates.git}"
     branch="${XONSH_TEMPLATES_GIT_REPO_BRANCH:-main}"
     tag_or_hash="${XONSH_TEMPLATES_GIT_TAG}"
 
