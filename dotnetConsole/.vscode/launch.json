@@ -65,6 +65,33 @@
                 "debuggerPath": "/vsdbg/vsdbg"
             },
             "preLaunchTask": "deploy-torizon-arm64"
+        },
+        {
+            "name": "Torizon amd64",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${config:torizon_app_root}/__change__",
+            "cwd": "${config:torizon_app_root}",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "args": [],
+            "pipeTransport": {
+                "pipeCwd": "${workspaceFolder}",
+                "pipeProgram": "ssh",
+                "pipeArgs": [
+                    "-T",
+                    "-q",
+                    "-p",
+                    "${config:torizon_debug_ssh_port}",
+                    "-o",
+                    "StrictHostKeyChecking=no",
+                    "-o",
+                    "UserKnownHostsFile /dev/null",
+                    "${config:torizon_run_as}@${config:torizon_ip}"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg"
+            },
+            "preLaunchTask": "deploy-torizon-amd64"
         }
     ]
 }
