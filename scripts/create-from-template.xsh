@@ -353,6 +353,11 @@ if not os.path.exists(f"{new_project_path}/.gitlab-ci.yml"):
 if not os.path.exists(f"{new_project_path}/.conf/ci-vars.json"):
     cp -r @(template_folder)/../assets/conf/ci-vars.json @(new_project_path)/.conf/ci-vars.json
 
+
+# copy the compose-rules.json if not exists
+if not os.path.exists(f"{new_project_path}/.conf/compose-rules.json"):
+    cp -r @(template_folder)/../assets/conf/compose-rules.json @(new_project_path)/.conf/compose-rules.json
+
 # create a metadata.json to store
 # template name
 # container name
