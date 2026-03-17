@@ -1,0 +1,254 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "deploy-torizon-arm64",
+            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
+            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "type": "shell",
+            "args": [
+                "DOCKER_LOGIN=localhost:5002",
+                "TAG=${config:docker_tag}",
+                "GPU=${config:torizon_gpu}",
+                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
+                "DEBUG_PORT1=${config:torizon_debug_port1}",
+                "DEBUG_PORT2=${config:torizon_debug_port2}",
+                "DEBUG_PORT3=${config:torizon_debug_port3}",
+                "docker",
+                "compose",
+                "-p",
+                "torizon",
+                "--profile",
+                "debug",
+                "up",
+                "__container__-debug"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "start-ssh-tunnel",
+                "template-specific-initial-task",
+                "validate-settings",
+                "validate-arch-arm64",
+                "copy-docker-compose",
+                "pre-cleanup",
+                "build-container-torizon-release-arm64",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
+                "template-specific-final-task"
+            ],
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                        "regexp": ".",
+                        "file": 1,
+                        "location": 2,
+                        "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "."
+                    }
+                }
+            ],
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "deploy-torizon-arm",
+            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
+            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "type": "shell",
+            "args": [
+                "DOCKER_LOGIN=localhost:5002",
+                "TAG=${config:docker_tag}",
+                "GPU=${config:torizon_gpu}",
+                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
+                "DEBUG_PORT1=${config:torizon_debug_port1}",
+                "DEBUG_PORT2=${config:torizon_debug_port2}",
+                "DEBUG_PORT3=${config:torizon_debug_port3}",
+                "docker",
+                "compose",
+                "-p",
+                "torizon",
+                "--profile",
+                "debug",
+                "up",
+                "__container__-debug"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "start-ssh-tunnel",
+                "template-specific-initial-task",
+                "validate-settings",
+                "validate-arch-arm",
+                "copy-docker-compose",
+                "pre-cleanup",
+                "build-container-torizon-release-arm",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
+                "template-specific-final-task"
+            ],
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                        "regexp": ".",
+                        "file": 1,
+                        "location": 2,
+                        "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "."
+                    }
+                }
+            ],
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "deploy-torizon-amd64",
+            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
+            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "type": "shell",
+            "args": [
+                "DOCKER_LOGIN=localhost:5002",
+                "TAG=${config:docker_tag}",
+                "GPU=${config:torizon_gpu}",
+                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
+                "DEBUG_PORT1=${config:torizon_debug_port1}",
+                "DEBUG_PORT2=${config:torizon_debug_port2}",
+                "DEBUG_PORT3=${config:torizon_debug_port3}",
+                "docker",
+                "compose",
+                "-p",
+                "torizon",
+                "--profile",
+                "debug",
+                "up",
+                "__container__-debug"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "start-ssh-tunnel",
+                "template-specific-initial-task",
+                "validate-settings",
+                "validate-arch-amd64",
+                "copy-docker-compose",
+                "pre-cleanup",
+                "build-container-torizon-release-amd64",
+                "push-container-torizon-release",
+                "pull-container-torizon-release",
+                "template-specific-final-task"
+            ],
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                        "regexp": ".",
+                        "file": 1,
+                        "location": 2,
+                        "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "."
+                    }
+                }
+            ],
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiYellow"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "group": "build-execution"
+            }
+        },
+        {
+            "label": "start-ssh-tunnel",
+            "hide": true,
+            "type": "process",
+            "command": "sshpass",
+            "args": [
+                "-p", "${config:torizon_psswd}",
+                "ssh",
+                "-p", "${config:torizon_ssh_port}",
+                "-N",
+                "-o", "UserKnownHostsFile=/dev/null",
+                "-o", "StrictHostKeyChecking=no",
+                "-o", "PubkeyAuthentication=no",
+                "-o", "ExitOnForwardFailure=yes",
+                "-L", "${config:torizon_debug_ssh_port}:localhost:${config:torizon_debug_ssh_port}",
+                "${config:torizon_run_as}@${config:torizon_ip}"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                    "regexp": ".",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "."
+                }
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "stop-ssh-tunnel"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "group": "debug-tunnel"
+            }
+        },
+        {
+            "label": "stop-ssh-tunnel",
+            "hide": true,
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "pkill -f '${config:torizon_debug_ssh_port}:localhost:${config:torizon_debug_ssh_port}' || true"
+            ]
+        }
+    ],
+"inputs": []
+}

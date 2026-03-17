@@ -330,6 +330,18 @@
             "support": "Partner",
             "status": "ok",
             "customMessage": "Provided by https://www.crossware.io/flutter-on-linux"
+        },
+        {
+            "img": "chromium.png",
+            "folder": "chromiumWebApp",
+            "description": "Chromium Web App",
+            "runtime": "Chromium",
+            "language": "JavaScript",
+            "debugSSHPort": "9222",
+            "multiContainer": true,
+            "support": "Torizon",
+            "status": "ok",
+            "customMessage": ""
         }
     ]
 }

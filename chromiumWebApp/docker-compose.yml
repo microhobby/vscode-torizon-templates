@@ -1,0 +1,104 @@
+x-chromium-base: &chromium-base
+  build:
+    context: .
+    dockerfile: Dockerfile
+    platforms:
+      - linux/${IMAGE_ARCH}
+  image: ${DOCKER_LOGIN}/__container__:${TAG}
+  environment:
+    - DBUS_SESSION_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
+  network_mode: host
+  volumes:
+    - type: bind
+      source: /tmp
+      target: /tmp
+    - type: bind
+      source: /dev
+      target: /dev
+    - type: bind
+      source: /run/udev
+      target: /run/udev
+    - type: bind
+      source: /var/run/dbus
+      target: /var/run/dbus
+  cap_add:
+    - CAP_SYS_TTY_CONFIG
+  security_opt:
+    - seccomp:unconfined
+  shm_size: 256mb
+  device_cgroup_rules:
+    # ... for tty
+    - "c 4:* rmw"
+    # ... for /dev/input devices
+    - "c 13:* rmw"
+    # ... for /dev/dri devices
+    - "c 226:* rmw"
+    # ... for /dev/uinput
+    - "c 10:223 rmw"
+
+    # ... for chromium
+    - "c 81:* rmw"
+    - "c 234:* rmw"
+    - "c 235:* rmw"
+  depends_on:
+    weston:
+      condition: service_healthy
+
+services:
+  __container__:
+    <<: *chromium-base
+    command: [
+      "/usr/bin/start-browser",
+      "file:///home/torizon/app/src/index.html"
+    ]
+    profiles:
+      - release
+
+  __container__-debug:
+    <<: *chromium-base
+    network_mode: host
+    command: [
+      "/usr/bin/start-browser",
+      "--remote-debugging-port=${DEBUG_SSH_PORT}",
+      "file:///home/torizon/app/src/index.html"
+    ]
+    profiles:
+      - debug
+
+  weston:
+    image: torizon/weston${GPU}:4
+    environment:
+      - ACCEPT_FSL_EULA=1
+    # Required to get udev events from host udevd via netlink
+    network_mode: host
+    volumes:
+      - type: bind
+        source: /tmp
+        target: /tmp
+      - type: bind
+        source: /dev
+        target: /dev
+      - type: bind
+        source: /run/udev
+        target: /run/udev
+    cap_add:
+      - CAP_SYS_TTY_CONFIG
+    # Add device access rights through cgroup...
+    device_cgroup_rules:
+      # ... for tty
+      - "c 4:* rmw"
+      # ... for /dev/input devices
+      - "c 13:* rmw"
+      # ... for /dev/dri devices
+      - "c 226:* rmw"
+      # ... for /dev/uinput
+      - "c 10:223 rmw"
+    profiles:
+      - release
+      - debug
+    healthcheck:
+      test: ["CMD", "test", "-S", "/tmp/1000-runtime-dir/wayland-0"]
+      interval: 5s
+      timeout: 4s
+      retries: 6
+      start_period: 10s
