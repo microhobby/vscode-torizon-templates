@@ -23,7 +23,7 @@ ARG APP_ROOT=
 
 
 # BUILD ------------------------------------------------------------------------
-FROM --platform=${HOST_ARCH} mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM --platform=linux/${HOST_ARCH} mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 ARG IMAGE_ARCH
 ARG APP_ROOT

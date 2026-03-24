@@ -22,7 +22,7 @@ ARG APP_ROOT=
 
 
 # BUILD ------------------------------------------------------------------------
-FROM --platform=${HOST_ARCH} kassany/bookworm-ziglang:${SDK_BASE_VERSION} AS build
+FROM --platform=linux/${HOST_ARCH} kassany/bookworm-ziglang:${SDK_BASE_VERSION} AS build
 
 ARG APP_ROOT
 ARG IMAGE_ARCH
