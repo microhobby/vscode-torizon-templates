@@ -6,7 +6,8 @@
             "type": "shell",
             "command": "sshpass",
             "args": [
-                "-p", "${config:torizon_psswd}",
+                "-p",
+                "'${config:torizon_psswd}'",
                 "ssh",
                 "-o",
                 "PubkeyAuthentication=no",

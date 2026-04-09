@@ -1251,7 +1251,7 @@
             "args": [
                 "${workspaceFolder}/.conf/service-check.xsh",
                 "ssh",
-                "${config:torizon_psswd}",
+                "'${config:torizon_psswd}'",
                 "${config:torizon_debug_ssh_port}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
@@ -1280,7 +1280,7 @@
             "args": [
                 "${workspaceFolder}/.conf/service-check.xsh",
                 "registry",
-                "${config:torizon_psswd}",
+                "'${config:torizon_psswd}'",
                 "${config:torizon_ssh_port}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
