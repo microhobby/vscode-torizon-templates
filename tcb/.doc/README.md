@@ -18,7 +18,7 @@ On this template the TCB commands are intended to be used through the [TASK RUNN
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose deploy --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password '${config:torizon_psswd}' --reboot"
+                    "VSCODE_CMD": "--verbose deploy --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password ''${config:torizon_psswd}'' --reboot"
                 }
             },
             "args": [

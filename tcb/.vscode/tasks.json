@@ -195,7 +195,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose deploy --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password '${config:torizon_psswd}' --reboot"
+                    "VSCODE_CMD": "--verbose deploy --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password ''${config:torizon_psswd}'' --reboot"
                 }
             },
             "args": [
@@ -233,7 +233,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "VSCODE_CMD": "--verbose isolate --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password '${config:torizon_psswd}' --changes-directory isolated-changes"
+                    "VSCODE_CMD": "--verbose isolate --remote-host ${config:torizon_ip} --remote-username ${config:torizon_login} --remote-password ''${config:torizon_psswd}'' --changes-directory isolated-changes"
                 }
             },
             "args": [
