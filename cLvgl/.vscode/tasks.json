@@ -573,7 +573,7 @@
             "type": "process",
             "args": [
                 "-p",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "ssh",
                 "-p",
                 "${config:torizon_ssh_port}",
@@ -611,7 +611,7 @@
             "type": "process",
             "args": [
                 "-p",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "ssh",
                 "-p",
                 "${config:torizon_ssh_port}",

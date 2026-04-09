@@ -128,7 +128,7 @@
                 },
 				"args": [
 					"-p",
-					"'${config:torizon_psswd}'",
+					"${config:torizon_psswd}",
 					"scp",
 					"-P",
 					"${config:torizon_ssh_port}",

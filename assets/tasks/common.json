@@ -518,7 +518,7 @@
             "type": "process",
             "args": [
                 "-p",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "scp",
                 "-P",
                 "${config:torizon_ssh_port}",
@@ -1223,7 +1223,7 @@
             "args": [
                 "${workspaceFolder}/.conf/spin-up-down-registry.xsh",
                 "up",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
                 "${workspaceFolder}"
@@ -1251,7 +1251,7 @@
             "args": [
                 "${workspaceFolder}/.conf/service-check.xsh",
                 "ssh",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "${config:torizon_debug_ssh_port}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
@@ -1280,7 +1280,7 @@
             "args": [
                 "${workspaceFolder}/.conf/service-check.xsh",
                 "registry",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "${config:torizon_ssh_port}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
@@ -1309,7 +1309,7 @@
             "args": [
                 "${workspaceFolder}/.conf/spin-up-down-registry.xsh",
                 "down",
-                "'${config:torizon_psswd}'",
+                "${config:torizon_psswd}",
                 "${config:torizon_login}",
                 "${config:torizon_ip}",
                 "${workspaceFolder}"
@@ -1941,7 +1941,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "TORIZON_PSSWD": "'${config:torizon_psswd}'",
+                    "TORIZON_PSSWD": "${config:torizon_psswd}",
                     "TORIZON_LOGIN": "${config:torizon_login}",
                     "HOST_IP": "${config:host_ip}",
                     "TORIZON_IP": "${config:torizon_ip}",
