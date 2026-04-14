@@ -5,30 +5,40 @@ echo "🐚 SETUP XONSH"
 # check if xonsh is on $HHOME/.local/bin
 if [ -f "$HOME/.local/bin/xonsh" ]; then
     echo "xonsh is already installed, updating torizon-templates-utils ..."
-    # force the install of the latest version of torizon-templates-utils
 
-    repo="${TEST_TEMPLATES_GIT_REPO:-https://github.com/toradex/torizon-templates.git}"
-    branch="${TEST_TEMPLATES_GIT_REPO_BRANCH:-main}"
-    tag_or_hash="${TEST_TEMPLATES_GIT_TAG}"
+    VARS_FILE="./.conf/repo-vars.json"
 
-    # Detect if repo is a local path
-    if [ -d "$repo" ] || [ -f "$repo" ]; then
-        repo="file://$(realpath "$repo")"
-    else
-        # Ensure repo ends with .git
-        case "$repo" in
-            *.git) ;;
-            *) repo="${repo}.git" ;;
-        esac
+    if [ -f "$VARS_FILE" ]; then
+        echo "Found repo-vars.json, attempting to use custom source..."
+
+        repo=$(jq -r '.repo // empty' "$VARS_FILE")
+        branch=$(jq -r '.branch // empty' "$VARS_FILE")
+        tag_or_hash=$(jq -r '.tag // empty' "$VARS_FILE")
+
+        if [ -z "$repo" ] || { [ -z "$branch" ] && [ -z "$tag_or_hash" ]; }; then
+            echo "Invalid or incomplete config, falling back to package..."
+        else
+            if [ -e "$repo" ]; then
+                repo="file://$(realpath "$repo")"
+            fi
+
+            if [ -n "$tag_or_hash" ]; then
+                ref="$tag_or_hash"
+            else
+                ref="$branch"
+            fi
+
+            pipx runpip xonsh install --force-reinstall \
+                "git+${repo}@${ref}#subdirectory=scripts/utils/pip"
+
+            echo "Installed from custom repo ✅"
+            exit 0
+        fi
     fi
 
-    if [ -n "$tag_or_hash" ]; then
-    ref="$tag_or_hash"
-    else
-    ref="$branch"
-    fi
-
-    pipx runpip xonsh install --force-reinstall "git+${repo}@${ref}#subdirectory=scripts/utils/pip"
+    # Fallback to package if no repo or branch/tag set
+    echo "Using published package..."
+    pipx runpip xonsh install --upgrade torizon-templates-utils
 
     echo "all ok ✅"
     exit 0

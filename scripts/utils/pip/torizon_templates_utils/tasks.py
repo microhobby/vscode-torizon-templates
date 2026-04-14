@@ -72,6 +72,7 @@ class TorizonSettings:
             torizon_ip: Optional[str] = None,
             torizon_ssh_port: Optional[str] = None,
             host_ip: Optional[str] = None,
+            host_arch: Optional[str] = None,
             torizon_workspace: Optional[str] = None,
             torizon_debug_ssh_port: Optional[str] = None,
             torizon_debug_port1: Optional[str] = None,
@@ -94,6 +95,7 @@ class TorizonSettings:
         self.torizon_ip = torizon_ip
         self.torizon_ssh_port = torizon_ssh_port
         self.host_ip = host_ip
+        self.host_arch = host_arch
         self.torizon_workspace = torizon_workspace
         self.torizon_debug_ssh_port = torizon_debug_ssh_port
         self.torizon_debug_port1 = torizon_debug_port1
@@ -109,6 +111,25 @@ class TorizonSettings:
         self.tcb_version = tcb_version
         self.torizon_gpuPrefixRC = torizon_gpuPrefixRC
         self.any = any
+
+    def get_host_arch(self) -> Optional[str]:
+        self.host_arch = os.uname().machine
+
+        # fix up the host arch
+        if self.host_arch == "aarch64":
+            self.host_arch = "arm64"
+        elif self.host_arch == "armv7":
+            self.host_arch = "arm"
+        elif self.host_arch == "armv7l":
+            self.host_arch = "arm"
+        elif self.host_arch == "armhf":
+            self.host_arch = "arm"
+        elif self.host_arch == "x86_64":
+            self.host_arch = "amd64"
+        elif self.host_arch == "riscv":
+            self.host_arch = "riscv64"
+
+        return self.host_arch
 
 
 # These are from:
@@ -868,9 +889,9 @@ class TaskRunner:
 
             if _env_value:
                 expvalue = [_env_value]
+                expvalue = self.__check_input_boxes(expvalue)
                 expvalue = self.__check_cmd_args(expvalue)
                 expvalue = self.__check_workspace_folder(expvalue)
-                expvalue = self.__check_input_boxes(expvalue)
                 expvalue = self.__check_torizon_inputs(expvalue)
                 expvalue = self.__check_docker_inputs(expvalue)
                 expvalue = self.__check_tcb_inputs(expvalue)
@@ -931,9 +952,9 @@ class TaskRunner:
         _cmd = _task.command
 
         # the cmd itself can use the mechanism to replace stuff
+        _cmd = self.__check_input_boxes([_cmd])[0]
         _cmd = self.__check_cmd_args([_cmd])[0]
         _cmd = self.__check_workspace_folder([_cmd])[0]
-        _cmd = self.__check_input_boxes([_cmd])[0]
         _cmd = self.__check_torizon_inputs([_cmd])[0]
         _cmd = self.__check_docker_inputs([_cmd])[0]
         _cmd = self.__check_tcb_inputs([_cmd])[0]
@@ -961,9 +982,9 @@ class TaskRunner:
         # FIXME:    The scape args was in the powershell implementation
         #           but when used on Python it generates weird behavior
         # _args = self.__scape_args(_args)
+        _args = self.__check_input_boxes(_args)
         _args = self.__check_cmd_args(_args)
         _args = self.__check_workspace_folder(_args)
-        _args = self.__check_input_boxes(_args)
         _args = self.__check_torizon_inputs(_args)
         _args = self.__check_docker_inputs(_args)
         _args = self.__check_tcb_inputs(_args)
