@@ -2,13 +2,6 @@
 
 echo "🐚 SETUP XONSH"
 
-if [ "${GITHUB_ACTIONS}" = "true" ]; then
-    echo "Running in GitHub Actions, setting PIPX_HOME and related variables for root user"
-    export PIPX_HOME="/root/.local/pipx"
-    export PIPX_BIN_DIR="/root/.local/bin"
-    export PIPX_MAN_DIR="/root/.local/share/man"
-fi
-
 function _check_xonsh_global {
     # we need to check if we need to run the setup as root
     # at the first time we should need to symlink the xonsh to the /usr/bin
