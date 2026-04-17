@@ -32,10 +32,6 @@ function _check_xonsh_global {
         echo "$global_xonsh does not exist, creating global xonsh link ..."
     fi
 
-    if ln -sf "$local_xonsh" "$global_xonsh" 2>/dev/null; then
-        return 0
-    fi
-
     if [ -z "${PSSWD}" ]; then
         echo "Insufficient permissions to create $global_xonsh and PSSWD is not set."
         return 1
