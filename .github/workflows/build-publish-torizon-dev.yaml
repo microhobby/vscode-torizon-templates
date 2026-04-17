@@ -8,6 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Fixup actions pipx paths
+        run: |
+          echo "PIPX_HOME=$HOME/.local/pipx" >> $GITHUB_ENV
+          echo "PIPX_BIN_DIR=$HOME/.local/bin" >> $GITHUB_ENV
+
       - name: Setup Xonsh
         run: |
           sudo apt-get update
