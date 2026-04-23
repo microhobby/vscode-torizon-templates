@@ -6,8 +6,8 @@ function _check_xonsh_global {
     # we need to check if we need to run the setup as root
     # at the first time we should need to symlink the xonsh to the /usr/bin
     # read the /usr/bin/xonsh and check if it is linked to the
-    # $HOME/.local/bin/xonsh, if not we need to run with sudo
-    local local_xonsh="$HOME/.local/bin/xonsh"
+    # $HOME/.local/pipx/venvs/xonsh/bin/xonsh, if not we need to run with sudo
+    local local_xonsh="$HOME/.local/pipx/venvs/xonsh/bin/xonsh"
     local global_xonsh="/usr/bin/xonsh"
 
     if [ ! -f "$local_xonsh" ]; then
