@@ -10,6 +10,9 @@ function _check_xonsh_global {
     local local_xonsh="$HOME/.local/pipx/venvs/xonsh/bin/xonsh"
     local global_xonsh="/usr/bin/xonsh"
 
+    # get the local xonsh by the real path from $HOME/.local/bin/xonsh
+    local_xonsh="$(readlink -f "$HOME/.local/bin/xonsh")"
+
     if [ ! -f "$local_xonsh" ]; then
         echo "Expected local xonsh at $local_xonsh but it was not found."
         return 1
@@ -68,13 +71,12 @@ if [ -f "$HOME/.local/bin/xonsh" ]; then
                 "git+${repo}@${ref}#subdirectory=scripts/utils/pip"
 
             echo "Installed from custom repo ✅"
-            exit 0
         fi
+    else
+        # Fallback to package if no repo or branch/tag set
+        echo "Using published package..."
+        pipx runpip xonsh install --upgrade torizon-templates-utils
     fi
-
-    # Fallback to package if no repo or branch/tag set
-    echo "Using published package..."
-    pipx runpip xonsh install --upgrade torizon-templates-utils
 
     # re-check if we need to link xonsh globally
     if ! _check_xonsh_global; then
