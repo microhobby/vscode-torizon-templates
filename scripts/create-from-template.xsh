@@ -283,6 +283,8 @@ if template_scripts is None:
     cp -r @(template_folder)/../scripts/validate-json.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/service-check.xsh @(new_project_path)/.conf/
     cp -r @(template_folder)/../scripts/spin-up-down-registry.xsh @(new_project_path)/.conf/
+    if _template != "tcb":
+        cp -r @(template_folder)/../scripts/compose-rules.xsh @(new_project_path)/.conf/
 else:
     for script in template_scripts:
         cp -r @(os.path.join(template_folder, "..", "scripts", script)) @(os.path.join(new_project_path, ".conf"))
@@ -355,7 +357,7 @@ if not os.path.exists(f"{new_project_path}/.conf/ci-vars.json"):
 
 
 # copy the compose-rules.json if not exists
-if not os.path.exists(f"{new_project_path}/.conf/compose-rules.json"):
+if _template != "tcb" and not os.path.exists(f"{new_project_path}/.conf/compose-rules.json"):
     cp -r @(template_folder)/../assets/conf/compose-rules.json @(new_project_path)/.conf/compose-rules.json
 
 # create a metadata.json to store
