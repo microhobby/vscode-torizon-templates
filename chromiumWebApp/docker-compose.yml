@@ -4,7 +4,6 @@ x-chromium-base: &chromium-base
     dockerfile: Dockerfile
     platforms:
       - linux/${IMAGE_ARCH}
-  image: ${DOCKER_LOGIN}/__container__:${TAG}
   environment:
     - DBUS_SESSION_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
   network_mode: host
@@ -47,6 +46,7 @@ x-chromium-base: &chromium-base
 services:
   __container__:
     <<: *chromium-base
+    image: ${DOCKER_LOGIN}/__container__:${TAG}
     command: [
       "/usr/bin/start-browser",
       "file:///home/torizon/app/src/index.html"
@@ -56,11 +56,12 @@ services:
 
   __container__-debug:
     <<: *chromium-base
+    image: ${LOCAL_REGISTRY}:5002/__container__-debug:${TAG}
     network_mode: host
     command: [
       "/usr/bin/start-browser",
       "--remote-debugging-port=${DEBUG_SSH_PORT}",
-      "file:///home/torizon/app/src/index.html"
+      "about:blank"
     ]
     profiles:
       - debug

@@ -3,39 +3,23 @@
     "tasks": [
         {
             "label": "deploy-torizon-arm64",
-            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "detail": "Wait for Chromium CDP, navigate to app, signal VSCode to attach",
+            "hide": true,
+            "command": "until curl -sf --max-time 2 http://localhost:${config:torizon_debug_ssh_port}/json/version >/dev/null 2>&1; do sleep 1; done; echo 'CDP ready'; sleep 2; TARGET_WS=$(curl -s http://localhost:${config:torizon_debug_ssh_port}/json/list | python3 -c \"import json,sys; targets=json.load(sys.stdin); print(next(t['webSocketDebuggerUrl'] for t in targets if t['type']=='page'))\"); wscat -c \"$TARGET_WS\" --no-color -x '{\"id\":1,\"method\":\"Page.navigate\",\"params\":{\"url\":\"file://${config:torizon_app_root}/src/index.html\"}}' -w 1 >/dev/null 2>&1 || true",
             "type": "shell",
-            "args": [
-                "DOCKER_LOGIN=localhost:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "-p",
-                "torizon",
-                "--profile",
-                "debug",
-                "up",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
+            "args": [],
             "dependsOn": [
                 "start-ssh-tunnel",
-                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-arm64",
                 "copy-docker-compose",
                 "pre-cleanup",
-                "build-container-torizon-release-arm64",
-                "push-container-torizon-release",
-                "pull-container-torizon-release",
-                "template-specific-final-task"
+                "build-container-torizon-debug-arm64",
+                "push-container-torizon-debug-arm64",
+                "pull-container-torizon-debug",
+                "run-container-torizon-debug"
             ],
+            "dependsOrder": "sequence",
             "isBackground": true,
             "problemMatcher": [
                 {
@@ -50,13 +34,13 @@
                     "background": {
                         "activeOnStart": true,
                         "beginsPattern": ".",
-                        "endsPattern": "."
+                        "endsPattern": "CDP ready"
                     }
                 }
             ],
             "icon": {
-                "id": "run",
-                "color": "terminal.ansiYellow"
+                "id": "debug-start",
+                "color": "terminal.ansiGreen"
             },
             "presentation": {
                 "echo": true,
@@ -68,39 +52,24 @@
         },
         {
             "label": "deploy-torizon-arm",
-            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "detail": "Wait for Chromium CDP, navigate to app, signal VSCode to attach",
+            "hide": true,
+            "command": "until curl -sf --max-time 2 http://localhost:${config:torizon_debug_ssh_port}/json/version >/dev/null 2>&1; do sleep 1; done; echo 'CDP ready'; sleep 2; TARGET_WS=$(curl -s http://localhost:${config:torizon_debug_ssh_port}/json/list | python3 -c \"import json,sys; targets=json.load(sys.stdin); print(next(t['webSocketDebuggerUrl'] for t in targets if t['type']=='page'))\"); wscat -c \"$TARGET_WS\" --no-color -x '{\"id\":1,\"method\":\"Page.navigate\",\"params\":{\"url\":\"file://${config:torizon_app_root}/src/index.html\"}}' -w 1 >/dev/null 2>&1 || true",
             "type": "shell",
-            "args": [
-                "DOCKER_LOGIN=localhost:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "-p",
-                "torizon",
-                "--profile",
-                "debug",
-                "up",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
+            "args": [],
             "dependsOn": [
                 "start-ssh-tunnel",
-                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-arm",
                 "copy-docker-compose",
                 "pre-cleanup",
-                "build-container-torizon-release-arm",
-                "push-container-torizon-release",
-                "pull-container-torizon-release",
-                "template-specific-final-task"
+                "build-container-torizon-debug-arm",
+                "push-container-torizon-debug-arm",
+                "pull-container-torizon-debug",
+                "run-container-torizon-debug"
             ],
+            "dependsOrder": "sequence",
+            "isBackground": true,
             "problemMatcher": [
                 {
                     "pattern": [
@@ -114,13 +83,13 @@
                     "background": {
                         "activeOnStart": true,
                         "beginsPattern": ".",
-                        "endsPattern": "."
+                        "endsPattern": "CDP ready"
                     }
                 }
             ],
             "icon": {
-                "id": "run",
-                "color": "terminal.ansiYellow"
+                "id": "debug-start",
+                "color": "terminal.ansiGreen"
             },
             "presentation": {
                 "echo": true,
@@ -132,39 +101,24 @@
         },
         {
             "label": "deploy-torizon-amd64",
-            "detail": "This task will build the application based in the production Dockerfile, push it to the local registry (localhost:5002), pull it on the board and run it on the board, showing the result in the VSCode terminal",
-            "command": "DOCKER_HOST=${config:torizon_ip}:2375",
+            "detail": "Wait for Chromium CDP, navigate to app, signal VSCode to attach",
+            "hide": true,
+            "command": "until curl -sf --max-time 2 http://localhost:${config:torizon_debug_ssh_port}/json/version >/dev/null 2>&1; do sleep 1; done; echo 'CDP ready'; sleep 2; TARGET_WS=$(curl -s http://localhost:${config:torizon_debug_ssh_port}/json/list | python3 -c \"import json,sys; targets=json.load(sys.stdin); print(next(t['webSocketDebuggerUrl'] for t in targets if t['type']=='page'))\"); wscat -c \"$TARGET_WS\" --no-color -x '{\"id\":1,\"method\":\"Page.navigate\",\"params\":{\"url\":\"file://${config:torizon_app_root}/src/index.html\"}}' -w 1 >/dev/null 2>&1 || true",
             "type": "shell",
-            "args": [
-                "DOCKER_LOGIN=localhost:5002",
-                "TAG=${config:docker_tag}",
-                "GPU=${config:torizon_gpu}",
-                "DEBUG_SSH_PORT=${config:torizon_debug_ssh_port}",
-                "DEBUG_PORT1=${config:torizon_debug_port1}",
-                "DEBUG_PORT2=${config:torizon_debug_port2}",
-                "DEBUG_PORT3=${config:torizon_debug_port3}",
-                "docker",
-                "compose",
-                "-p",
-                "torizon",
-                "--profile",
-                "debug",
-                "up",
-                "__container__-debug"
-            ],
-            "dependsOrder": "sequence",
+            "args": [],
             "dependsOn": [
                 "start-ssh-tunnel",
-                "template-specific-initial-task",
                 "validate-settings",
                 "validate-arch-amd64",
                 "copy-docker-compose",
                 "pre-cleanup",
-                "build-container-torizon-release-amd64",
-                "push-container-torizon-release",
-                "pull-container-torizon-release",
-                "template-specific-final-task"
+                "build-container-torizon-debug-amd64",
+                "push-container-torizon-debug-amd64",
+                "pull-container-torizon-debug",
+                "run-container-torizon-debug"
             ],
+            "dependsOrder": "sequence",
+            "isBackground": true,
             "problemMatcher": [
                 {
                     "pattern": [
@@ -178,13 +132,13 @@
                     "background": {
                         "activeOnStart": true,
                         "beginsPattern": ".",
-                        "endsPattern": "."
+                        "endsPattern": "CDP ready"
                     }
                 }
             ],
             "icon": {
-                "id": "run",
-                "color": "terminal.ansiYellow"
+                "id": "debug-start",
+                "color": "terminal.ansiGreen"
             },
             "presentation": {
                 "echo": true,
