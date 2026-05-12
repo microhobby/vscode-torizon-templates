@@ -170,7 +170,7 @@ def generate(device_name):
         return
 
     print(
-        f"🔍 Checking compose rules for device: {device_name or '(none)'}",
+        f"Checking compose rules for device: {device_name or 'upstream'}",
         color=Color.CYAN
     )
 
@@ -217,7 +217,7 @@ def apply(accept_all=False):
         vscode = False
 
     if vscode:
-        print("🔍 Opening diff in VS Code...", color=Color.CYAN)
+        print("Opening diff in VS Code...", color=Color.CYAN)
         code --wait --diff @(str(diff_file)) @(str(COMPOSE_FILE))
         print("✅ Diff review complete.", color=Color.GREEN)
     else:
