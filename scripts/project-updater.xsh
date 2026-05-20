@@ -461,6 +461,11 @@ cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/service-check.xsh") \
     @(f"{project_folder}/.conf/service-check.xsh")
 
+# SPIN UP TUNNEL PORT
+cp -f \
+    @(f"{os.environ['HOME']}/.apollox/scripts/spin-up-down-registry.xsh") \
+    @(f"{project_folder}/.conf/spin-up-down-registry.xsh")
+
 # REMOVE DANGLING IMAGES:
 cp -f \
     @(f"{os.environ['HOME']}/.apollox/scripts/remove-dangling-images.xsh") \
