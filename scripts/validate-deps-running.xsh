@@ -125,7 +125,7 @@ if "enabled" not in _cmd_ret_reg.out:
 # FIXME: we check for arm64 and arm32 for now, if a new arch is introduced
 # we need to add the check here
 def _retry_enable_binfmt(_arch: str):
-    docker run --rm -it --privileged torizon/binfmt:latest
+    docker run --rm -it --privileged pergamos/binfmt:9.0.2
 
 
 def _check_binfmt(_arch: str, _attp: int = 1) -> bool :
@@ -143,8 +143,11 @@ def _check_binfmt(_arch: str, _attp: int = 1) -> bool :
 
     return True
 
-
-_check_binfmt("qemu-aarch64")
+# we need to enable different bits of binfmt based on the host architecture
+if os.uname().machine == "x86_64":
+    _check_binfmt("qemu-aarch64")
+else:
+    _check_binfmt("qemu-x86_64")
 _check_binfmt("qemu-arm")
 
 print("\n✅ Environment is valid!\n", color=Color.GREEN)
