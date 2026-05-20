@@ -92,9 +92,10 @@ docker tag \
 
 # run the build command
 print(f"🔨 :: SSH-TUNNEL :: 🔨", color=Color.GREEN)
-docker compose \
-    -f ./container/docker-compose.yml \
-    build \
+docker buildx build \
+    --platform linux/amd64,linux/arm64 \
     --no-cache \
     --push \
-    ssh
+    -t torizonextras/ide-port-tunnel:0.0.1 \
+    -f ./container/Containerfile.ssh \
+    .

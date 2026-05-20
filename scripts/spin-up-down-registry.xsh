@@ -205,7 +205,7 @@ elif action == "up":
     $HOME/.local/bin/xonsh ./.conf/run-container-if-not-exists.xsh \
         --container-runtime docker \
         --run-arguments \
-        @(f"\"--rm -d --network host -e SSHPASS torizonextras/ide-port-tunnel:0.0.0 sshpass -e ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no {login}@{ip}\"") \
+        @(f"\"--rm -d --network host -e SSHPASS torizonextras/ide-port-tunnel:0.0.1 sshpass -e ssh -vv -N -R 5002:localhost:5002 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PubkeyAuthentication=no {login}@{ip}\"") \
         --container-name \
         @(container_name)
 
