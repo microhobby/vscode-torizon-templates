@@ -15,7 +15,7 @@ $UPDATE_OS_ENVIRON = True
 # Get the full log of error
 $XONSH_SHOW_TRACEBACK = True
 # always return if a cmd fails
-$RAISE_SUBPROC_ERROR = True
+$XONSH_SUBPROC_CMD_RAISE_ERROR = True
 
 import os
 import sys
@@ -31,7 +31,7 @@ TCD_BRANCH = $__TCD_BRANCH
 $__TCD_SHA_DIR = 0
 TCD_SHA_DIR = $__TCD_SHA_DIR
 # ⚠️ THIS NEED TO BE IN SYNC WITH THE PYTHON UTILS VERSION
-$__UTILS_VERSION = "1.3.1"
+$__UTILS_VERSION = "1.3.2"
 UTILS_VERSION = $__UTILS_VERSION
 
 # # run the build command
