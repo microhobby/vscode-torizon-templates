@@ -55,13 +55,6 @@ function _check_xonsh_global {
 
     if [ -z "${PSSWD}" ]; then
         echo "Insufficient permissions to create $global_xonsh and PSSWD is not set."
-
-        if [ "$CI" = "true" ]; then
-            # for this case we just go ahead
-            sudo -S ln -sf "$local_xonsh" "$global_xonsh"
-            return 0
-        fi
-
         return 1
     fi
 
