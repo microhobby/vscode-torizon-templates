@@ -11,7 +11,7 @@ function _check_xonsh_update {
     if [ "$_XONSH_CURRENT" = "$_XONSH_TARGET" ]; then
         echo "xonsh $_XONSH_TARGET already installed, skipping"
     else
-        pipx install --force-reinstall xonsh==$_XONSH_TARGET
+        pipx install --force xonsh==$_XONSH_TARGET
     fi
 }
 
