@@ -60,9 +60,24 @@ services:
     network_mode: host
     command: [
       "/usr/bin/start-browser",
-      "--remote-debugging-port=${DEBUG_SSH_PORT}",
+      "--remote-debugging-port=${DEBUG_PORT1}",
       "about:blank"
     ]
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:${DEBUG_PORT1}/json/version"]
+      interval: 5s
+      timeout: 4s
+      retries: 6
+      start_period: 10s
+    profiles:
+      - debug
+
+  __container__-debug-proxy:
+    image: alpine/socat
+    network_mode: host
+    command: ["TCP-LISTEN:${DEBUG_PORT2},fork,reuseaddr,bind=0.0.0.0", "TCP:127.0.0.1:${DEBUG_PORT1}"]
+    depends_on:
+      - __container__-debug
     profiles:
       - debug
 

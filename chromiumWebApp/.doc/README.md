@@ -33,6 +33,8 @@ For development and debugging purposes, use the **Run and Debug** tab in VSCode 
 
 Remote debugging is performed by establishing an SSH tunnel to the running Chromium container on the device and connecting to Chromium's built-in debug port. The SSH tunnel approach is necessary because Chromium's `--remote-debugging-address` argument, which would allow binding to the device's IP address for network access, requires the `--headless` flag to function. Since headless mode prevents any visual rendering, which is essential for a web application, the SSH tunnel provides a secure alternative that forwards the debug protocol over the network connection without requiring Chromium to run in headless mode. The debugging configuration for remote connections is defined in the `launch.json` file, and the tasks that manage the debugging process are initiated when you select a debug configuration from the **Run and Debug** tab.
 
+> If breakpoints are not being hit during a debug session, the debugger may be attaching before the page finishes loading. Increase the `wait_sync` value in `settings.json` to give the browser more time to be ready before the debugger connects.
+
 ## Local Debugging
 
 Opens your application directly from the project files using a `file://` URL. This is the fastest way to test your application locally without needing any infrastructure. Simply select the "Local Debug" configuration and press `F5` to launch your application in the browser.

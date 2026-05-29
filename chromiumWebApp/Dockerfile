@@ -32,6 +32,7 @@ USER root
 # Install required packages
 RUN apt-get -q -y update && \
     apt-get -q -y install \
+    curl \
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
     # __torizon_packages_prod_start__
     # __torizon_packages_prod_end__
