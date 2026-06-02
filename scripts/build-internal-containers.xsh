@@ -33,67 +33,63 @@ TCD_SHA_DIR = $__TCD_SHA_DIR
 # ⚠️ THIS NEED TO BE IN SYNC WITH THE PYTHON UTILS VERSION
 $__UTILS_VERSION = "1.3.5"
 UTILS_VERSION = $__UTILS_VERSION
+$__BUILD_PLATFORMS = "linux/amd64,linux/arm64"
+BUILD_PLATFORMS = $__BUILD_PLATFORMS
 
 # # run the build command
 print(f"🔨 :: XONSH :: 🔨", color=Color.GREEN)
-docker compose \
-    -f ./container/docker-compose.yml \
-    build \
+docker buildx build \
+    --platform @(BUILD_PLATFORMS) \
     --no-cache \
     --push \
-    xonsh
-
-# rename for have the one with the right tag
-docker tag \
-    @(f"torizonextras/xonsh:{TCD_BRANCH}") \
-    @(f"torizonextras/xonsh:{UTILS_VERSION}")
+    -t @(f"torizonextras/xonsh:{TCD_BRANCH}") \
+    -t @(f"torizonextras/xonsh:{UTILS_VERSION}") \
+    --build-arg BRANCH=${__TCD_BRANCH} \
+    -f ./container/Containerfile.xonsh \
+    .
 
 # # run the build command
 print(f"🔨 :: TASKS :: 🔨", color=Color.GREEN)
-docker compose \
-    -f ./container/docker-compose.yml \
-    build \
+docker buildx build \
+    --platform @(BUILD_PLATFORMS) \
     --no-cache \
     --push \
-    tasks
-
-# create a copy with the right versioning tag
-docker tag \
-    @(f"torizonextras/torizon-dev-tasks:{TCD_BRANCH}") \
-    @(f"torizonextras/torizon-dev-tasks:{UTILS_VERSION}")
+    -t @(f"torizonextras/torizon-dev-tasks:{TCD_BRANCH}") \
+    -t @(f"torizonextras/torizon-dev-tasks:{UTILS_VERSION}") \
+    --build-arg BRANCH=${__TCD_BRANCH} \
+    --build-arg REPO=toradex/vscode-torizon-templates \
+    -f ./container/Containerfile.tasks \
+    .
 
 # # run the build command
 print(f"🔨 :: XONSH-WRAPPER :: 🔨", color=Color.GREEN)
-docker compose \
-    -f ./container/docker-compose.yml \
-    build \
+docker buildx build \
+    --platform @(BUILD_PLATFORMS) \
     --no-cache \
     --push \
-    xonsh-wrapper
-
-# rename for have the one with the right tag
-docker tag \
-    @(f"torizonextras/xonsh-wrapper:{TCD_BRANCH}") \
-    @(f"torizonextras/xonsh-wrapper:{UTILS_VERSION}")
+    -t @(f"torizonextras/xonsh-wrapper:{TCD_BRANCH}") \
+    -t @(f"torizonextras/xonsh-wrapper:{UTILS_VERSION}") \
+    --build-arg BRANCH=${__TCD_BRANCH} \
+    -f ./container/Containerfile.wrapper \
+    .
 
 # run the build command
 print(f"🔨 :: TORIZON-DEV :: 🔨", color=Color.GREEN)
-docker compose \
-    -f ./container/docker-compose.yml \
-    build \
+docker buildx build \
+    --platform @(BUILD_PLATFORMS) \
     --no-cache \
     --push \
-    torizon-dev
-
-# rename for have the one with the right tag
-docker tag \
-    @(f"torizonextras/torizon-dev:{TCD_BRANCH}") \
-    @(f"torizonextras/torizon-dev:{UTILS_VERSION}")
+    -t @(f"torizonextras/torizon-dev:{TCD_BRANCH}") \
+    -t @(f"torizonextras/torizon-dev:{UTILS_VERSION}") \
+    --build-arg BRANCH=${__TCD_BRANCH} \
+    --build-arg UID=${__TCD_UUID} \
+    -f ./container/Containerfile.dev \
+    .
 
 # run the build command
 print(f"🔨 :: SSH-TUNNEL :: 🔨", color=Color.GREEN)
 docker buildx build \
-    --platform linux/amd64,linux/arm64 \
+    --platform @(BUILD_PLATFORMS) \
     --no-cache \
     --push \
     -t torizonextras/ide-port-tunnel:0.0.1 \
