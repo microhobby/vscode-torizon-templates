@@ -44,7 +44,7 @@ docker buildx build \
     --push \
     -t @(f"torizonextras/xonsh:{TCD_BRANCH}") \
     -t @(f"torizonextras/xonsh:{UTILS_VERSION}") \
-    --build-arg BRANCH=${__TCD_BRANCH} \
+    --build-arg BRANCH=@(TCD_BRANCH) \
     -f ./container/Containerfile.xonsh \
     .
 
@@ -56,7 +56,7 @@ docker buildx build \
     --push \
     -t @(f"torizonextras/torizon-dev-tasks:{TCD_BRANCH}") \
     -t @(f"torizonextras/torizon-dev-tasks:{UTILS_VERSION}") \
-    --build-arg BRANCH=${__TCD_BRANCH} \
+    --build-arg BRANCH=@(TCD_BRANCH) \
     --build-arg REPO=toradex/vscode-torizon-templates \
     -f ./container/Containerfile.tasks \
     .
@@ -69,7 +69,7 @@ docker buildx build \
     --push \
     -t @(f"torizonextras/xonsh-wrapper:{TCD_BRANCH}") \
     -t @(f"torizonextras/xonsh-wrapper:{UTILS_VERSION}") \
-    --build-arg BRANCH=${__TCD_BRANCH} \
+    --build-arg BRANCH=@(TCD_BRANCH) \
     -f ./container/Containerfile.wrapper \
     .
 
@@ -81,8 +81,8 @@ docker buildx build \
     --push \
     -t @(f"torizonextras/torizon-dev:{TCD_BRANCH}") \
     -t @(f"torizonextras/torizon-dev:{UTILS_VERSION}") \
-    --build-arg BRANCH=${__TCD_BRANCH} \
-    --build-arg UID=${__TCD_UUID} \
+    --build-arg BRANCH=@(TCD_BRANCH) \
+    --build-arg UID=@(TCD_UUID) \
     -f ./container/Containerfile.dev \
     .
 
