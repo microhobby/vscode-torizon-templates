@@ -51,4 +51,4 @@ ENV APP_ROOT=${APP_ROOT}
 
 USER torizon
 
-CMD ["bash"]
+ENTRYPOINT ["/usr/bin/start-browser"]
