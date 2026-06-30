@@ -48,7 +48,6 @@ services:
     <<: *chromium-base
     image: ${DOCKER_LOGIN}/__container__:${TAG}
     command: [
-      "/usr/bin/start-browser",
       "file:///home/torizon/app/src/index.html"
     ]
     profiles:
@@ -59,7 +58,6 @@ services:
     image: ${LOCAL_REGISTRY}:5002/__container__-debug:${TAG}
     network_mode: host
     command: [
-      "/usr/bin/start-browser",
       "--remote-debugging-port=${DEBUG_PORT1}",
       "about:blank"
     ]
