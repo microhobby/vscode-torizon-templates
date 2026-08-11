@@ -397,13 +397,11 @@
         {
             "label": "clean-local",
             "detail": "Clean the local application build directory.",
-            "command": "cmake",
+            "command": "rm",
             "type": "shell",
             "args": [
-                "--build",
-                "build-local",
-                "--target",
-                "clean"
+                "-rf",
+                "build-local"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -480,6 +478,10 @@
                 "docker",
                 "run",
                 "--rm",
+                "-e",
+                "IMAGE_ARCH=arm64",
+                "-e",
+                "GPU=${config:torizon_gpu}",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
                 "cross-toolchain-arm64-__container__",
@@ -555,11 +557,9 @@
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
                 "cross-toolchain-arm64-__container__",
-                "cmake",
-                "--build",
-                "build-arm64",
-                "--target",
-                "clean"
+                "rm",
+                "-rf",
+                "build-arm64"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -704,11 +704,9 @@
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
                 "cross-toolchain-arm-__container__",
-                "cmake",
-                "--build",
-                "build-arm",
-                "--target",
-                "clean"
+                "rm",
+                "-rf",
+                "build-arm"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -829,6 +827,10 @@
                 "docker",
                 "run",
                 "--rm",
+                "-e",
+                "IMAGE_ARCH=amd64",
+                "-e",
+                "GPU=${config:torizon_gpu}",
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
                 "cross-toolchain-amd64-__container__",
@@ -902,11 +904,9 @@
                 "-v",
                 "${workspaceFolder}:${config:torizon_app_root}",
                 "cross-toolchain-amd64-__container__",
-                "cmake",
-                "--build",
-                "build-amd64",
-                "--target",
-                "clean"
+                "rm",
+                "-rf",
+                "build-amd64"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -1079,7 +1079,7 @@
         {
             "label": "qt-enterprise-fill-license-login-password",
             "detail": "Generate qt-feed-auth.conf from login and password stored in settings",
-            "command": "echo",
+            "command": "DOCKER_HOST=",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}",
@@ -1089,7 +1089,9 @@
                 }
             },
             "args": [
-                "'qt_license_login and qt_license_password set'"
+                "bash",
+                "-c",
+                "(docker run --rm -v ${workspaceFolder}:${config:torizon_app_root} cross-toolchain-${config:torizon_arch}-__container__ rm -rf build-${config:torizon_arch} || true) && rm -rf build-local && (docker rmi -f cross-toolchain-${config:torizon_arch}-__container__ localhost:5002/__container__-debug:${config:torizon_arch} localhost:5002/__container__:${config:docker_tag} ${config:docker_login}/__container__:${config:docker_tag} || true) && docker builder prune -af && echo DONE"
             ],
             "problemMatcher": [
                 "$gcc"
