@@ -61,8 +61,47 @@ RUN --mount=type=secret,id=qt-login \
     if [ -f /etc/apt/auth.conf.d/qt-enterprise.conf ] && [ "$GPU" = "-imx8" ]; then \
         apt-get install -y --no-install-recommends \
         cmake \
-        qt6.8.2-full-dev${TARGET_SUFFIX} \
+        libegl-dev${TARGET_SUFFIX} \
+        libgles-dev${TARGET_SUFFIX} \
+        qt6.8.2-base-dev-tools \
+        qt6.8.2-declarative-dev-tools \
+        qt6.8.2-base-dev${TARGET_SUFFIX} \
+        qt6.8.2-base-private-dev${TARGET_SUFFIX} \
+        qt6.8.2-wayland-dev${TARGET_SUFFIX} \
         qt6.8.2-declarative-dev${TARGET_SUFFIX} \
+        qt6.8.2-declarative-private-dev${TARGET_SUFFIX} \
+        qt6.8.2-gtk-platformtheme${TARGET_SUFFIX} \
+        qt6.8.2-xdgdesktopportal-platformtheme${TARGET_SUFFIX} \
+        qt6.8.2-wayland${TARGET_SUFFIX} \
+        qt6.8.2-image-formats-plugins${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-animation${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-folderlistmodel${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-platform${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-qmlmodels${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-settings${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-sharedimage${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-labs-wavefrontmesh${TARGET_SUFFIX} \
+        qml6.8.2-module-qtqml${TARGET_SUFFIX} \
+        qml6.8.2-module-qtqml-workerscript${TARGET_SUFFIX} \
+        qml6.8.2-module-qtqml-models${TARGET_SUFFIX} \
+        qml6.8.2-module-qtqml-xmllistmodel${TARGET_SUFFIX} \
+        qml6.8.2-module-qmlnetwork${TARGET_SUFFIX} \
+        qml6.8.2-module-qtcore${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-window${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-controls${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-layouts${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-templates${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-localstorage${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-dialogs${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-nativestyle${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-particles${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-shapes${TARGET_SUFFIX} \
+        qml6.8.2-module-qtquick-tooling${TARGET_SUFFIX} \
+        qml6.8.2-module-qt-test-controls${TARGET_SUFFIX} \
+        qml6.8.2-module-qttest${TARGET_SUFFIX} \
+        qml6.8.2-module-qtwayland-compositor${TARGET_SUFFIX} \
+        qml6.8.2-module-qtwayland-client-texturesharing${TARGET_SUFFIX} \
     ;else \
         # Host packages are only build tools/check headers; Qt dev/runtime
         # comes from target architecture packages when cross-compiling.
