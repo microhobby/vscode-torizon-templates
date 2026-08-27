@@ -1083,19 +1083,19 @@
         {
             "label": "qt-enterprise-fill-license-login-password",
             "detail": "Generate qt-feed-auth.conf from login and password stored in settings",
-            "command": "DOCKER_HOST=",
+            "command": "bash",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "QT_LICENSE_LOGIN": "${command:qt_license_login.__change__}",
-                    "QT_LICENSE_PASSWORD": "${command:qt_license_password.__change__}"
+                    "QT_LICENSE_PASSWORD": "${command:qt_license_password.__change__}",
+                    "QT_CACHE_BUSTER_FILE": "${workspaceFolder}/.qt/qt-cache-buster"
                 }
             },
             "args": [
-                "bash",
                 "-c",
-                "(docker run --rm -v ${workspaceFolder}:${config:torizon_app_root} cross-toolchain-${config:torizon_arch}-__container__ rm -rf build-${config:torizon_arch} || true) && rm -rf build-local && (docker rmi -f cross-toolchain-${config:torizon_arch}-__container__ localhost:5002/__container__-debug:${config:torizon_arch} localhost:5002/__container__:${config:docker_tag} ${config:docker_login}/__container__:${config:docker_tag} || true) && docker builder prune -af && echo DONE"
+                "set -e; BUSTER_FILE=${QT_CACHE_BUSTER_FILE}; LOGIN=${QT_LICENSE_LOGIN}; PASS=${QT_LICENSE_PASSWORD}; mkdir -p $(dirname \"$BUSTER_FILE\"); if [ -z \"$LOGIN\" ] && [ -z \"$PASS\" ]; then BUSTER_VALUE=no-qt-enterprise-credentials; else BUSTER_VALUE=$(printf '%s' \"${LOGIN}::${PASS}\" | sha256sum | cut -d' ' -f1); fi; if [ -f \"$BUSTER_FILE\" ] && [ \"$(cat \"$BUSTER_FILE\")\" = \"$BUSTER_VALUE\" ]; then echo \"Qt credentials unchanged, keeping this template's cached builds\"; else printf '%s\\n' \"$BUSTER_VALUE\" > \"$BUSTER_FILE\"; echo \"Qt credentials changed, invalidating only this template's cached builds\"; fi"
             ],
             "problemMatcher": [
                 "$gcc"

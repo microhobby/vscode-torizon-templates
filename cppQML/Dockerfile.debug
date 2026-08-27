@@ -51,6 +51,13 @@ ENV DEBIAN_FRONTEND="noninteractive"
 COPY .qt/qt-enterprise-setup.sh /usr/local/sbin/qt-enterprise-setup.sh
 RUN chmod +x /usr/local/sbin/qt-enterprise-setup.sh
 
+# NOTE: secret mount contents are excluded from BuildKit's cache key, so
+# changing qt-login/qt-password alone won't invalidate this layer. The
+# qt-cache-buster file (rotated by the
+# "qt-enterprise-fill-license-login-password" task whenever credentials are
+# set/changed) is part of this layer's cache key, invalidating only this
+# project's cached builds (other projects keep their cache).
+COPY .qt/qt-cache-buster /tmp/qt-cache-buster
 RUN --mount=type=secret,id=qt-login \
     --mount=type=secret,id=qt-password \
     --mount=type=tmpfs,target=/etc/apt/auth.conf.d \
