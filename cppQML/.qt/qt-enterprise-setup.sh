@@ -30,6 +30,10 @@ if [ -n "${HOST_ARCH:-}" ]; then
         amd64|x86_64)
             target_deb_arch="amd64"
             ;;
+        *)
+            echo "ERROR: unsupported IMAGE_ARCH '${IMAGE_ARCH:-}' (expected arm64, arm, armhf, amd64, or x86_64)" >&2
+            exit 1
+            ;;
     esac
 fi
 
