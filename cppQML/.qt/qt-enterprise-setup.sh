@@ -20,11 +20,17 @@ PASS="$(cat /run/secrets/qt-password 2>/dev/null || true)"
 target_deb_arch=""
 if [ -n "${HOST_ARCH:-}" ]; then
     target_deb_arch="$HOST_ARCH"
-    if [ "${IMAGE_ARCH:-}" = "arm64" ]; then
-        target_deb_arch="arm64"
-    elif [ "${IMAGE_ARCH:-}" = "arm" ] || [ "${IMAGE_ARCH:-}" = "armhf" ]; then
-        target_deb_arch="armhf"
-    fi
+    case "${IMAGE_ARCH:-}" in
+        arm64)
+            target_deb_arch="arm64"
+            ;;
+        arm|armhf)
+            target_deb_arch="armhf"
+            ;;
+        amd64|x86_64)
+            target_deb_arch="amd64"
+            ;;
+    esac
 fi
 
 target_suffix=""
