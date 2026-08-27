@@ -16,8 +16,8 @@
         "target": ".qt/qt-enterprise-setup.sh"
     },
     {
-        "source": ".qt/qt-cache-buster",
-        "target": ".qt/qt-cache-buster"
+        "source": ".qt/qt-cache-buster-update.sh",
+        "target": ".qt/qt-cache-buster-update.sh"
     },
     {
         "source": "CMakeLists.txt",

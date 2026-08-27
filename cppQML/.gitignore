@@ -9,7 +9,7 @@ amd64
 
 credentials.zip
 *.lock.yml
-.conf/qt6-enterprise/qt-feed-auth.conf
+.conf/qt6-enterprise/
 
 #Build directories
 build-*
