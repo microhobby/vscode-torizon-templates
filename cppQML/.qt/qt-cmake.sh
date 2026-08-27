@@ -23,6 +23,7 @@ has_c=0
 has_cxx=0
 has_prefix=0
 has_qt_dir=0
+has_sysname=0
 for arg in "$@"; do
     if [[ "$arg" == -DCMAKE_C_COMPILER=* ]]; then
         has_c=1
@@ -36,6 +37,9 @@ for arg in "$@"; do
     if [[ "$arg" == -DQt6_DIR=* ]]; then
         has_qt_dir=1
     fi
+    if [[ "$arg" == -DCMAKE_SYSTEM_NAME=* ]]; then
+        has_sysname=1
+    fi
 done
 
 extra_args=()
@@ -47,6 +51,9 @@ case "$target_arch" in
         if [[ "$has_cxx" -eq 0 ]]; then
             extra_args+=("-DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++")
         fi
+        if [[ "$has_sysname" -eq 0 ]]; then
+            extra_args+=("-DCMAKE_SYSTEM_NAME=Linux" "-DCMAKE_SYSTEM_PROCESSOR=arm64")
+        fi
         ;;
     arm|armhf)
         if [[ "$has_c" -eq 0 ]]; then
@@ -54,6 +61,9 @@ case "$target_arch" in
         fi
         if [[ "$has_cxx" -eq 0 ]]; then
             extra_args+=("-DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++")
+        fi
+        if [[ "$has_sysname" -eq 0 ]]; then
+            extra_args+=("-DCMAKE_SYSTEM_NAME=Linux" "-DCMAKE_SYSTEM_PROCESSOR=arm")
         fi
         ;;
     amd64|x86_64|"")
